@@ -1,4 +1,5 @@
 import { APP_NAME } from "@/lib/global-constants";
+import Button from "../ui/Button";
 
 export default function Header() {
     return (
@@ -13,7 +14,7 @@ export default function Header() {
 
                 {/* Right */}
                 <div>
-
+                    <Button>Sign In</Button>
                 </div>
             </div>
         </header>
