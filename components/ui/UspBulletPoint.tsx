@@ -1,9 +1,9 @@
 import { cva, VariantProps } from "class-variance-authority";
 
 interface Props extends VariantProps<typeof variants> {
-    icon: string;
     title: string;
     description: string;
+    Icon: React.ElementType;
 }
 
 const variants = cva(
@@ -14,20 +14,20 @@ const variants = cva(
 
             },
             color: {
-                primary: "bg-primary/25",
-                secondary: "bg-secondary/25",
-                accent: "bg-accent/25",
+                primary: "bg-primary/15 text-primary/80",
+                secondary: "bg-secondary/15 text-secondary/80",
+                accent: "bg-accent/15 text-accent/80",
             }
         }
     }
 )
 
-export default function UspBulletPoint({ icon, title, description, color = "primary" }: Props) {
+export default function UspBulletPoint({ Icon, title, description, color = "primary" }: Props) {
     return (
         <div className="flex flex-col gap-4 justify-center items-center text-center">
             {/* Icon */}
-            <div className={variants({ color })}>
-                <div>lol</div>
+            <div className={`flex justify-center ${variants({ color })}`}>
+                <Icon size="28"></Icon>
             </div>
 
             <div>
