@@ -16,7 +16,9 @@ export default function Home() {
       </p>
 
       <div className="flex gap-4">
-        <Button variant="fade"><div className="flex gap-2"><Play></Play> Start</div></Button>
+        <Button variant="fade">
+          <div className="flex gap-1 items-center"><Play size={18} /> Start</div>
+        </Button>
         <Button variant="skeleton">Learn More</Button>
       </div>
 
