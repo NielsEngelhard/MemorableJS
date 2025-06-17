@@ -6,3 +6,12 @@ interface UserModel {
     colorHex?: string | null;
     joinDate?: Date;
 }
+
+interface UserSessionModel {
+    sessionId: string;
+}
+
+interface UserAndSessionModel {
+    user: UserModel;
+    session: UserSessionModel;
+}

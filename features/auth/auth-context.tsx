@@ -3,6 +3,8 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { z } from 'zod';
 import { signInSchema } from './schemas';
+import { logOut, signIn } from './actions';
+import { redirect } from 'next/navigation';
 
 
 type AuthContextType = {  
@@ -32,16 +34,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (data: z.infer<typeof signInSchema>): Promise<string | undefined> => {
-    // var signInResponse = await signIn(data);
-    // if (!signInResponse.ok) return signInResponse.errorMsg;
+    var signInResponse = await signIn(data);
+    if (!signInResponse.ok) return signInResponse.errorMsg;
 
-    // localStorage.setItem('user', JSON.stringify(signInResponse.user));
-    // setUser(signInResponse.user!);
-    // setIsLoggedIn(true);
+    localStorage.setItem('user', JSON.stringify(signInResponse.user));
+    setUser(signInResponse.user!);
+    setIsLoggedIn(true);
 
-    // redirect("/play");
-
-    return;
+    redirect("/play");
   };
 
   const toggleShowAuthModal = () => {
@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     setIsLoggedIn(false);
 
-    // await logOut();
+    await logOut();
   };
 
   return (
