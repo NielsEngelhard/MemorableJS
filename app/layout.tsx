@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import { Providers } from "@/components/layout/Providers";
+import AuthModal from "@/features/auth/components/AuthModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,8 @@ export default function RootLayout({
           <div className="flex justify-center">
             {children} 
           </div>          
+
+          <AuthModal />
         </Providers>
       </body>
     </html>

@@ -1,11 +1,14 @@
 interface Props {
+    isVisible: boolean;
     children: React.ReactNode;
 }
 
-export default function Modal({ children }: Props) {
+export default function Modal({ isVisible, children }: Props) {
     return (
-        <div>
-            {children}
-        </div>
+        ( isVisible &&
+            <div>
+                {children}
+            </div>
+        )
     )
 }
