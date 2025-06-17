@@ -4,6 +4,8 @@ import { APP_NAME } from "@/lib/global-constants";
 import Button from "../ui/Button";
 import FadedText from "../ui/text/FadedText";
 import { useAuth } from "@/features/auth/auth-context";
+import { Play, User } from "lucide-react";
+import Link from "next/link";
 
 export default function Header() {
     const { user, toggleShowAuthModal } = useAuth();    
@@ -21,9 +23,26 @@ export default function Header() {
                 </div>
 
                 {/* Right */}
-                <div>
-                    <Button onClick={toggleShowAuthModal}>Sign In</Button>
-                </div>
+                {user ? (
+                    <div className="flex gap-2">
+                            <Link href="/play">
+                                <Button variant="fade">
+                                    <div className="flex gap-1 items-center"><Play size={16} />Play</div>
+                                </Button>                               
+                            </Link>                         
+                                               
+                        <Link href="/account">
+                            <Button variant="skeleton">
+                                <div className="flex gap-1 items-center"><User size={16} />{user.username}</div>
+                            </Button>                        
+                        </Link>
+                    </div>
+                ) : (
+                    <div>
+                        <Button onClick={toggleShowAuthModal}>Sign In</Button>
+                    </div>
+                )}
+
             </div>
         </header>
     )
