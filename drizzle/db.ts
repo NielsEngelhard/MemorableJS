@@ -1,11 +1,14 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import DrizzleConfig from "../drizzle.config";
-import * as schema from "./schema";
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
+import * as schema from './schema';
 
-// export const db = drizzle({
-//     schema,
-//     DrizzleConfig
-// });
+const pool = new Pool({
+  host: 'localhost',
+  port: 5432,
+  database: 'memorable',
+  user: 'postgres',
+  password: 'kaas',
+  ssl: false
+});
 
-var dbConnectionString = process.env.SECRET_DATABASE_CONNECTION_STRING ?? "";
-export const db = drizzle(dbConnectionString);
+export const db = drizzle(pool, { schema });
