@@ -5,16 +5,19 @@ import { z } from 'zod';
 import { signInSchema } from './schemas';
 
 
-type AuthContextType = {
+type AuthContextType = {  
   user: UserModel | null;
   isLoggedIn: boolean;
   login: (data: z.infer<typeof signInSchema>) => Promise<string | undefined>;
   logout: () => void;
+  showAuthModal: boolean;
+  toggleShowAuthModal: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
   const [user, setUser] = useState<UserModel | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
@@ -41,6 +44,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return;
   };
 
+  const toggleShowAuthModal = () => {
+    setShowAuthModal(!showAuthModal);
+  }
+
   const logout = async () => {
     localStorage.removeItem('user');
     setUser(null);
@@ -50,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ user, isLoggedIn, login, logout, showAuthModal, toggleShowAuthModal }}>
       {children}
     </AuthContext.Provider>
   );

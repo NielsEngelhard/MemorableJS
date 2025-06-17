@@ -2,6 +2,7 @@ import React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 interface Props extends VariantProps<typeof buttonVariants> {
+    onClick?: () => void;
     children: React.ReactNode;
 }
 
@@ -22,9 +23,9 @@ const buttonVariants = cva(
   }
 )
 
-export default function Button({ children, variant }: Props) {
+export default function Button({ children, variant, onClick }: Props) {
     return (
-        <button className={buttonVariants({ variant })}>
+        <button onClick={onClick} className={buttonVariants({ variant })}>
             {children}
         </button>
     )

@@ -1,8 +1,13 @@
+"use client"
+
 import { APP_NAME } from "@/lib/global-constants";
 import Button from "../ui/Button";
 import FadedText from "../ui/text/FadedText";
+import { useAuth } from "@/features/auth/auth-context";
 
 export default function Header() {
+    const { user, toggleShowAuthModal } = useAuth();    
+
     return (
         <header className="h-[65px] bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 flex justify-center w-full px-6">
             <div className="max-w-7xl flex justify-between w-full items-center">
@@ -17,7 +22,7 @@ export default function Header() {
 
                 {/* Right */}
                 <div>
-                    <Button>Sign In</Button>
+                    <Button onClick={toggleShowAuthModal}>Sign In</Button>
                 </div>
             </div>
         </header>
