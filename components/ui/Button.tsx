@@ -6,14 +6,14 @@ interface Props extends VariantProps<typeof buttonVariants> {
 }
 
 const buttonVariants = cva(
-  "py-2 px-6 text-sm rounded-md font-bold transition",
+  "py-2 px-6 text-sm rounded-md font-bold transition transition duration-200 cursor-pointer hover:brightness-90",
   {
     variants: {
       variant: {
         fade:
           "text-foreground bg-gradient-to-r from-primary to-secondary text-white",
         skeleton:
-          "bg-transparent border-border border-2 font-semibold",        
+          "bg-transparent border-border border-2 font-semibold hover:bg-opacity-5",        
       },
     },
     defaultVariants: {
