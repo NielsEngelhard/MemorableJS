@@ -2,6 +2,7 @@
 
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "../auth-context";
+import LoginForm from "./LoginForm";
 
 export default function AuthModal() {
     const { showAuthModal, toggleShowAuthModal } = useAuth();
@@ -9,7 +10,7 @@ export default function AuthModal() {
     return (
         <Modal isVisible={showAuthModal} onClose={toggleShowAuthModal}>
             <div>
-                lollol
+                <LoginForm></LoginForm>
             </div>
         </Modal>
     )
