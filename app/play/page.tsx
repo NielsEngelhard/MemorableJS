@@ -23,6 +23,7 @@ export default function Play() {
                     Icon={Grid3X3}
                     time="5-10"
                     amountOfPlayers="1-4"
+                    href="/letter-league"
                 />
 
                 <GameCard
@@ -33,6 +34,7 @@ export default function Play() {
                     Icon={Brain}
                     time="15-60"
                     amountOfPlayers="1-10"
+                    href="/trivia-twister"
                 />                
             </div>            
         </PageBase>

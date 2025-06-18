@@ -4,6 +4,7 @@ import CardBody from "@/components/ui/card/CardBody";
 import CardHeader from "@/components/ui/card/CardHeader";
 import TextWithIcon from "@/components/ui/text/TextWithIcon";
 import { Clock, Users } from "lucide-react";
+import Link from "next/link";
 
 interface Props {
     name: string;
@@ -12,10 +13,11 @@ interface Props {
     amountOfPlayers: string;
     time: string;
     fromColor: string;
-    toColor: string;    
+    toColor: string;
+    href: string;
 }
 
-export default function GameCard({ name, Icon , description, amountOfPlayers, time, fromColor, toColor }: Props) {
+export default function GameCard({ name, Icon , description, amountOfPlayers, time, fromColor, toColor, href }: Props) {
     return (
         <Card>
             <CardHeader fromColor={fromColor} toColor={toColor}>
@@ -35,7 +37,9 @@ export default function GameCard({ name, Icon , description, amountOfPlayers, ti
                         <TextWithIcon Icon={Clock}>{time} min</TextWithIcon>
                     </div>            
 
-                    <Button className={`bg-gradient-to-br ${fromColor} ${toColor}`}>Play</Button>            
+                    <Link href={href}>
+                        <Button className={`bg-gradient-to-br w-full ${fromColor} ${toColor}`}>Play</Button>
+                    </Link>            
                 </div>                                  
             </CardBody>
         </Card>
