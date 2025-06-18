@@ -17,7 +17,7 @@ export default function Play() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
                 <GameCard
                     name="LetterLeague"
-                    description="Master the art of word formation. Do you have what it takes? Or are you ... STUPID?"
+                    description="This isn’t just about knowing words — it’s about using them. Think you’ve got the brains to keep up? Or are you just another wannabe who folds under pressure?"
                     fromColor="from-primary/80"
                     toColor="to-primary"
                     Icon={Grid3X3}

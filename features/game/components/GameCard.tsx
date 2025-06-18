@@ -19,20 +19,23 @@ export default function GameCard({ name, Icon , description, amountOfPlayers, ti
         <Card>
             <CardHeader fromColor={fromColor} toColor={toColor}>
                 <div className="flex items-end h-full p-3">
-                    <div className="flex items-center gap-1 text-white font-bold">
+                    <div className="flex items-center gap-1 text-white font-bold text-xl">
                         <Icon />{name} 
                     </div>
                 </div>
             </CardHeader>
 
-            <CardBody>
-                <p className="text-sm text-foreground">{description}</p>
-                <div className="text-xs text-foreground-muted flex flex-row gap-2 lg:gap-3">
-                    <div className="flex items-center gap-1"><Users size={14} /> {amountOfPlayers} players</div>
-                    <div className="flex items-center gap-1"><Clock size={14} /> {time} min</div>
-                </div>
+            <CardBody className="flex flex-col justify-between">
+                <p className="text-md text-foreground">{description}</p>
+                
+                <div>
+                    <div className="text-sm text-foreground-muted flex flex-row gap-2 lg:gap-3">
+                        <div className="flex items-center gap-1"><Users size={14} /> {amountOfPlayers} players</div>
+                        <div className="flex items-center gap-1"><Clock size={14} /> {time} min</div>
+                    </div>            
 
-                <Button className={`bg-gradient-to-br ${fromColor} ${toColor}`}>Play</Button>
+                    <Button className={`bg-gradient-to-br ${fromColor} ${toColor}`}>Play</Button>            
+                </div>                                  
             </CardBody>
         </Card>
     )
