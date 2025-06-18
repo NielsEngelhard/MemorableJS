@@ -1,6 +1,7 @@
 import PageBase from "@/components/layout/PageBase";
-import Card from "@/components/ui/Card";
 import FadedText from "@/components/ui/text/FadedText";
+import GameCard from "@/features/game/components/GameCard";
+import { Grid3X3 } from "lucide-react";
 
 export default function Play() {
     return (
@@ -14,8 +15,15 @@ export default function Play() {
             </p>            
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-                <Card></Card>
-                <Card></Card>
+                <GameCard
+                    name="LetterLeague"
+                    description="Master the art of word formation. Do you have what it takes? Or are you ... STUPID?"
+                    fromColor="red"
+                    toColor="blue"
+                    Icon={Grid3X3}
+                    time="5-10"
+                    amountOfPlayers="1-4"
+                />
             </div>            
         </PageBase>
     )
