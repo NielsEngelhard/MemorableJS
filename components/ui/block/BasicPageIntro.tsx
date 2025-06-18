@@ -16,7 +16,7 @@ export default function BasicPageIntro({ title, subText }: Props) {
                 <div className="text-xl text-foreground-muted">{subText}</div>
             </div>
 
-            <div>
+            <div className="hidden lg:block">
                 <Button variant="skeleton" className="font-medium items-center">
                     <TextWithIcon Icon={ArrowLeft}>Back to HUB</TextWithIcon>
                 </Button>                
