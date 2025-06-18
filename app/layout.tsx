@@ -33,7 +33,9 @@ export default function RootLayout({
         <Providers>
           <Header></Header>
           <div className="flex justify-center">
-            {children} 
+            <div className="max-w-5xl px-2 w-full">
+              {children} 
+            </div>
           </div>          
 
           <AuthModal />
