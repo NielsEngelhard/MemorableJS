@@ -15,7 +15,7 @@ const inter = localFont({
       style: 'normal',
     },
     {
-      path: '../public/fonts/Inter/Inter_24pt-ThinItalic.ttf', // Fixed the typo in the path (removed extra dot)
+      path: '../public/fonts/Inter/Inter_24pt-ThinItalic.ttf',
       weight: '100',
       style: 'italic',
     },
