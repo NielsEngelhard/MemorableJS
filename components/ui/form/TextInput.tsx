@@ -1,6 +1,6 @@
 import React from "react";
 import Label from "./Label";
-import ErrorText from "../ui/text/ErrorText";
+import ErrorText from "../text/ErrorText";
 
 interface InputProps extends React.ComponentProps<"input"> {
     label?: string;

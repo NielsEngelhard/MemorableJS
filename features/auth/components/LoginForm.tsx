@@ -1,4 +1,4 @@
-import TextInput from "@/components/form/TextInput";
+import TextInput from "@/components/ui/form/TextInput";
 import Button from "@/components/ui/Button";
 import { useAuth } from "../auth-context";
 import { signInSchema, SignInSchema } from "../schemas";

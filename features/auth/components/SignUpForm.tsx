@@ -1,4 +1,4 @@
-import TextInput from "@/components/form/TextInput";
+import TextInput from "@/components/ui/form/TextInput";
 import Button from "@/components/ui/Button";
 import { useForm } from "react-hook-form";
 import { SignUpSchema, signUpSchema } from "../schemas";

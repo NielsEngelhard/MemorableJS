@@ -2,11 +2,12 @@ import React from "react";
 
 export interface Props {
     children: React.ReactNode;
+    className?: string;
 }
 
-export default function Card({ children }: Props) {
+export default function Card({ children, className }: Props) {
     return (
-        <div className="flex flex-col duration-300 transition-all shadow-lg hover:scale-105 rounded-lg overflow-hidden">
+        <div className={`flex flex-col duration-300 transition-all shadow-sm hover:scale-105 rounded-lg overflow-hidden border-border border-2 ${className}`}>
             {children}
         </div>
     )
