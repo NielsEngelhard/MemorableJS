@@ -1,7 +1,7 @@
 import PageBase from "@/components/layout/PageBase";
 import FadedText from "@/components/ui/text/FadedText";
 import GameCard from "@/features/game/components/GameCard";
-import { Grid3X3 } from "lucide-react";
+import { Brain, Grid3X3 } from "lucide-react";
 
 export default function Play() {
     return (
@@ -18,12 +18,22 @@ export default function Play() {
                 <GameCard
                     name="LetterLeague"
                     description="Master the art of word formation. Do you have what it takes? Or are you ... STUPID?"
-                    fromColor="red"
-                    toColor="blue"
+                    fromColor="from-primary/80"
+                    toColor="to-primary"
                     Icon={Grid3X3}
                     time="5-10"
                     amountOfPlayers="1-4"
                 />
+
+                <GameCard
+                    name="Trivia Twister"
+                    description="Comming Soon ..."
+                    fromColor="from-secondary/80"
+                    toColor="to-secondary"
+                    Icon={Brain}
+                    time="15-60"
+                    amountOfPlayers="1-10"
+                />                
             </div>            
         </PageBase>
     )

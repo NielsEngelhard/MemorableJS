@@ -17,7 +17,7 @@ interface Props {
 export default function GameCard({ name, Icon , description, amountOfPlayers, time, fromColor, toColor }: Props) {
     return (
         <Card>
-            <CardHeader>
+            <CardHeader fromColor={fromColor} toColor={toColor}>
                 <div className="flex items-end h-full p-3">
                     <div className="flex items-center gap-1 text-white font-bold">
                         <Icon />{name} 
