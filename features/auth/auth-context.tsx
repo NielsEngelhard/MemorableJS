@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(signInResponse.user!);
     setIsLoggedIn(true);
 
+    setShowAuthModal(false);
     redirect("/play");
   };
 

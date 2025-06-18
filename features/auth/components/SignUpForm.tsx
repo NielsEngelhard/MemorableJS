@@ -34,7 +34,7 @@ export default function SignUpForm() {
 
             <TextInput label="Username" placeholder="Your username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
 
-            <Button>Sign In</Button>
+            <Button>Sign Up</Button>
 
             <ErrorText text={form.formState.errors.root?.message} />
         </form>
