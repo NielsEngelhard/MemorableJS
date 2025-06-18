@@ -8,8 +8,14 @@ import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import TotalRoundsInput from "./config/TotalRoundsInput";
 import MaxAttemptsInput from "./config/MaxAttemptsInput";
+import { GameMode } from "@/features/game/constants";
+import VisibilityInput from "./config/VisibilityInput";
 
-export default function CreateLetterLeagueGameForm({ }) {
+interface Props {
+    gameMode: GameMode;
+}
+
+export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
         const form = useForm<CreateLetterLeagueGame>({
             resolver: zodResolver(createLetterLeagueGameSchema),
             defaultValues: {
@@ -32,6 +38,10 @@ export default function CreateLetterLeagueGameForm({ }) {
                         <WordLengthInput></WordLengthInput>
                         <TotalRoundsInput></TotalRoundsInput>
                         <MaxAttemptsInput></MaxAttemptsInput>
+
+                        {gameMode == GameMode.Multiplayer && (
+                            <VisibilityInput></VisibilityInput>
+                        )}
                     </form>            
                 </FormProvider>                 
             </CardBody>

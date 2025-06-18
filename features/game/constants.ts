@@ -3,3 +3,9 @@ export enum GameVisibility {
     Private,
     FriendsOnly
 }
+
+export enum GameMode {
+    Solo,
+    Multiplayer,
+    WordOfTheDay
+}
