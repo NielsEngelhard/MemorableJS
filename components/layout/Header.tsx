@@ -17,14 +17,14 @@ export default function Header() {
                 <div className="text-2xl font-bold">
                     <FadedText>
                         <a href="/">
-                        {APP_NAME}
+                            {APP_NAME}
                         </a>
                     </FadedText>
                 </div>
 
                 {/* Right */}
                 {user ? (
-                    <div className="flex gap-2">
+                    <div className="gap-2 hidden lg:flex">
                             <Link href="/play">
                                 <Button variant="fade">
                                     <div className="flex gap-1 items-center"><Play size={16} />Play</div>
