@@ -32,7 +32,7 @@ export default function GameCard({ name, Icon , description, amountOfPlayers, ti
                     <div className="flex items-center gap-1"><Clock size={14} /> {time} min</div>
                 </div>
 
-                <Button>Play</Button>
+                <Button className={`bg-gradient-to-br ${fromColor} ${toColor}`}>Play</Button>
             </CardBody>
         </Card>
     )

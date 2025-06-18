@@ -2,7 +2,7 @@ import React from "react";
 
 interface Props {
     children: React.ReactNode;
-    fromColor?: string; // Tailwind class string like "from-blue-500"
+    fromColor?: string; // Tailwind class string like  "from-blue-500"
     toColor?: string;   // Tailwind class string like "to-green-500"
 }
 
