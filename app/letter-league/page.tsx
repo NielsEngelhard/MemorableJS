@@ -1,6 +1,7 @@
 import PageBase from "@/components/layout/PageBase";
 import BasicPageIntro from "@/components/ui/block/BasicPageIntro";
 import { GameModeCard } from "@/features/game/components/GameModeCard";
+import LetterLeagueRules from "@/features/letter-league/components/LetterLeagueRules";
 import { Calendar, User, Users } from "lucide-react";
 
 export default function LetterLeaguePage() {
@@ -43,6 +44,8 @@ export default function LetterLeaguePage() {
                     cardClassName="!border-accent/40 !border-2"
                 />                                
             </div>
+
+            <LetterLeagueRules />
         </PageBase>
     )
 }
