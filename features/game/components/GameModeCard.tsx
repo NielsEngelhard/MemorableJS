@@ -12,12 +12,13 @@ interface Props {
     players: string;
     time: string;
     Icon: React.ElementType;
+    href: string;
     cardClassName?: string;
 }
 
-export function GameModeCard({ name, color, bgColor, description, players, time, Icon, cardClassName }: Props) {
+export function GameModeCard({ name, color, bgColor, description, players, time, Icon, cardClassName, href }: Props) {
     return (
-        <Link href="/">
+        <Link href={href}>
             <Card className={cardClassName}>
                 <CardBody>
                     <div className="flex flex-row items-center gap-2 lg:gap-3">
