@@ -21,6 +21,23 @@ interface Props {
 export default function BlockSelect({name, options, title, valueIndicator, Icon, valuePostfix}: Props) {
     const { control, watch } = useFormContext();
     const value = watch(name);
+
+    function ShowSelectOption(option: SelectOption,  index: number, onClick: () => void) {
+        return (
+            <button
+                key={index}
+                onClick={onClick}
+                className={`border-2 border-border py-2 rounded-sm cursor-pointer
+                ${option.value == value ? 'border-primary bg-primary/10 !font-semibold' : 'hover:border-primary/60 bg-border/20'}`}>
+                <div className="flex flex-row justify-center items-center text-center">
+                    {Icon && <Icon className="w-4 h-4 text-text mr-1" />}
+                    {option.Icon && <option.Icon className="w-4 h-4 text-text mr-1" />}
+                    {option.label}
+                    {valuePostfix && <div>{valuePostfix}</div>}
+                </div>                
+            </button>
+        )
+    }
     
     return (
         <div>
@@ -34,14 +51,9 @@ export default function BlockSelect({name, options, title, valueIndicator, Icon,
             <Controller control={control} name={name} render={({ field }) => (
                 <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
                     {options.map((option, index) => (
-                        <Card key={index} className="py-2">
-                            <div className="flex flex-row justify-center items-center text-center">
-                                {Icon && <Icon className="w-4 h-4 text-text mr-1" />}
-                                {option.Icon && <option.Icon className="w-4 h-4 text-text mr-1" />}
-                                {option.label}
-                                {valuePostfix && <div>{valuePostfix}</div>}
-                            </div>
-                        </Card>
+                        ShowSelectOption(option, index, () => {
+                            field.onChange(option.value);
+                        })
                     ))}
                 </div>
             )}></Controller>                      
