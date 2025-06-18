@@ -25,10 +25,10 @@ export default function GameCard({ name, Icon , description, amountOfPlayers, ti
                 </div>
             </CardHeader>
 
-            <CardBody className="flex flex-col justify-between">
-                <p className="text-md text-foreground">{description}</p>
+            <CardBody className="justify-between">
+                <p className="text-md text-foreground">{description}</p>                              
                 
-                <div>
+                <div className="flex flex-col gap-1">
                     <div className="text-sm text-foreground-muted flex flex-row gap-2 lg:gap-3">
                         <div className="flex items-center gap-1"><Users size={14} /> {amountOfPlayers} players</div>
                         <div className="flex items-center gap-1"><Clock size={14} /> {time} min</div>
