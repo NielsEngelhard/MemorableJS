@@ -10,6 +10,7 @@ import TotalRoundsInput from "./config/TotalRoundsInput";
 import MaxAttemptsInput from "./config/MaxAttemptsInput";
 import { GameMode } from "@/features/game/constants";
 import VisibilityInput from "./config/VisibilityInput";
+import TimePerTurnInput from "./config/TimePerTurnInput";
 
 interface Props {
     gameMode: GameMode;
@@ -20,7 +21,7 @@ export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
             resolver: zodResolver(createLetterLeagueGameSchema),
             defaultValues: {
                 wordLength: 6,
-                timePerTurn: 40,
+                timePerTurn: 30,
                 totalRounds: 4,
                 maxAttemptsPerRound: 6
             }
@@ -38,6 +39,7 @@ export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
                         <WordLengthInput></WordLengthInput>
                         <TotalRoundsInput></TotalRoundsInput>
                         <MaxAttemptsInput></MaxAttemptsInput>
+                        <TimePerTurnInput></TimePerTurnInput>
 
                         {gameMode == GameMode.Multiplayer && (
                             <VisibilityInput></VisibilityInput>

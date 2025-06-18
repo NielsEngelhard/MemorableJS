@@ -6,6 +6,7 @@ import Card from "../card/Card";
 export type SelectOption = {
     label: any;
     value: any;
+    Icon?: React.ElementType;
 }
 
 interface Props {
@@ -36,6 +37,7 @@ export default function BlockSelect({name, options, title, valueIndicator, Icon,
                         <Card key={index}>
                             <div className="flex flex-row justify-center items-center text-center">
                                 {Icon && <Icon className="w-4 h-4 text-text mr-1" />}
+                                {option.Icon && <option.Icon className="w-4 h-4 text-text mr-1" />}
                                 {option.label}
                                 {valuePostfix && <div>{valuePostfix}</div>}
                             </div>
