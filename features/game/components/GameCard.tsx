@@ -2,6 +2,7 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import CardHeader from "@/components/ui/card/CardHeader";
+import TextWithIcon from "@/components/ui/text/TextWithIcon";
 import { Clock, Users } from "lucide-react";
 
 interface Props {
@@ -30,8 +31,8 @@ export default function GameCard({ name, Icon , description, amountOfPlayers, ti
                 
                 <div className="flex flex-col gap-1">
                     <div className="text-sm text-foreground-muted flex flex-row gap-2 lg:gap-3">
-                        <div className="flex items-center gap-1"><Users size={14} /> {amountOfPlayers} players</div>
-                        <div className="flex items-center gap-1"><Clock size={14} /> {time} min</div>
+                        <TextWithIcon Icon={Users}>{amountOfPlayers} players</TextWithIcon>
+                        <TextWithIcon Icon={Clock}>{time} min</TextWithIcon>
                     </div>            
 
                     <Button className={`bg-gradient-to-br ${fromColor} ${toColor}`}>Play</Button>            
