@@ -35,7 +35,7 @@ export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
         <Card className="w-full">
             <CardBody>
                 <FormProvider {...form}>
-                    <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>
+                    <form className="flex flex-col gap-2 lg:gap-4" onSubmit={form.handleSubmit(onSubmit)}>
                         <WordLengthInput></WordLengthInput>
                         <TotalRoundsInput></TotalRoundsInput>
                         <MaxAttemptsInput></MaxAttemptsInput>
