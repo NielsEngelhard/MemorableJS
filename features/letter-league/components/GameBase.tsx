@@ -14,7 +14,7 @@ interface Props {
 // TODO: use provider for game state want anders super veel props
 export default function GameBase({ totalRounds, wordLength, totalGuesses, guesses, currentRound }: Props) {
     return (
-        <div className="w-full flex flex-col lg:grid lg:grid-cols-3 flex-col-reverse gap-10">
+        <div className="w-full flex lg:grid lg:grid-cols-3 flex-col-reverse gap-10">
             <div className="flex flex-col gap-10">
                 <Card>
                     Settings
