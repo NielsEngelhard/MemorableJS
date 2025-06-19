@@ -1,5 +1,6 @@
 "use client"
-import GameBoard from "@/features/letter-league/components/GameBoard";
+import PageBase from "@/components/layout/PageBase";
+import GameBase from "@/features/letter-league/components/GameBase";
 import { useParams } from "next/navigation";
 
 export default function PlayLetterLeagueGame() {
@@ -7,9 +8,9 @@ export default function PlayLetterLeagueGame() {
     const slug = params.slug;
     
     return (
-        <div>
-            hello {slug}
-            <GameBoard></GameBoard>
-        </div>
+        <PageBase>
+            {/* hello {slug} */}
+            <GameBase guesses={[]} currentRound={1} totalGuesses={6} totalRounds={4} wordLength={6}></GameBase>           
+        </PageBase>
     )
 }

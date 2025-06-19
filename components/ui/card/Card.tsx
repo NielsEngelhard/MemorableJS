@@ -7,7 +7,7 @@ export interface Props {
 
 export default function Card({ children, className }: Props) {
     return (
-        <div className={`flex flex-col duration-300 transition-all shadow-sm rounded-lg overflow-hidden border-border border-2 ${className}`}>
+        <div className={`flex flex-col duration-300 transition-all rounded-lg overflow-hidden border-border border-2 bg-white ${className}`}>
             {children}
         </div>
     )
