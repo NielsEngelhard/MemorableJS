@@ -27,7 +27,7 @@ export default function BlockSelect({name, options, title, valueIndicator, Icon,
             <button
                 key={index}
                 onClick={onClick}
-                className={`border-2 border-border py-2 rounded-sm cursor-pointer
+                className={`border-2 border-border py-2 rounded-sm cursor-pointer px-6 lg:px-0
                 ${option.value == value ? 'border-primary bg-primary/10 !font-semibold' : 'hover:border-primary/60 bg-border/20'}`}>
                 <div className="flex flex-row justify-center items-center text-center">
                     {Icon && <Icon className="w-4 h-4 text-text mr-1" />}
@@ -49,7 +49,7 @@ export default function BlockSelect({name, options, title, valueIndicator, Icon,
 
             {/* Options */}
             <Controller control={control} name={name} render={({ field }) => (
-                <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
+                <div className="flex lg:grid overflow-y-scroll lg:overflow-auto gap-2" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
                     {options.map((option, index) => (
                         ShowSelectOption(option, index, () => {
                             field.onChange(option.value);
