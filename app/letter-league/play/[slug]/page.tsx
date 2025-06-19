@@ -1,4 +1,5 @@
 "use client"
+import GameBoard from "@/features/letter-league/components/GameBoard";
 import { useParams } from "next/navigation";
 
 export default function PlayLetterLeagueGame() {
@@ -8,6 +9,7 @@ export default function PlayLetterLeagueGame() {
     return (
         <div>
             hello {slug}
+            <GameBoard></GameBoard>
         </div>
     )
 }
