@@ -8,6 +8,7 @@ export default function GameBoard() {
             <LetterTile letter="b" state={LetterState.Wrong} />
             <LetterTile letter="c" state={LetterState.WrongPosition} />
             <LetterTile letter="d" state={LetterState.Unknown} />
+            <LetterTile state={LetterState.Unknown} />
         </div>
     )
 }

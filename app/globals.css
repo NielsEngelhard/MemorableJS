@@ -11,6 +11,8 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-error: var(--error);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
 }
 
 /* Default/Light */
@@ -24,6 +26,8 @@
   --accent: #ff6900;
   --border: #e3eaf4;
   --error: #ff3f5d;
+  --warning: #ffc340;
+  --success: #22C55E;
 }
 
 /* Dark theme */
