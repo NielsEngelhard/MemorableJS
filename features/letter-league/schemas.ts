@@ -1,3 +1,5 @@
+import { GameMode } from "@/drizzle/schema";
+import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { z } from "zod";
 
 export const createLetterLeagueGameSchema = z.object({
@@ -5,6 +7,7 @@ export const createLetterLeagueGameSchema = z.object({
     totalRounds: z.number().min(2).max(20),
     maxAttemptsPerRound: z.number().min(4).max(10),
     timePerTurn: z.number().optional(),
-    gameVisibility: z.string().min(1, "Required")
+    gameVisibility: z.nativeEnum(GameVisibility).optional(),
+    gameMode: z.nativeEnum(GameMode)
 });
 export type CreateLetterLeagueGame = z.infer<typeof createLetterLeagueGameSchema>;
