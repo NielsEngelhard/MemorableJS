@@ -11,6 +11,9 @@ import MaxAttemptsInput from "./config/MaxAttemptsInput";
 import { GameMode } from "@/features/game/constants";
 import VisibilityInput from "./config/VisibilityInput";
 import TimePerTurnInput from "./config/TimePerTurnInput";
+import Button from "@/components/ui/Button";
+import { Play } from "lucide-react";
+import TextWithIcon from "@/components/ui/text/TextWithIcon";
 
 interface Props {
     gameMode: GameMode;
@@ -44,6 +47,10 @@ export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
                         {gameMode == GameMode.Multiplayer && (
                             <VisibilityInput></VisibilityInput>
                         )}
+
+                        <Button>
+                            <TextWithIcon Icon={Play}>Start Game</TextWithIcon>
+                        </Button>
                     </form>            
                 </FormProvider>                 
             </CardBody>

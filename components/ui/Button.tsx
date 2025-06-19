@@ -9,7 +9,7 @@ interface Props extends VariantProps<typeof buttonVariants> {
 }
 
 const buttonVariants = cva(
-  "py-2 px-6 text-sm rounded-md font-bold transition duration-200 cursor-pointer hover:brightness-90",
+  "py-3 px-6 text-sm rounded-md font-bold transition duration-200 cursor-pointer hover:brightness-90 flex justify-center",
   {
     variants: {
       variant: {
