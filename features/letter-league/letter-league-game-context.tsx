@@ -1,3 +1,4 @@
+import { GameMode } from "@/drizzle/schema";
 import { ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import React, { createContext, useContext, useState } from "react";
 
@@ -8,17 +9,29 @@ type LetterLeagueGameContextType = {
 const LetterLeagueGameContext = createContext<LetterLeagueGameContextType | undefined>(undefined);
 
 interface LetterLeagueGameProviderProps {
-    children: React.ReactNode;
-    _currentRound: number;
-    _totalRounds: number;
-    _guesses?: ValidatedWord[];
+  _id: string;
+  _userHostId: string;
+  _timePerTurn: number;
+  _maxAttemptsPerRound: number;
+  _currentRound: number;
+  _totalRounds: number;
+  _gameMode: GameMode;
+  _createdAt: Date;
+  _guesses?: ValidatedWord[];
+  children: React.ReactNode;
 }
 
-export function LetterLeagueGameProvider({ children, _currentRound, _totalRounds, _guesses = [] }: LetterLeagueGameProviderProps) {
+export function LetterLeagueGameProvider({ children, _currentRound, _totalRounds, _guesses = [], _id, _userHostId, _createdAt, _gameMode, _maxAttemptsPerRound, _timePerTurn }: LetterLeagueGameProviderProps) {
     const [currentRound, setCurrentRound] = useState(_currentRound);
     const [guesses, setGuesses] = useState<ValidatedWord[]>(_guesses);
 
+    const id = _id;
+    const userHostid = _userHostId;
+    const timePerTurn = _timePerTurn;
     const totalRounds = _totalRounds;
+    const maxAttemptsPerRound = _maxAttemptsPerRound;
+    const gameMode = _gameMode;
+    const createdAt = _createdAt;
 
     return (
         <LetterLeagueGameContext.Provider value={{ currentRound }}>
