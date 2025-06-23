@@ -23,7 +23,7 @@ export const LetterLeagueGameTable = pgTable("letter_league_game", {
     wordLength: integer().notNull(),
     currentRound: integer().notNull().default(1),
     currentGuess: integer().notNull().default(1),
-    guesses: jsonb('words').$type<ValidatedWords[]>().notNull().default([]),
+    guesses: jsonb('guesses').$type<ValidatedWords[]>().notNull().default([]),
     createdAt
 });
 export type DbLetterLeagueGame = InferSelectModel<typeof LetterLeagueGameTable>;

@@ -5,7 +5,7 @@ import { getCurrentUser } from "../auth/current-user";
 import { generateGameId } from "../game/game-id-generator";
 import { CreateLetterLeagueGame, LetterLeagueGame, LetterLeagueGuessCommand } from "./schemas";
 import GetRandomWords from "./word/actions";
-import { DbLetterLeagueGame, LetterLeagueGameTable } from "@/drizzle/schema";
+import { LetterLeagueGameTable } from "@/drizzle/schema";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { eq } from "drizzle-orm";
 import MapLetterLeagueGameFromDb from "./mappers";
@@ -21,7 +21,6 @@ export async function CreateGame(command: CreateLetterLeagueGame) {
 
     const result = await db.insert(LetterLeagueGameTable).values({
         id: generateGameId(),
-        currentRound: 1,
         maxAttemptsPerRound: command.maxAttemptsPerRound,
         timePerTurn: command.timePerTurn,
         totalRounds: words.length,
@@ -29,7 +28,10 @@ export async function CreateGame(command: CreateLetterLeagueGame) {
         words: words,
         visibility: command.gameVisibility ?? GameVisibility.Private,
         gameMode: command.gameMode,
-        wordLength: command.wordLength
+        wordLength: command.wordLength,
+        currentGuess: 1,
+        currentRound: 1,
+        guesses: []
         
     }).returning({
         gameId: LetterLeagueGameTable.id
@@ -53,7 +55,7 @@ export async function GetLetterLeagueGame(gameId: string): Promise<LetterLeagueG
     return MapLetterLeagueGameFromDb(game);
 }
 
-export async function SubmitGuess(command: LetterLeagueGuessCommand): Promise<ValidatedWord> {
+export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand): Promise<ValidatedWord> {
     // TODO: check if user is authenticated to do this
     // const session = await auth();
     // if (!session || !session.user) {
