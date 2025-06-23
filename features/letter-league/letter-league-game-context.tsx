@@ -4,6 +4,9 @@ import React, { createContext, useContext, useState } from "react";
 
 type LetterLeagueGameContextType = {
     currentRound: number;
+    guesses: ValidatedWord[];
+    maxAttemptsPerRound: number;
+    wordLength: number;
 }
 
 const LetterLeagueGameContext = createContext<LetterLeagueGameContextType | undefined>(undefined);
@@ -17,11 +20,12 @@ interface LetterLeagueGameProviderProps {
   _totalRounds: number;
   _gameMode: GameMode;
   _createdAt: Date;
+  _wordLength: number;
   _guesses?: ValidatedWord[];
   children: React.ReactNode;
 }
 
-export function LetterLeagueGameProvider({ children, _currentRound, _totalRounds, _guesses = [], _id, _userHostId, _createdAt, _gameMode, _maxAttemptsPerRound, _timePerTurn }: LetterLeagueGameProviderProps) {
+export function LetterLeagueGameProvider({ children, _currentRound, _totalRounds, _guesses = [], _id, _userHostId, _createdAt, _gameMode, _maxAttemptsPerRound, _timePerTurn, _wordLength }: LetterLeagueGameProviderProps) {
     const [currentRound, setCurrentRound] = useState(_currentRound);
     const [guesses, setGuesses] = useState<ValidatedWord[]>(_guesses);
 
@@ -32,9 +36,10 @@ export function LetterLeagueGameProvider({ children, _currentRound, _totalRounds
     const maxAttemptsPerRound = _maxAttemptsPerRound;
     const gameMode = _gameMode;
     const createdAt = _createdAt;
+    const wordLength = _wordLength;
 
     return (
-        <LetterLeagueGameContext.Provider value={{ currentRound }}>
+        <LetterLeagueGameContext.Provider value={{ currentRound, guesses, maxAttemptsPerRound, wordLength }}>
                 {children}
         </LetterLeagueGameContext.Provider>
     )

@@ -6,7 +6,11 @@ export type ValidatedLetter = {
 }
 
 export type ValidatedWord = {
-    round: number;
     guess: number;    
     letters: ValidatedLetter[];
+}
+
+export type ValidatedWords = {
+    round: number;
+    words: ValidatedWord[];
 }

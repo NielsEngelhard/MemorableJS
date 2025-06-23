@@ -3,19 +3,17 @@ import LetterRow from "../word/components/LetterRow";
 import TextInput from "@/components/ui/form/TextInput";
 import Button from "@/components/ui/Button";
 import { useState } from "react";
-import { LetterState } from "@/drizzle/schema/enum/letter-state";
+import { useLetterLeagueGame } from "../letter-league-game-context";
 
 interface Props {
-    guesses: ValidatedWord[];
-    currentRound: number;
-    totalRounds: number;
-    totalGuesses: number;
-    wordLength: number;
+
 }
 
-export default function GameBoard({ totalRounds, wordLength, totalGuesses, guesses }: Props) {
+export default function GameBoard({  }: Props) {
+    const { guesses, maxAttemptsPerRound, wordLength } = useLetterLeagueGame();
+
     const [currentGuess, setCurrentGuess] = useState<string>("");
-    const nEmptyRows: number = totalGuesses - guesses.length - 1;
+    const nEmptyRows: number = maxAttemptsPerRound - guesses.length - 1;
 
     function displayEmptyRow(index: number) {
         const letters: ValidatedLetter[] = Array(wordLength).fill({});
