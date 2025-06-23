@@ -2,6 +2,8 @@ import { ValidatedLetter, ValidatedWord } from "@/drizzle/schema/model/letter-le
 import LetterRow from "../word/components/LetterRow";
 import TextInput from "@/components/ui/form/TextInput";
 import Button from "@/components/ui/Button";
+import { useState } from "react";
+import { LetterState } from "@/drizzle/schema/enum/letter-state";
 
 interface Props {
     guesses: ValidatedWord[];
@@ -12,7 +14,8 @@ interface Props {
 }
 
 export default function GameBoard({ totalRounds, wordLength, totalGuesses, guesses }: Props) {
-    const nEmptyRows: number = totalGuesses - guesses.length;
+    const [currentGuess, setCurrentGuess] = useState<string>("");
+    const nEmptyRows: number = totalGuesses - guesses.length - 1;
 
     function displayEmptyRow(index: number) {
         const letters: ValidatedLetter[] = Array(wordLength).fill({});
@@ -22,14 +25,36 @@ export default function GameBoard({ totalRounds, wordLength, totalGuesses, guess
         )
     }
 
+    function displayCurrentGuess() {
+        const letters: ValidatedLetter[] = [...currentGuess.split("").map((char, index) => ({
+            letter: char
+        })), ...Array(wordLength - currentGuess.length).fill({})];
+
+        return (
+            <div>
+                <LetterRow key="currentguess" letters={letters} />
+            </div>
+        )
+    }
+
     function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        console.log("Input changed:", event.target.value);
+        setCurrentGuess(event.target.value);
     }
 
     return (
         <div className="w-full items-center flex flex-col p-6 gap-6">
-            {/* Board */}
+
+            {/* Rows */}
             <div className="flex flex-col gap-2">
+                {/* Previous guesses */}
+                <div>
+
+                </div>
+
+                {/* Current guess */}
+                {displayCurrentGuess()}
+
+                {/* Empty Rows */}
                 {Array.from({ length: nEmptyRows }, (_, index) => (
                     displayEmptyRow(index)
                 ))}
