@@ -1,5 +1,5 @@
 import { integer, pgTable, text } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import { userRoleEnum } from "./enum/user-role";
 import { id, createdAt } from "../schema-helpers";
 import { UserSessionTable } from "./user-session";
@@ -15,6 +15,7 @@ export const UsersTable = pgTable("users", {
     colorHex: text(),
     createdAt
 });
+export type DbUser = InferSelectModel<typeof UsersTable>;
 
 export const UserRelationships = relations(UsersTable, ({ many, one }) => ({
     session: one(UserSessionTable, {

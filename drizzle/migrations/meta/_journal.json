@@ -8,6 +8,13 @@
       "when": 1750335062014,
       "tag": "0000_living_eddie_brock",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1750688296689,
+      "tag": "0001_famous_zombie",
+      "breakpoints": true
     }
   ]
 }

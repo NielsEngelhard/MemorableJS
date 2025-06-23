@@ -1,5 +1,6 @@
 import { GameMode } from "@/drizzle/schema";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
+import { ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import { z } from "zod";
 
 export const createLetterLeagueGameSchema = z.object({
@@ -11,3 +12,21 @@ export const createLetterLeagueGameSchema = z.object({
     gameMode: z.nativeEnum(GameMode)
 });
 export type CreateLetterLeagueGame = z.infer<typeof createLetterLeagueGameSchema>;
+
+export interface LetterLeagueGame {
+    id: string;
+    userHostId: string;
+    timePerTurn?: number | null;
+    maxAttemptsPerRound: number;
+    currentRound: number;
+    totalRounds: number;
+    gameMode: GameMode;
+    createdAt: Date;
+    wordLength: number;
+    guesses?: ValidatedWord[];
+}
+
+export interface LetterLeagueGuessCommand {
+    gameId: string;
+    word: string;
+}

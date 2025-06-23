@@ -39,6 +39,13 @@ export default function GameBoard({  }: Props) {
         setCurrentGuess(event.target.value);
     }
 
+    async function SubmitGuess() {
+        var guessIsValid = true; // TODO:
+        if (!guessIsValid) return;
+
+        
+    }
+
     return (
         <div className="w-full items-center flex flex-col p-6 gap-6">
 

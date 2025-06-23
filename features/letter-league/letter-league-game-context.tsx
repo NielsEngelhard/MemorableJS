@@ -1,6 +1,7 @@
 import { GameMode } from "@/drizzle/schema";
 import { ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import React, { createContext, useContext, useState } from "react";
+import { LetterLeagueGame } from "./schemas";
 
 type LetterLeagueGameContextType = {
     currentRound: number;
@@ -12,31 +13,22 @@ type LetterLeagueGameContextType = {
 const LetterLeagueGameContext = createContext<LetterLeagueGameContextType | undefined>(undefined);
 
 interface LetterLeagueGameProviderProps {
-  _id: string;
-  _userHostId: string;
-  _timePerTurn: number;
-  _maxAttemptsPerRound: number;
-  _currentRound: number;
-  _totalRounds: number;
-  _gameMode: GameMode;
-  _createdAt: Date;
-  _wordLength: number;
-  _guesses?: ValidatedWord[];
+  game: LetterLeagueGame;
   children: React.ReactNode;
 }
 
-export function LetterLeagueGameProvider({ children, _currentRound, _totalRounds, _guesses = [], _id, _userHostId, _createdAt, _gameMode, _maxAttemptsPerRound, _timePerTurn, _wordLength }: LetterLeagueGameProviderProps) {
-    const [currentRound, setCurrentRound] = useState(_currentRound);
-    const [guesses, setGuesses] = useState<ValidatedWord[]>(_guesses);
+export function LetterLeagueGameProvider({ children, game }: LetterLeagueGameProviderProps) {
+    const [currentRound, setCurrentRound] = useState(game.currentRound);
+    const [guesses, setGuesses] = useState<ValidatedWord[]>(game.guesses ?? []);
 
-    const id = _id;
-    const userHostid = _userHostId;
-    const timePerTurn = _timePerTurn;
-    const totalRounds = _totalRounds;
-    const maxAttemptsPerRound = _maxAttemptsPerRound;
-    const gameMode = _gameMode;
-    const createdAt = _createdAt;
-    const wordLength = _wordLength;
+    const id = game.id;
+    const userHostid =  game.userHostId;
+    const timePerTurn =  game.timePerTurn;
+    const totalRounds =  game.totalRounds;
+    const maxAttemptsPerRound =  game.maxAttemptsPerRound;
+    const gameMode =  game.gameMode;
+    const createdAt =  game.createdAt;
+    const wordLength =  game.wordLength;
 
     return (
         <LetterLeagueGameContext.Provider value={{ currentRound, guesses, maxAttemptsPerRound, wordLength }}>

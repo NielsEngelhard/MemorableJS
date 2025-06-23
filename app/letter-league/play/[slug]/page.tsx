@@ -1,32 +1,42 @@
 "use client"
 import PageBase from "@/components/layout/PageBase";
-import { GameMode } from "@/drizzle/schema";
+import { GetLetterLeagueGame } from "@/features/letter-league/actions";
 import GameBase from "@/features/letter-league/components/GameBase";
 import { LetterLeagueGameProvider } from "@/features/letter-league/letter-league-game-context";
-import { useParams } from "next/navigation";
+import { LetterLeagueGame } from "@/features/letter-league/schemas";
+import { redirect, useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function PlayLetterLeagueGame() {
+    const [game, setGame] = useState<LetterLeagueGame | undefined>(undefined);
+
     const params = useParams();
     const slug = params.slug;
     
+    useEffect(() => {
+        async function GetGame() {
+            if (!slug) return;
+            var resp = await GetLetterLeagueGame(slug.toString());
+
+            if (!resp) redirect("/letter-league");
+            setGame(resp);
+        }
+
+        GetGame();
+    }, [slug]);
+
     return (
         <PageBase>
             {/* hello {slug} */}
-           <LetterLeagueGameProvider
-                _gameMode={GameMode.Solo}
-                _id="ABCDEF"
-                _maxAttemptsPerRound={4}
-                _timePerTurn={30}
-                _userHostId="3"
-                _wordLength={7}
-                _guesses={[]}                
-                _currentRound={1}
-                _totalRounds={6}
-                _createdAt={new Date()}
+            {game ? (
+            <LetterLeagueGameProvider
+                game={game}
             >
-                <GameBase>
-                </GameBase>            
-            </LetterLeagueGameProvider>           
+                <GameBase />          
+            </LetterLeagueGameProvider>                 
+            ) : (
+                <div>loading...</div>
+            )}          
         </PageBase>
     )
 }
