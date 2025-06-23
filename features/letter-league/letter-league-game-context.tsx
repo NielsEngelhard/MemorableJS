@@ -9,7 +9,8 @@ type LetterLeagueGameContextType = {
     guesses: ValidatedWord[];
     maxAttemptsPerRound: number;
     wordLength: number;
-    submitGuess: (command: LetterLeagueGuessCommand) => void;
+    firstLetter: string;
+    submitGuess: (guess: string) => void;
 }
 
 const LetterLeagueGameContext = createContext<LetterLeagueGameContextType | undefined>(undefined);
@@ -31,14 +32,19 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
     const gameMode =  game.gameMode;
     const createdAt =  game.createdAt;
     const wordLength =  game.wordLength;
+    const firstLetter = game.firstLetter;
 
-    async function submitGuess(command: LetterLeagueGuessCommand) {
-      var response = await submitLetterLeagueGuess(command);
+    async function submitGuess(guess: string) {
+      var response = await submitLetterLeagueGuess({
+        gameId: id,
+        word: guess
+      });
+      debugger;
       guesses.push(response); // TODO: make animated
     }
 
     return (
-        <LetterLeagueGameContext.Provider value={{ currentRound, guesses, maxAttemptsPerRound, wordLength, submitGuess }}>
+        <LetterLeagueGameContext.Provider value={{ currentRound, guesses, maxAttemptsPerRound, wordLength, submitGuess, firstLetter }}>
                 {children}
         </LetterLeagueGameContext.Provider>
     )

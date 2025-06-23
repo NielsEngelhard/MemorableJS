@@ -12,6 +12,7 @@ export default function MapLetterLeagueGameFromDb(game: DbLetterLeagueGame): Let
         userHostId: game.userHostId,
         wordLength: game.words[0].word.length,
         guesses: [],
-        createdAt: game.createdAt        
+        createdAt: game.createdAt,
+        firstLetter: game.words.find(w => w.round == game.currentRound)?.word[0] ?? "?"
     }
 }

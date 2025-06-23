@@ -10,9 +10,9 @@ interface Props {
 }
 
 export default function GameBoard({  }: Props) {
-    const { guesses, maxAttemptsPerRound, wordLength } = useLetterLeagueGame();
+    const { guesses, maxAttemptsPerRound, wordLength, submitGuess, firstLetter } = useLetterLeagueGame();
+    const [currentGuess, setCurrentGuess] = useState<string>(firstLetter);
 
-    const [currentGuess, setCurrentGuess] = useState<string>("");
     const nEmptyRows: number = maxAttemptsPerRound - guesses.length - 1;
 
     function displayEmptyRow(index: number) {
@@ -39,11 +39,8 @@ export default function GameBoard({  }: Props) {
         setCurrentGuess(event.target.value);
     }
 
-    async function SubmitGuess() {
-        var guessIsValid = true; // TODO:
-        if (!guessIsValid) return;
-
-        
+    async function onSubmit() {
+        await submitGuess(currentGuess);
     }
 
     return (
@@ -76,7 +73,7 @@ export default function GameBoard({  }: Props) {
                     onChange={onInputChange}
                 />
 
-                <Button className="w-full">Guess</Button>
+                <Button className="w-full" onClick={onSubmit}>Guess</Button>
             </div>            
         </div>
     )

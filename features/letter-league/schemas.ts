@@ -24,6 +24,7 @@ export interface LetterLeagueGame {
     createdAt: Date;
     wordLength: number;
     guesses?: ValidatedWord[];
+    firstLetter: string;
 }
 
 export interface LetterLeagueGuessCommand {
