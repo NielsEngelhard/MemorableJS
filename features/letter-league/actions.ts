@@ -31,8 +31,7 @@ export async function CreateGame(command: CreateLetterLeagueGame) {
         wordLength: command.wordLength,
         currentGuess: 1,
         currentRound: 1,
-        guesses: []
-        
+        rounds: [],        // TODO: add entry for each round to come
     }).returning({
         gameId: LetterLeagueGameTable.id
     });
@@ -85,30 +84,22 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
         letters: validatedLetters
     };
     
-    // TODO: add validatedWord to guesses
-    let roundGuesses = game.guesses.find(g => g.round == game.currentRound);
-    
-    if (!roundGuesses) {
-        // If no guesses exist for this round, create a new entry
-        roundGuesses = { round: game.currentRound, words: [] };
-        game.guesses.push(roundGuesses);
-    }
+    let round = game.rounds.find(g => g.roundNumber == game.currentRound);
+    if (!round) throw Error("Round does not exist, GAME IS CORRUPT");
     
     // Add the validated word to the guesses for this round
-    roundGuesses.words.push(validatedWord);
+    round.guesses.push(validatedWord);
     
-    // TODO: Save guesses to game
     await db.update(LetterLeagueGameTable)
         .set({
-            guesses: game.guesses,
-            currentGuess: game.currentGuess + 1 // Increment the guess counter
+            rounds: game.rounds,
+            currentGuess: game.currentGuess + 1
         })
         .where(eq(LetterLeagueGameTable.id, command.gameId));
 
     const isCorrectGuess = validatedLetters.every(letter => letter.state === LetterState.Correct);
     const isLastGuessOfRound = game.currentGuess >= game.maxAttemptsPerRound || isCorrectGuess;
     const isLastRound = game.currentRound >= game.totalRounds;
-    
 
     if (isLastGuessOfRound && isLastRound) { // END THE GAME
         // TODO: write end game flow

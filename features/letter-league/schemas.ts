@@ -31,3 +31,11 @@ export interface LetterLeagueGuessCommand {
     gameId: string;
     word: string;
 }
+
+export interface LetterLeagueRound {
+    roundNumber: number;
+    guesses: ValidatedWord[];
+    correctLetters: string[];
+    wrongPositionLetters: string[];
+    incorrectLetters: string[]; 
+}

@@ -4,7 +4,7 @@ import { UsersTable } from "./users";
 import { gameVisibilityEnum } from "./enum/game-visibility";
 import { gameModeEnum } from "../schema";
 import { InferSelectModel } from "drizzle-orm";
-import { ValidatedWords } from "./model/letter-league-models";
+import { LetterLeagueRound } from "@/features/letter-league/schemas";
 
 export type LetterLeagueGameWord = {
     round: number;
@@ -23,7 +23,7 @@ export const LetterLeagueGameTable = pgTable("letter_league_game", {
     wordLength: integer().notNull(),
     currentRound: integer().notNull().default(1),
     currentGuess: integer().notNull().default(1),
-    guesses: jsonb('guesses').$type<ValidatedWords[]>().notNull().default([]),
+    rounds: jsonb('rounds').$type<LetterLeagueRound[]>().notNull().default([]),
     createdAt
 });
 export type DbLetterLeagueGame = InferSelectModel<typeof LetterLeagueGameTable>;
