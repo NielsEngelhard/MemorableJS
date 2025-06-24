@@ -2,6 +2,8 @@ import { DbLetterLeagueGame } from "@/drizzle/schema";
 import { LetterLeagueGame } from "./schemas";
 
 export default function MapLetterLeagueGameFromDb(game: DbLetterLeagueGame): LetterLeagueGame {
+    console.log(game);
+    debugger;
     return {
         id: game.id,
         currentRound: game.currentRound,

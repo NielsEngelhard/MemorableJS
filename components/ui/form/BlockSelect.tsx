@@ -27,6 +27,7 @@ export default function BlockSelect({name, options, title, valueIndicator, Icon,
             <button
                 key={index}
                 onClick={onClick}
+                type="button"
                 className={`border-2 border-border py-2 rounded-sm cursor-pointer px-6 lg:px-0
                 ${option.value == value ? 'border-primary bg-primary/10 !font-semibold' : 'hover:border-primary/60 bg-border/20'}`}>
                 <div className="flex flex-row justify-center items-center text-center">

@@ -40,6 +40,8 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
     const wordLength =  game.wordLength;
 
     async function submitGuess(guess: string) {
+      if (guess.length != wordLength) return;
+
       var response = await submitLetterLeagueGuess({
         gameId: id,
         word: guess
@@ -47,7 +49,8 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
       
       setCurrentRound(prevRound => ({
         ...prevRound,
-        guesses: [...prevRound.guesses, response]
+        guesses: [...prevRound.guesses, response.guess],
+        guessedLetters: response.letterStates
       }));
       
       setCurrentGuessIndex(currentGuessIndex + 1);

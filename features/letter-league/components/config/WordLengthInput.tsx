@@ -1,6 +1,6 @@
 import BlockSelect from "@/components/ui/form/BlockSelect";
 
-const wordLengthOptions = [3, 4, 5, 6, 7];
+const wordLengthOptions = [4, 5, 6, 7, 8, 9, 10];
 
 interface Props {
     name?: string;

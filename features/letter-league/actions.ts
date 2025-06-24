@@ -3,13 +3,13 @@
 import { db } from "@/drizzle/db";
 import { getCurrentUser } from "../auth/current-user";
 import { generateGameId } from "../game/game-id-generator";
-import { CreateLetterLeagueGame, LetterLeagueGame, LetterLeagueGuessCommand } from "./schemas";
+import { CreateLetterLeagueGame, LetterLeagueGame, LetterLeagueGuessCommand, LetterLeagueRound } from "./schemas";
 import GetRandomWords from "./word/actions";
 import { LetterLeagueGameTable } from "@/drizzle/schema";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { eq } from "drizzle-orm";
 import MapLetterLeagueGameFromDb from "./mappers";
-import { ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
+import { LetterLeagueGuessResponse, ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import validateLetterLeagueWord from "./word/word-validator";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 
@@ -31,11 +31,13 @@ export async function CreateGame(command: CreateLetterLeagueGame) {
         wordLength: command.wordLength,
         currentGuess: 1,
         currentRound: 1,
-        rounds: [{
-            roundNumber: 1,
-            guessedLetters: [{ position: 1, letter: "w", state: LetterState.Correct }],
-            guesses: []
-        }],        // TODO: add entry for each round to come
+        rounds: words.map((word, index) => {
+            return {
+                roundNumber: word.round,
+                guessedLetters: [{ letter: word.word[0], position: 0, state: LetterState.Correct }],
+                guesses: []
+            }                            
+        }),
     }).returning({
         gameId: LetterLeagueGameTable.id
     });
@@ -58,7 +60,7 @@ export async function GetLetterLeagueGame(gameId: string): Promise<LetterLeagueG
     return MapLetterLeagueGameFromDb(game);
 }
 
-export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand): Promise<ValidatedWord> {
+export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand): Promise<LetterLeagueGuessResponse> {
     // TODO: check if user is authenticated to do this
     // const session = await auth();
     // if (!session || !session.user) {
@@ -100,8 +102,18 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     
     // Add the validated word to the guesses for this round
     round.guesses.push(validatedWord);
-    round.guessedLetters = validatedLetters; // TODO: filter out letters if duplicate
-    
+
+    // Add new validated letters without duplicating entries with same letter and state
+    round.guessedLetters = [
+    ...round.guessedLetters,
+    ...validatedLetters.filter(newLetter => 
+        !round.guessedLetters.some(existingLetter => 
+        existingLetter.letter === newLetter.letter && 
+        existingLetter.state === newLetter.state
+        )
+    )
+    ];
+
     await db.update(LetterLeagueGameTable)
         .set({
             rounds: game.rounds,
@@ -125,5 +137,8 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
             .where(eq(LetterLeagueGameTable.id, command.gameId));
     }
     
-    return validatedWord;
+    return {
+        guess: validatedWord,
+        letterStates: round.guessedLetters
+    };
 }

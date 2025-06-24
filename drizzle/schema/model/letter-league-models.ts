@@ -10,3 +10,8 @@ export type ValidatedWord = {
     guess: number;    
     letters: ValidatedLetter[];
 }
+
+export interface LetterLeagueGuessResponse {
+    guess: ValidatedWord;
+    letterStates: ValidatedLetter[];
+}

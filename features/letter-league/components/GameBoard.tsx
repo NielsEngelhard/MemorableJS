@@ -13,7 +13,7 @@ interface Props {
 export default function GameBoard({  }: Props) {
     const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode } = useLetterLeagueGame();
 
-    const [currentGuess, setCurrentGuess] = useState<string>("a");
+    const [currentGuess, setCurrentGuess] = useState<string>("");
 
     const nEmptyRows: number = maxAttemptsPerRound - currentRound.guesses.length - 1;
 
@@ -26,10 +26,18 @@ export default function GameBoard({  }: Props) {
     }
 
     function displayCurrentGuess() {
-        const letters: ValidatedLetter[] = [...currentGuess.split("").map((char, index) => ({
-            letter: char
-        })), ...Array(wordLength - currentGuess.length).fill({})];
-
+        let letters: ValidatedLetter[] = [];
+        for(var i=0; i<wordLength; i++) {
+            const position = i+1;
+            // Empty
+            if (currentGuess.length < position) {
+                letters = [...letters, ...[{ position: position }]];
+                // Remove the return statement here
+            // Typed letter
+            } else {
+                letters = [...letters, ...[{ position: position, letter: currentGuess[i] }]];
+            }
+        }
         return (
             <LetterRow key="currentguess" letters={letters} />
         )
