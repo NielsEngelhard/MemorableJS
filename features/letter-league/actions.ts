@@ -85,7 +85,14 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     };
     
     let round = game.rounds.find(g => g.roundNumber == game.currentRound);
-    if (!round) throw Error("Round does not exist, GAME IS CORRUPT");
+    if (!round) {
+        round = {
+            roundNumber: game.currentRound,
+            guesses: [],
+            guessedLetters: []
+        }
+        game.rounds.push(round);
+    }
     
     // Add the validated word to the guesses for this round
     round.guesses.push(validatedWord);

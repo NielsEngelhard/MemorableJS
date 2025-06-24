@@ -1,6 +1,6 @@
 import { GameMode } from "@/drizzle/schema";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
-import { ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
+import { ValidatedLetter, ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import { z } from "zod";
 
 export const createLetterLeagueGameSchema = z.object({
@@ -35,7 +35,5 @@ export interface LetterLeagueGuessCommand {
 export interface LetterLeagueRound {
     roundNumber: number;
     guesses: ValidatedWord[];
-    correctLetters: string[];
-    wrongPositionLetters: string[];
-    incorrectLetters: string[]; 
+    guessedLetters: ValidatedLetter[];
 }
