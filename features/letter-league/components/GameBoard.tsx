@@ -6,14 +6,16 @@ import { useEffect, useState } from "react";
 import { useLetterLeagueGame } from "../letter-league-game-context";
 import GameModeToText from "@/features/i18n/enum-to-text";
 import TitleText from "@/components/ui/text/TitleText";
+import { LETTER_ANIMATION_TIME_MS } from "../letter-league-constants";
 
 interface Props {
 
 }
 
 export default function GameBoard({  }: Props) {
-    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode, theWord } = useLetterLeagueGame();
+    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode, theWord, currentGuessIndex } = useLetterLeagueGame();
     const [currentGuess, setCurrentGuess] = useState<string>("");
+    const [canGuess, setCanGuess] = useState(true);
     const nEmptyRows: number = maxAttemptsPerRound - currentRound.guesses.length - 1;
 
     useEffect(() => {
@@ -65,8 +67,15 @@ export default function GameBoard({  }: Props) {
     }
 
     async function onSubmit() {
+        if (currentGuess.length != wordLength) return;
+
+        setCanGuess(false);
         await submitGuess(currentGuess);
         resetCurrentGuess();
+
+        setTimeout(() => {
+            setCanGuess(true);
+        }, LETTER_ANIMATION_TIME_MS * wordLength);
     }
 
     return (
@@ -77,7 +86,7 @@ export default function GameBoard({  }: Props) {
                 <div className="font-bold text-3xl">{GameModeToText(gameMode)}</div>
                 <div className="flex flex-row text-md text-foreground-muted justify-center gap-2">
                     <div>Round {currentRound.roundNumber}/{totalRounds}</div>
-                    <div>Guess {currentRound.guesses.length}/{maxAttemptsPerRound}</div>
+                    <div>Guess {currentGuessIndex}/{maxAttemptsPerRound}</div>
                 </div>                
             </div>
 
@@ -105,6 +114,7 @@ export default function GameBoard({  }: Props) {
                 // Keyboard/Input
                 <div className="w-full lg:px-10 gap-2 flex flex-col">
                     <TextInput
+                        disabled={!canGuess}
                         value={currentGuess}
                         maxLength={wordLength}
                         centerText={true}
@@ -114,7 +124,7 @@ export default function GameBoard({  }: Props) {
                         onChange={onInputChange}
                     />
 
-                    <Button className="w-full" onClick={onSubmit}>Guess</Button>
+                    <Button className="w-full" onClick={onSubmit} disabled={!canGuess}>Guess</Button>
                 </div>   
             }
             </div>            

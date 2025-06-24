@@ -6,11 +6,12 @@ interface Props extends VariantProps<typeof buttonVariants> {
   onClick?: () => void;
   children: React.ReactNode;
   className?: string;
+  disabled?: boolean;
   type?: "submit" | "reset" | "button" | undefined;
 }
 
 const buttonVariants = cva(
-  "py-2 px-6 text-sm rounded-md font-bold transition duration-200 cursor-pointer hover:brightness-90 flex justify-center",
+  "py-2 px-6 text-sm rounded-md font-bold transition duration-200 hover:brightness-90 flex justify-center",
   {
     variants: {
       variant: {
@@ -24,9 +25,14 @@ const buttonVariants = cva(
   }
 )
 
-export default function Button({ children, variant, onClick, className, type="button" }: Props) {
+export default function Button({ children, variant, onClick, className, type="button", disabled = false }: Props) {
   return (
-    <button onClick={onClick} className={cn(buttonVariants({ variant }), className)} type={type}>
+    <button
+      disabled={disabled}
+      onClick={onClick} 
+      type={type}
+      className={`${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} ${cn(buttonVariants({ variant }), className)}`}  
+    >
       {children}
     </button>
   )
