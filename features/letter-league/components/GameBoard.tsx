@@ -30,9 +30,19 @@ export default function GameBoard({  }: Props) {
         })), ...Array(wordLength - currentGuess.length).fill({})];
 
         return (
-            <div>
-                <LetterRow key="currentguess" letters={letters} />
-            </div>
+            <LetterRow key="currentguess" letters={letters} />
+        )
+    }
+
+    function displayPreviousGuesses() {
+        const guesses = currentRound.guesses;
+
+        return (
+            <>
+                {currentRound.guesses.map((value, i) => (
+                    <LetterRow key={`guess-${i}`} letters={value.letters} />
+                ))}
+            </>
         )
     }
 
@@ -50,9 +60,7 @@ export default function GameBoard({  }: Props) {
             {/* Rows */}
             <div className="flex flex-col gap-2">
                 {/* Previous guesses */}
-                <div>
-
-                </div>
+                {displayPreviousGuesses()}
 
                 {/* Current guess */}
                 {displayCurrentGuess()}

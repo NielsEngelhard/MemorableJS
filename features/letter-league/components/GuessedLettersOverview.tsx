@@ -26,7 +26,7 @@ export default function GuessedLettersOverview() {
         <Card>
             <CardBody className="p-2 lg:p-6">
                 <SubTitleText
-                    text="Hints"
+                    text="Letters"
                     Icon={LetterText}
                 />
 
