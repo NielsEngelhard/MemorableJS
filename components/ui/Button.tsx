@@ -6,10 +6,11 @@ interface Props extends VariantProps<typeof buttonVariants> {
   onClick?: () => void;
   children: React.ReactNode;
   className?: string;
+  type?: "submit" | "reset" | "button" | undefined;
 }
 
 const buttonVariants = cva(
-  "py-3 px-6 text-sm rounded-md font-bold transition duration-200 cursor-pointer hover:brightness-90 flex justify-center",
+  "py-2 px-6 text-sm rounded-md font-bold transition duration-200 cursor-pointer hover:brightness-90 flex justify-center",
   {
     variants: {
       variant: {
@@ -23,9 +24,9 @@ const buttonVariants = cva(
   }
 )
 
-export default function Button({ children, variant, onClick, className }: Props) {
+export default function Button({ children, variant, onClick, className, type="button" }: Props) {
   return (
-    <button onClick={onClick} className={cn(buttonVariants({ variant }), className)}>
+    <button onClick={onClick} className={cn(buttonVariants({ variant }), className)} type={type}>
       {children}
     </button>
   )

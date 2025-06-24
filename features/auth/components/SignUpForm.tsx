@@ -4,9 +4,12 @@ import { useForm } from "react-hook-form";
 import { SignUpSchema, signUpSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorText from "@/components/ui/text/ErrorText";
-import { signUp } from "../actions";
+import { signIn, signUp } from "../actions";
+import { redirect } from "next/navigation";
+import { useAuth } from "../auth-context";
 
 export default function SignUpForm() {
+    const { toggleShowAuthModal, login } = useAuth();
 
     const form = useForm<SignUpSchema>({
         resolver: zodResolver(signUpSchema),
@@ -19,6 +22,11 @@ export default function SignUpForm() {
 
     async function onSubmit(data: SignUpSchema) {
         const error = await signUp(data);
+        if (!error) {
+            await login({ username: data.email, password: data.password });
+            toggleShowAuthModal();
+            redirect("/play");
+        } 
 
         form.setError("root", {
             type: "manual",
@@ -34,7 +42,7 @@ export default function SignUpForm() {
 
             <TextInput label="Username" placeholder="Your username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
 
-            <Button>Sign Up</Button>
+            <Button type="submit">Sign Up</Button>
 
             <ErrorText text={form.formState.errors.root?.message} />
         </form>

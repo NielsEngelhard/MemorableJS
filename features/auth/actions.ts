@@ -45,7 +45,7 @@ export async function signIn(unsafeData: z.infer<typeof signInSchema>): Promise<
     return SignInResponseFactory.success(user);
 }
 
-export async function signUp(unsafeData: z.infer<typeof signUpSchema>): Promise<string> {
+export async function signUp(unsafeData: z.infer<typeof signUpSchema>): Promise<string | undefined> {
     const { success, data } = signUpSchema.safeParse(unsafeData);
     if (!success) return "Login failed";
 
@@ -86,7 +86,7 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>): Promise<
         return "Something went wrong while creating your account";
     }
 
-    redirect("/play");
+    return undefined;
 }
 
 export async function logOut() {

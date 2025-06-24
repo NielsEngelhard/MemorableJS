@@ -32,7 +32,7 @@ export default function LoginForm() {
 
             <TextInput label="Password" placeholder="Enter your password" type="password" {...form.register("password")} errorMsg={form.formState.errors.password?.message} required />
 
-            <Button>Sign In</Button>
+            <Button type="submit">Sign In</Button>
 
             <ErrorText text={form.formState.errors.root?.message} />
         </form>
