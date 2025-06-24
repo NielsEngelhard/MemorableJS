@@ -10,10 +10,11 @@ interface Props {
 }
 
 export default function GameBoard({  }: Props) {
-    const { guesses, maxAttemptsPerRound, wordLength, submitGuess, firstLetter } = useLetterLeagueGame();
-    const [currentGuess, setCurrentGuess] = useState<string>(firstLetter);
+    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound } = useLetterLeagueGame();
 
-    const nEmptyRows: number = maxAttemptsPerRound - guesses.length - 1;
+    const [currentGuess, setCurrentGuess] = useState<string>("a");
+
+    const nEmptyRows: number = maxAttemptsPerRound - currentRound.guesses.length - 1;
 
     function displayEmptyRow(index: number) {
         const letters: ValidatedLetter[] = Array(wordLength).fill({});

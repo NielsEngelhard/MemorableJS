@@ -31,7 +31,11 @@ export async function CreateGame(command: CreateLetterLeagueGame) {
         wordLength: command.wordLength,
         currentGuess: 1,
         currentRound: 1,
-        rounds: [],        // TODO: add entry for each round to come
+        rounds: [{
+            roundNumber: 1,
+            guessedLetters: [{ position: 1, letter: "w", state: LetterState.Correct }],
+            guesses: []
+        }],        // TODO: add entry for each round to come
     }).returning({
         gameId: LetterLeagueGameTable.id
     });

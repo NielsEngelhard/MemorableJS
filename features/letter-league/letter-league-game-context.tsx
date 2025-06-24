@@ -1,20 +1,20 @@
 import { GameMode } from "@/drizzle/schema";
-import { ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import React, { createContext, useContext, useState } from "react";
-import { LetterLeagueGame } from "./schemas";
+import { LetterLeagueGame, LetterLeagueRound } from "./schemas";
 import { submitLetterLeagueGuess } from "./actions";
 
 type LetterLeagueGameContextType = {
-    currentRound: number;
-    guesses: ValidatedWord[];
     maxAttemptsPerRound: number;
     wordLength: number;
-    firstLetter: string;
     submitGuess: (guess: string) => void;
     timePerTurn?: number | null;
     totalRounds: number;
     gameMode: GameMode;
     createdAt: Date;
+    rounds: LetterLeagueRound[];
+    currentRoundIndex: number;
+    currentGuessIndex: number;
+    currentRound: LetterLeagueRound;
 }
 
 const LetterLeagueGameContext = createContext<LetterLeagueGameContextType | undefined>(undefined);
@@ -25,8 +25,10 @@ interface LetterLeagueGameProviderProps {
 }
 
 export function LetterLeagueGameProvider({ children, game }: LetterLeagueGameProviderProps) {
-    const [currentRound, setCurrentRound] = useState(game.currentRound);
-    const [guesses, setGuesses] = useState<ValidatedWord[]>(game.guesses ?? []);
+    const [currentRoundIndex, setCurrentRoundIndex] = useState(game.currentRound);
+    const [currentGuessIndex, setCurrentGuessIndex] = useState(game.currentGuess);
+    const [rounds, setRounds] = useState<LetterLeagueRound[]>(game.rounds);
+    const [currentRound, setCurrentRound] = useState<LetterLeagueRound>(getCurrentRound());
 
     const id = game.id;
     const userHostid =  game.userHostId;
@@ -36,19 +38,35 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
     const gameMode =  game.gameMode;
     const createdAt =  game.createdAt;
     const wordLength =  game.wordLength;
-    const firstLetter = game.firstLetter;
 
     async function submitGuess(guess: string) {
       var response = await submitLetterLeagueGuess({
         gameId: id,
         word: guess
       });
-      debugger;
-      guesses.push(response); // TODO: make animated
+      
+      const updatedRounds = rounds.map(round => {
+        if (round.roundNumber === currentRoundIndex) {
+          return {
+            ...round,
+            guesses: [...round.guesses, response]
+          };
+        }
+        return round;
+      });
+      
+      setRounds(updatedRounds);
+      setCurrentGuessIndex(currentGuessIndex + 1);
+    }
+
+    function getCurrentRound(): LetterLeagueRound {
+      const round = rounds.find(r => r.roundNumber == currentRoundIndex);
+      if (!round) throw Error("Could not find current round CORRUPT STATE");
+      return round;
     }
 
     return (
-        <LetterLeagueGameContext.Provider value={{ currentRound, guesses, maxAttemptsPerRound, wordLength, submitGuess, firstLetter, timePerTurn, totalRounds, gameMode, createdAt }}>
+        <LetterLeagueGameContext.Provider value={{ currentGuessIndex, currentRoundIndex, maxAttemptsPerRound, wordLength, submitGuess, timePerTurn, totalRounds, gameMode, createdAt, rounds, currentRound }}>
                 {children}
         </LetterLeagueGameContext.Provider>
     )

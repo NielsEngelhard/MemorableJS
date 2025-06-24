@@ -19,12 +19,12 @@ export interface LetterLeagueGame {
     timePerTurn?: number | null;
     maxAttemptsPerRound: number;
     currentRound: number;
+    currentGuess: number;
     totalRounds: number;
     gameMode: GameMode;
     createdAt: Date;
     wordLength: number;
-    guesses?: ValidatedWord[];
-    firstLetter: string;
+    rounds: LetterLeagueRound[];
 }
 
 export interface LetterLeagueGuessCommand {
