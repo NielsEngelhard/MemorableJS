@@ -1,6 +1,7 @@
 import { ValidatedLetter } from "@/drizzle/schema/model/letter-league-models";
 import LetterTile from "./LetterTile";
 import { useEffect, useState } from "react";
+import { LetterState } from "@/drizzle/schema/enum/letter-state";
 
 interface Props {
     letters: ValidatedLetter[];
@@ -9,6 +10,8 @@ interface Props {
 
 export default function LetterRow({ letters, animate = false }: Props) {
     const [visibleTiles, setVisibleTiles] = useState<number[]>([]);
+    const [showCorrectAnimation, setShowCorrectAnimation] = useState(false);
+    const allCorrect = letters.find(l => l.state != LetterState.Correct) == undefined;
     
     useEffect(() => {
         if (!animate) {
@@ -24,9 +27,19 @@ export default function LetterRow({ letters, animate = false }: Props) {
         letters.forEach((_, index) => {
             setTimeout(() => {
                 setVisibleTiles(prev => [...prev, index]);
+
+                if (allCorrect && index == letters.length-1) {
+                    triggerAllCorrectAnimation();
+                }
             }, index * 300);
         });
     }, [animate, letters.length]);
+
+    function triggerAllCorrectAnimation() {
+        setTimeout(() => {
+            setShowCorrectAnimation(true);
+        }, 200);
+    }
 
     return (
         <div className="flex flex-row gap-2">
@@ -36,7 +49,8 @@ export default function LetterRow({ letters, animate = false }: Props) {
                 <LetterTile 
                     key={index} 
                     letter={item.letter} 
-                    state={item.state} 
+                    state={item.state}
+                    correctAnimation={showCorrectAnimation}
                 />
                 :
                 <LetterTile 
