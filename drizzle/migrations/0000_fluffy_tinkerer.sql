@@ -33,7 +33,7 @@ CREATE TABLE "letter_league_game" (
 	"wordLength" integer NOT NULL,
 	"currentRound" integer DEFAULT 1 NOT NULL,
 	"currentGuess" integer DEFAULT 1 NOT NULL,
-	"guesses" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"rounds" jsonb DEFAULT '[]'::jsonb NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint

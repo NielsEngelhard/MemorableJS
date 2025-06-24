@@ -81,7 +81,7 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     
     const validatedWord: ValidatedWord = {
         guess: game.currentGuess,
-        letters: validatedLetters
+        letters: validatedLetters,        
     };
     
     let round = game.rounds.find(g => g.roundNumber == game.currentRound);
@@ -96,6 +96,7 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     
     // Add the validated word to the guesses for this round
     round.guesses.push(validatedWord);
+    round.guessedLetters = validatedLetters; // TODO: filter out letters if duplicate
     
     await db.update(LetterLeagueGameTable)
         .set({

@@ -1,5 +1,5 @@
 {
-  "id": "921394a4-26f0-4d83-a842-ecfa7f2fa4bc",
+  "id": "967a4c61-ae7e-4f4b-87a1-3b94dacc4fa6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -209,8 +209,8 @@
           "notNull": true,
           "default": 1
         },
-        "guesses": {
-          "name": "guesses",
+        "rounds": {
+          "name": "rounds",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": true,
