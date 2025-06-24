@@ -47,7 +47,7 @@ export default function GameBoard({  }: Props) {
         return (
             <>
                 {currentRound.guesses.map((value, i) => (
-                    <LetterRow key={`guess-${i}`} letters={value.letters} />
+                    <LetterRow key={`guess-${i}`} letters={value.letters} animate={currentRound.guesses.length-1 == i} />
                 ))}
             </>
         )
