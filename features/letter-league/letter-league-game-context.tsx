@@ -45,17 +45,11 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
         word: guess
       });
       
-      const updatedRounds = rounds.map(round => {
-        if (round.roundNumber === currentRoundIndex) {
-          return {
-            ...round,
-            guesses: [...round.guesses, response]
-          };
-        }
-        return round;
-      });
+      setCurrentRound(prevRound => ({
+        ...prevRound,
+        guesses: [...prevRound.guesses, response]
+      }));
       
-      setRounds(updatedRounds);
       setCurrentGuessIndex(currentGuessIndex + 1);
     }
 
