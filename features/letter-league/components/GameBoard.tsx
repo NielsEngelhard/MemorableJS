@@ -13,7 +13,7 @@ interface Props {
 export default function GameBoard({  }: Props) {
     const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode } = useLetterLeagueGame();
 
-    const [currentGuess, setCurrentGuess] = useState<string>("");
+    const [currentGuess, setCurrentGuess] = useState<string>(currentRound.guessedLetters.find(l => l.position == 1)?.letter ?? "");
 
     const nEmptyRows: number = maxAttemptsPerRound - currentRound.guesses.length - 1;
 

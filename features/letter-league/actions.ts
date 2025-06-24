@@ -34,7 +34,7 @@ export async function CreateGame(command: CreateLetterLeagueGame) {
         rounds: words.map((word, index) => {
             return {
                 roundNumber: word.round,
-                guessedLetters: [{ letter: word.word[0], position: 0, state: LetterState.Correct }],
+                guessedLetters: [{ letter: word.word[0], position: 1, state: LetterState.Correct }],
                 guesses: []
             }                            
         }),
