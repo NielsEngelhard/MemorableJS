@@ -58,16 +58,18 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
       
       setCurrentGuessIndex(currentGuessIndex + 1);
 
+      const letterAnimationLength = LETTER_ANIMATION_TIME_MS * wordLength;
+
       if (response.triggerNextRound) {
         if (response.theWord) {
           setTimeout(() => {
             setTheWord(response.theWord);
-          }, LETTER_ANIMATION_TIME_MS * wordLength);
+          }, letterAnimationLength);
         }
 
         setTimeout(() => {
           triggerNextRound();
-        }, TIME_BETWEEN_ROUNDS_MS);
+        }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);
       }      
     }
 
@@ -86,6 +88,7 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
       setCurrentGuessIndex(1);
       setCurrentRoundIndex(currentRoundIndex + 1);
       setCurrentRound(getCurrentRound());
+      setTheWord(undefined);
     }
 
     function triggerEndOfGame() {

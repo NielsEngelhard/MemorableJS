@@ -78,9 +78,7 @@ export default function GameBoard({  }: Props) {
                 <div className="flex flex-row text-md text-foreground-muted justify-center gap-2">
                     <div>Round {currentRound.roundNumber}/{totalRounds}</div>
                     <div>Guess {currentRound.guesses.length}/{maxAttemptsPerRound}</div>
-                </div>
-
-                <TitleText>{theWord}</TitleText>
+                </div>                
             </div>
 
             {/* Body */}
@@ -100,7 +98,11 @@ export default function GameBoard({  }: Props) {
                     ))}
                 </div>
 
-                {/* Keyboard/Input */}
+                {theWord
+                ?
+                <TitleText>{theWord}</TitleText>
+                :
+                // Keyboard/Input
                 <div className="w-full lg:px-10 gap-2 flex flex-col">
                     <TextInput
                         value={currentGuess}
@@ -113,7 +115,8 @@ export default function GameBoard({  }: Props) {
                     />
 
                     <Button className="w-full" onClick={onSubmit}>Guess</Button>
-                </div>            
+                </div>   
+            }
             </div>            
         </div>
     )
