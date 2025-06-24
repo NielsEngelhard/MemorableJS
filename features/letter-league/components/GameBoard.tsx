@@ -5,13 +5,14 @@ import Button from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { useLetterLeagueGame } from "../letter-league-game-context";
 import GameModeToText from "@/features/i18n/enum-to-text";
+import TitleText from "@/components/ui/text/TitleText";
 
 interface Props {
 
 }
 
 export default function GameBoard({  }: Props) {
-    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode } = useLetterLeagueGame();
+    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode, theWord } = useLetterLeagueGame();
     const [currentGuess, setCurrentGuess] = useState<string>("");
     const nEmptyRows: number = maxAttemptsPerRound - currentRound.guesses.length - 1;
 
@@ -78,6 +79,8 @@ export default function GameBoard({  }: Props) {
                     <div>Round {currentRound.roundNumber}/{totalRounds}</div>
                     <div>Guess {currentRound.guesses.length}/{maxAttemptsPerRound}</div>
                 </div>
+
+                <TitleText>{theWord}</TitleText>
             </div>
 
             {/* Body */}

@@ -12,6 +12,7 @@ import MapLetterLeagueGameFromDb from "./mappers";
 import { LetterLeagueGuessResponse, ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import validateLetterLeagueWord from "./word/word-validator";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
+import { undefinedDataE } from "@hookform/resolvers/ajv/src/__tests__/__fixtures__/data-errors.js";
 
 export async function CreateGame(command: CreateLetterLeagueGame) {
     const words = GetRandomWords(command.wordLength, "nl", command.totalRounds);
@@ -81,6 +82,7 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     
     const currentWord = game.words.find(w => w.round == game.currentRound);
     if (!currentWord) throw Error(`There is no word for round ${game.currentRound}`);
+
     // Validate word
     const validatedLetters = validateLetterLeagueWord(command.word, currentWord.word);
     if (validatedLetters == null) throw Error("Invalid guess");
@@ -125,10 +127,18 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     const isLastGuessOfRound = game.currentGuess >= game.maxAttemptsPerRound || isCorrectGuess;
     const isLastRound = game.currentRound >= game.totalRounds;
 
-    if (isLastGuessOfRound && isLastRound) { // END THE GAME
+    if (isCorrectGuess) {
+        // GOTO NEXT ROUND IF NOT LAST
+        await db.update(LetterLeagueGameTable)
+            .set({
+                currentGuess: 1,
+                currentRound: game.currentRound + 1
+            })
+            .where(eq(LetterLeagueGameTable.id, command.gameId));        
+    } else if (isLastGuessOfRound && isLastRound) { // END THE GAME
         // TODO: write end game flow
     } else if (isLastGuessOfRound) {         // NEXT ROUND
-        // Move to the next round
+        // Move to the next round AND SHOW WORD
         await db.update(LetterLeagueGameTable)
             .set({
                 currentGuess: 1,
@@ -141,5 +151,6 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
         guess: validatedWord,
         letterStates: round.guessedLetters,
         triggerNextRound: isCorrectGuess && !isLastRound,
+        theWord: isCorrectGuess || isLastGuessOfRound ? currentWord.word : undefined
     };
 }

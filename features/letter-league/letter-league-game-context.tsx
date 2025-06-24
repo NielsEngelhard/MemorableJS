@@ -2,6 +2,7 @@ import { GameMode } from "@/drizzle/schema";
 import React, { createContext, useContext, useState } from "react";
 import { LetterLeagueGame, LetterLeagueRound } from "./schemas";
 import { submitLetterLeagueGuess } from "./actions";
+import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from "./letter-league-constants";
 
 type LetterLeagueGameContextType = {
     maxAttemptsPerRound: number;
@@ -15,6 +16,7 @@ type LetterLeagueGameContextType = {
     currentRoundIndex: number;
     currentGuessIndex: number;
     currentRound: LetterLeagueRound;
+    theWord: string | undefined;
 }
 
 const LetterLeagueGameContext = createContext<LetterLeagueGameContextType | undefined>(undefined);
@@ -29,6 +31,7 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
     const [currentGuessIndex, setCurrentGuessIndex] = useState(game.currentGuess);
     const [rounds, setRounds] = useState<LetterLeagueRound[]>(game.rounds);
     const [currentRound, setCurrentRound] = useState<LetterLeagueRound>(getCurrentRound());
+    const [theWord, setTheWord] = useState<string | undefined>(undefined);
 
     const id = game.id;
     const userHostid =  game.userHostId;
@@ -54,6 +57,18 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
       }));
       
       setCurrentGuessIndex(currentGuessIndex + 1);
+
+      if (response.triggerNextRound) {
+        if (response.theWord) {
+          setTimeout(() => {
+            setTheWord(response.theWord);
+          }, LETTER_ANIMATION_TIME_MS * wordLength);
+        }
+
+        setTimeout(() => {
+          triggerNextRound();
+        }, TIME_BETWEEN_ROUNDS_MS);
+      }      
     }
 
     function getCurrentRound(): LetterLeagueRound {
@@ -62,9 +77,37 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
       return round;
     }
 
+    function triggerNextRound() {
+      if (currentRoundIndex >= totalRounds) {
+        triggerEndOfGame();
+        return;
+      }
+
+      setCurrentGuessIndex(1);
+      setCurrentRoundIndex(currentRoundIndex + 1);
+      setCurrentRound(getCurrentRound());
+    }
+
+    function triggerEndOfGame() {
+      console.log("end of game");
+    }
+
     return (
-        <LetterLeagueGameContext.Provider value={{ currentGuessIndex, currentRoundIndex, maxAttemptsPerRound, wordLength, submitGuess, timePerTurn, totalRounds, gameMode, createdAt, rounds, currentRound }}>
-                {children}
+        <LetterLeagueGameContext.Provider value={{
+          currentGuessIndex,
+          currentRoundIndex,
+          maxAttemptsPerRound,
+          wordLength,
+          submitGuess,
+          timePerTurn,
+          totalRounds,
+          gameMode,
+          createdAt,
+          rounds,
+          currentRound,
+          theWord }}
+        >
+          {children}
         </LetterLeagueGameContext.Provider>
     )
 }

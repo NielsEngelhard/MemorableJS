@@ -14,5 +14,6 @@ export type ValidatedWord = {
 export interface LetterLeagueGuessResponse {
     guess: ValidatedWord;
     letterStates: ValidatedLetter[];
+    theWord?: string;
     triggerNextRound?: boolean;
 }
