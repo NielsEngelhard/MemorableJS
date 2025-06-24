@@ -139,6 +139,7 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     
     return {
         guess: validatedWord,
-        letterStates: round.guessedLetters
+        letterStates: round.guessedLetters,
+        triggerNextRound: isCorrectGuess && !isLastRound,
     };
 }
