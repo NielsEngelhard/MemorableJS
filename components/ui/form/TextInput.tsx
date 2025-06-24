@@ -10,6 +10,7 @@ interface InputProps extends React.ComponentProps<"input"> {
     centerText?: boolean;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
     supportedSymbols?: RegExp;
+
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, InputProps>(

@@ -102,6 +102,7 @@ export default function GameBoard({  }: Props) {
                 {/* Keyboard/Input */}
                 <div className="w-full lg:px-10 gap-2 flex flex-col">
                     <TextInput
+                        value={currentGuess}
                         maxLength={wordLength}
                         centerText={true}
                         className="!font-monos flex items-center"
