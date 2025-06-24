@@ -2,7 +2,7 @@ import { ValidatedLetter } from "@/drizzle/schema/model/letter-league-models";
 import LetterRow from "../word/components/LetterRow";
 import TextInput from "@/components/ui/form/TextInput";
 import Button from "@/components/ui/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLetterLeagueGame } from "../letter-league-game-context";
 import GameModeToText from "@/features/i18n/enum-to-text";
 
@@ -13,9 +13,17 @@ interface Props {
 export default function GameBoard({  }: Props) {
     const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode } = useLetterLeagueGame();
 
-    const [currentGuess, setCurrentGuess] = useState<string>(currentRound.guessedLetters.find(l => l.position == 1)?.letter ?? "");
+    const [currentGuess, setCurrentGuess] = useState<string>("");
 
     const nEmptyRows: number = maxAttemptsPerRound - currentRound.guesses.length - 1;
+
+    useEffect(() => {
+        resetCurrentGuess();
+    }, []);
+
+    function resetCurrentGuess() {
+        setCurrentGuess(currentRound.guessedLetters.find(l => l.position == 1)?.letter ?? "");
+    }
 
     function displayEmptyRow(index: number) {
         const letters: ValidatedLetter[] = Array(wordLength).fill({});
@@ -59,6 +67,7 @@ export default function GameBoard({  }: Props) {
 
     async function onSubmit() {
         await submitGuess(currentGuess);
+        resetCurrentGuess();
     }
 
     return (

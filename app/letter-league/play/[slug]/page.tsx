@@ -27,7 +27,6 @@ export default function PlayLetterLeagueGame() {
 
     return (
         <PageBase>
-            {/* hello {slug} */}
             {game ? (
             <LetterLeagueGameProvider
                 game={game}

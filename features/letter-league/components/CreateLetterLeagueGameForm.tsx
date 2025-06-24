@@ -55,7 +55,7 @@ export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
                             <VisibilityInput></VisibilityInput>
                         )}
 
-                        <Button>
+                        <Button type="submit">
                             <TextWithIcon Icon={Play}>Start Game</TextWithIcon>
                         </Button>
                         <ShowFormErrors errors={form.formState.errors} />
