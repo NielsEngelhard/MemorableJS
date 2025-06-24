@@ -2,23 +2,19 @@ import Card from "@/components/ui/card/Card";
 import GameBoard from "./GameBoard";
 import CardBody from "@/components/ui/card/CardBody";
 import QuickSettings from "./QuickSettings";
+import GuessedLettersOverview from "./GuessedLettersOverview";
+import QuickOverview from "./QuickOverview";
 
 interface Props {
 }
 
-// TODO: use provider for game state want anders super veel props
 export default function GameBase({  }: Props) {
     return (
         <div className="w-full flex lg:grid lg:grid-cols-3 flex-col-reverse gap-10">
             <div className="flex flex-col gap-10">
-                <QuickSettings />
-                <Card>
-                    Guessed Letters
-
-                </Card>
-                <Card>
-                    Game Settings
-                </Card>                                
+                <GuessedLettersOverview />
+                <QuickSettings />                
+                <QuickOverview />                 
             </div>
             <Card className="col-span-2 w-full">
                 <CardBody className="w-full items-center flex">

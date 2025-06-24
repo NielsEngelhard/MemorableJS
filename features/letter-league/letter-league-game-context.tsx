@@ -1,7 +1,7 @@
 import { GameMode } from "@/drizzle/schema";
 import { ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import React, { createContext, useContext, useState } from "react";
-import { LetterLeagueGame, LetterLeagueGuessCommand } from "./schemas";
+import { LetterLeagueGame } from "./schemas";
 import { submitLetterLeagueGuess } from "./actions";
 
 type LetterLeagueGameContextType = {
@@ -11,6 +11,10 @@ type LetterLeagueGameContextType = {
     wordLength: number;
     firstLetter: string;
     submitGuess: (guess: string) => void;
+    timePerTurn?: number | null;
+    totalRounds: number;
+    gameMode: GameMode;
+    createdAt: Date;
 }
 
 const LetterLeagueGameContext = createContext<LetterLeagueGameContextType | undefined>(undefined);
@@ -44,7 +48,7 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
     }
 
     return (
-        <LetterLeagueGameContext.Provider value={{ currentRound, guesses, maxAttemptsPerRound, wordLength, submitGuess, firstLetter }}>
+        <LetterLeagueGameContext.Provider value={{ currentRound, guesses, maxAttemptsPerRound, wordLength, submitGuess, firstLetter, timePerTurn, totalRounds, gameMode, createdAt }}>
                 {children}
         </LetterLeagueGameContext.Provider>
     )
