@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function GameBoard({  }: Props) {
-    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode, theWord, currentGuessIndex } = useLetterLeagueGame();
+    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode, theWord, currentGuessIndex, settings } = useLetterLeagueGame();
     const [currentGuess, setCurrentGuess] = useState<string>("");
     const [canGuess, setCanGuess] = useState(true);
     const nEmptyRows: number = maxAttemptsPerRound - currentRound.guesses.length - 1;
@@ -112,22 +112,25 @@ export default function GameBoard({  }: Props) {
                 ?
                 <TitleText>{theWord}</TitleText>
                 :
-                // Keyboard/Input
-                // <div className="w-full lg:px-10 gap-2 flex flex-col">
-                //     <TextInput
-                //         disabled={!canGuess}
-                //         value={currentGuess}
-                //         maxLength={wordLength}
-                //         centerText={true}
-                //         className="!font-monos flex items-center"
-                //         placeholder="Enter your guess ..."
-                //         supportedSymbols={/^[a-zA-Z]$/}
-                //         onChange={onInputChange}
-                //     />
-
-                //     <Button className="w-full" onClick={onSubmit} disabled={!canGuess}>Guess</Button>
-                // </div>   
+                settings.showOnScreenKeyboard
+                ?
                 <CustomKeyboard />
+                :
+                <div className="w-full lg:px-10 gap-2 flex flex-col">
+                    <TextInput
+                        disabled={!canGuess}
+                        value={currentGuess}
+                        maxLength={wordLength}
+                        centerText={true}
+                        className="!font-monos flex items-center"
+                        placeholder="Enter your guess ..."
+                        supportedSymbols={/^[a-zA-Z]$/}
+                        onChange={onInputChange}
+                    />
+
+                    <Button className="w-full" onClick={onSubmit} disabled={!canGuess}>Guess</Button>
+                </div>   
+                
             }
             </div>            
         </div>

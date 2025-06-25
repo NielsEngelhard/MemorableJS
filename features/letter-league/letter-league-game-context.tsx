@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState } from "react";
 import { LetterLeagueGame, LetterLeagueRound } from "./schemas";
 import { submitLetterLeagueGuess } from "./actions";
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from "./letter-league-constants";
+import { LetterLeagueSettings } from "@/drizzle/schema/model/letter-league-models";
 
 type LetterLeagueGameContextType = {
     maxAttemptsPerRound: number;
@@ -17,6 +18,8 @@ type LetterLeagueGameContextType = {
     currentGuessIndex: number;
     currentRound: LetterLeagueRound;
     theWord: string | undefined;
+    settings: LetterLeagueSettings;
+    setSettings: (value: LetterLeagueSettings) => void;
 }
 
 const LetterLeagueGameContext = createContext<LetterLeagueGameContextType | undefined>(undefined);
@@ -32,6 +35,7 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
     const [rounds, setRounds] = useState<LetterLeagueRound[]>(game.rounds);
     const [currentRound, setCurrentRound] = useState<LetterLeagueRound>(getCurrentRound());
     const [theWord, setTheWord] = useState<string | undefined>(undefined);
+    const [settings, setSettings] = useState<LetterLeagueSettings>({ showOnScreenKeyboard: true });
 
     const id = game.id;
     const userHostid =  game.userHostId;
@@ -93,6 +97,11 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
       console.log("end of game");
     }
 
+    function toggleOnScreenKeyboard() {
+      settings.showOnScreenKeyboard = !settings.showOnScreenKeyboard;
+      setSettings(settings);
+    }
+
     return (
         <LetterLeagueGameContext.Provider value={{
           currentGuessIndex,
@@ -106,7 +115,9 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
           createdAt,
           rounds,
           currentRound,
-          theWord }}
+          theWord,
+          settings,
+          setSettings }}
         >
           {children}
         </LetterLeagueGameContext.Provider>

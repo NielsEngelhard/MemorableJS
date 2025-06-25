@@ -3,9 +3,18 @@ import CardBody from "@/components/ui/card/CardBody";
 import SwitchInput from "@/components/ui/form/SwitchInput";
 import SubTitleText from "@/components/ui/text/SubTitleText";
 import { Settings } from "lucide-react";
+import { useLetterLeagueGame } from "../letter-league-game-context";
+import { LetterLeagueSettings } from "@/drizzle/schema/model/letter-league-models";
 
 export default function QuickSettings() {
+    const { settings, setSettings } = useLetterLeagueGame();
 
+    function toggleOnScreenKeyboard() {
+        setSettings({
+            ...settings,
+            showOnScreenKeyboard: !settings.showOnScreenKeyboard
+        });
+    }
 
     return (
         <Card>
@@ -16,7 +25,7 @@ export default function QuickSettings() {
                 />
 
                 <div className="flex flex-col gap-4">
-                    <SwitchInput label="On-screen keyboard" />
+                    <SwitchInput label="On-screen keyboard" initialValue={settings.showOnScreenKeyboard} onChange={toggleOnScreenKeyboard} />
                     <SwitchInput label="Sound effects" />
                 </div>
             </CardBody>

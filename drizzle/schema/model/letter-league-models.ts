@@ -16,3 +16,7 @@ export interface LetterLeagueGuessResponse {
     letterStates: ValidatedLetter[];
     theWord?: string; // The word is send along when the current round is over
 }
+
+export interface LetterLeagueSettings {
+    showOnScreenKeyboard?: boolean;
+}
