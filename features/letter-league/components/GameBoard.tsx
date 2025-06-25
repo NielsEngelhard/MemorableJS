@@ -72,6 +72,10 @@ export default function GameBoard({  }: Props) {
         setCurrentGuess(currentGuess + keyboardKey);
     }
 
+    function onKeyDelete() {
+        setCurrentGuess((prev) => prev.slice(0, -1));
+    }
+
     async function onSubmit() {
         if (currentGuess.length != wordLength) return;
 
@@ -119,12 +123,17 @@ export default function GameBoard({  }: Props) {
                 :
                 settings.showOnScreenKeyboard
                 ?
-                <CustomKeyboard
-                    onKeyPress={onKeyPress}
-                    correctKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Correct && l.letter !== undefined).map(l => l.letter as string)}
-                    warningKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.WrongPosition && l.letter !== undefined).map(l => l.letter as string)}
-                    errorKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Wrong && l.letter !== undefined).map(l => l.letter as string)}
-                />
+                    <div className="flex flex-col items-center gap-2">
+                        <CustomKeyboard
+                            onKeyPress={onKeyPress}
+                            onDelete={onKeyDelete}
+                            onEnter={onSubmit}
+                            correctKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Correct && l.letter !== undefined).map(l => l.letter as string)}
+                            warningKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.WrongPosition && l.letter !== undefined).map(l => l.letter as string)}
+                            errorKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Wrong && l.letter !== undefined).map(l => l.letter as string)}
+                        />
+                        <Button className="w-fit" onClick={onSubmit} disabled={!canGuess}>Guess</Button>
+                    </div>
                 :
                 <div className="w-full lg:px-10 gap-2 flex flex-col">
                     <TextInput
