@@ -12,7 +12,8 @@ import MapLetterLeagueGameFromDb from "./mappers";
 import { LetterLeagueGuessResponse, ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import validateLetterLeagueWord from "./word/word-validator";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
-import { undefinedDataE } from "@hookform/resolvers/ajv/src/__tests__/__fixtures__/data-errors.js";
+
+// TODO actions splitsen naar action per file? miss command and query mappie erbij?
 
 export async function CreateGame(command: CreateLetterLeagueGame) {
     const words = GetRandomWords(command.wordLength, "nl", command.totalRounds);
@@ -147,10 +148,10 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
             .where(eq(LetterLeagueGameTable.id, command.gameId));
     }
     
+    const triggerNextRound = (isCorrectGuess || isLastGuessOfRound);
     return {
         guess: validatedWord,
         letterStates: round.guessedLetters,
-        triggerNextRound: isCorrectGuess && !isLastRound,
-        theWord: isCorrectGuess || isLastGuessOfRound ? currentWord.word : undefined
+        theWord: triggerNextRound ? currentWord.word : undefined
     };
 }

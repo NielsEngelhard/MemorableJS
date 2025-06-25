@@ -7,6 +7,7 @@ import { useLetterLeagueGame } from "../letter-league-game-context";
 import GameModeToText from "@/features/i18n/enum-to-text";
 import TitleText from "@/components/ui/text/TitleText";
 import { LETTER_ANIMATION_TIME_MS } from "../letter-league-constants";
+import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
 
 interface Props {
 
@@ -99,7 +100,7 @@ export default function GameBoard({  }: Props) {
                     {displayPreviousGuesses()}
 
                     {/* Current guess */}
-                    {displayCurrentGuess()}
+                    {currentRound.guesses.length < maxAttemptsPerRound && displayCurrentGuess()}
 
                     {/* Empty Rows */}
                     {Array.from({ length: nEmptyRows }, (_, index) => (
@@ -112,20 +113,21 @@ export default function GameBoard({  }: Props) {
                 <TitleText>{theWord}</TitleText>
                 :
                 // Keyboard/Input
-                <div className="w-full lg:px-10 gap-2 flex flex-col">
-                    <TextInput
-                        disabled={!canGuess}
-                        value={currentGuess}
-                        maxLength={wordLength}
-                        centerText={true}
-                        className="!font-monos flex items-center"
-                        placeholder="Enter your guess ..."
-                        supportedSymbols={/^[a-zA-Z]$/}
-                        onChange={onInputChange}
-                    />
+                // <div className="w-full lg:px-10 gap-2 flex flex-col">
+                //     <TextInput
+                //         disabled={!canGuess}
+                //         value={currentGuess}
+                //         maxLength={wordLength}
+                //         centerText={true}
+                //         className="!font-monos flex items-center"
+                //         placeholder="Enter your guess ..."
+                //         supportedSymbols={/^[a-zA-Z]$/}
+                //         onChange={onInputChange}
+                //     />
 
-                    <Button className="w-full" onClick={onSubmit} disabled={!canGuess}>Guess</Button>
-                </div>   
+                //     <Button className="w-full" onClick={onSubmit} disabled={!canGuess}>Guess</Button>
+                // </div>   
+                <CustomKeyboard />
             }
             </div>            
         </div>

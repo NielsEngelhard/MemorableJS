@@ -60,12 +60,10 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
 
       const letterAnimationLength = LETTER_ANIMATION_TIME_MS * wordLength;
 
-      if (response.triggerNextRound) {
-        if (response.theWord) {
-          setTimeout(() => {
-            setTheWord(response.theWord);
-          }, letterAnimationLength);
-        }
+      if (response.theWord) {
+        setTimeout(() => {
+          setTheWord(response.theWord);
+        }, letterAnimationLength);
 
         setTimeout(() => {
           triggerNextRound();

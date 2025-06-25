@@ -1,4 +1,4 @@
-import { integer, jsonb, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { boolean, integer, jsonb, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt } from "../schema-helpers";
 import { UsersTable } from "./users";
 import { gameVisibilityEnum } from "./enum/game-visibility";
@@ -24,6 +24,7 @@ export const LetterLeagueGameTable = pgTable("letter_league_game", {
     currentRound: integer().notNull().default(1),
     currentGuess: integer().notNull().default(1),
     rounds: jsonb('rounds').$type<LetterLeagueRound[]>().notNull().default([]),
+    isActive: boolean().default(false),
     createdAt
 });
 export type DbLetterLeagueGame = InferSelectModel<typeof LetterLeagueGameTable>;

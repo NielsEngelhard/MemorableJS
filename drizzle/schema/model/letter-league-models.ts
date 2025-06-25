@@ -14,6 +14,5 @@ export type ValidatedWord = {
 export interface LetterLeagueGuessResponse {
     guess: ValidatedWord;
     letterStates: ValidatedLetter[];
-    theWord?: string;
-    triggerNextRound?: boolean;
+    theWord?: string; // The word is send along when the current round is over
 }

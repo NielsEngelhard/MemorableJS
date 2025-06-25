@@ -28,7 +28,7 @@ export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
             resolver: zodResolver(createLetterLeagueGameSchema),
             defaultValues: {
                 wordLength: 6,
-                timePerTurn: 30,
+                timePerTurn: undefined,
                 totalRounds: 4,
                 maxAttemptsPerRound: 6,
                 gameVisibility: GameVisibility.Private,
@@ -48,11 +48,13 @@ export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
                     <form className="flex flex-col gap-2 lg:gap-4" onSubmit={form.handleSubmit(onSubmit)}>
                         <WordLengthInput></WordLengthInput>
                         <TotalRoundsInput></TotalRoundsInput>
-                        <MaxAttemptsInput></MaxAttemptsInput>
-                        <TimePerTurnInput></TimePerTurnInput>
+                        <MaxAttemptsInput></MaxAttemptsInput>                        
 
                         {gameMode == GameMode.Multiplayer && (
-                            <VisibilityInput></VisibilityInput>
+                            <>
+                                <TimePerTurnInput></TimePerTurnInput>
+                                <VisibilityInput></VisibilityInput>
+                            </>
                         )}
 
                         <Button type="submit">

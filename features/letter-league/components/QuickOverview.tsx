@@ -18,7 +18,7 @@ export default function QuickOverview() {
                 />
 
                 <div className="flex flex-col gap-2">
-                    <OverviewStatistic label="Time per Guess:" value={timePerTurn ? `${timePerTurn}s` : `∞`} />
+                    {timePerTurn && <OverviewStatistic label="Time per Guess:" value={timePerTurn ? `${timePerTurn}s` : `∞`} />}
                     <OverviewStatistic label="Total Rounds" value={totalRounds} />
                     <OverviewStatistic label="Game Mode" value={gameMode} />
                     <OverviewStatistic label="Created" value={formatDateToDayMonthNameYearTime(createdAt)} />
