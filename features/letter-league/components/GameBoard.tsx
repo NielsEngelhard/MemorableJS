@@ -8,6 +8,7 @@ import GameModeToText from "@/features/i18n/enum-to-text";
 import TitleText from "@/components/ui/text/TitleText";
 import { LETTER_ANIMATION_TIME_MS } from "../letter-league-constants";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
+import { LetterState } from "@/drizzle/schema/enum/letter-state";
 
 interface Props {
 
@@ -67,6 +68,10 @@ export default function GameBoard({  }: Props) {
         setCurrentGuess(event.target.value);
     }
 
+    function onKeyPress(keyboardKey: string) {
+        setCurrentGuess(currentGuess + keyboardKey);
+    }
+
     async function onSubmit() {
         if (currentGuess.length != wordLength) return;
 
@@ -114,7 +119,12 @@ export default function GameBoard({  }: Props) {
                 :
                 settings.showOnScreenKeyboard
                 ?
-                <CustomKeyboard />
+                <CustomKeyboard
+                    onKeyPress={onKeyPress}
+                    correctKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Correct && l.letter !== undefined).map(l => l.letter as string)}
+                    warningKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.WrongPosition && l.letter !== undefined).map(l => l.letter as string)}
+                    errorKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Wrong && l.letter !== undefined).map(l => l.letter as string)}
+                />
                 :
                 <div className="w-full lg:px-10 gap-2 flex flex-col">
                     <TextInput

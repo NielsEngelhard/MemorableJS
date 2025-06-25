@@ -24,7 +24,6 @@ export const LetterLeagueGameTable = pgTable("letter_league_game", {
     currentRound: integer().notNull().default(1),
     currentGuess: integer().notNull().default(1),
     rounds: jsonb('rounds').$type<LetterLeagueRound[]>().notNull().default([]),
-    isActive: boolean().default(false),
     createdAt
 });
 export type DbLetterLeagueGame = InferSelectModel<typeof LetterLeagueGameTable>;
