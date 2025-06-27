@@ -26,6 +26,8 @@ export default function QuickSettings() {
                 <div className="flex flex-col gap-4">
                     <SwitchInput label="On-screen keyboard" initialValue={settings.showOnScreenKeyboard} onChange={toggleOnScreenKeyboard} />
                     <SwitchInput label="Sound effects" />
+                    <SwitchInput label="Prefill guess" />
+                    <SwitchInput label="Show current state" />
                 </div>
             </CardBody>
         </Card>

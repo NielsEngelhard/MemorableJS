@@ -88,7 +88,7 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
       }
 
       setCurrentGuessIndex(1);
-      setCurrentRoundIndex(currentRoundIndex + 1);
+      setCurrentRoundIndex(prev => prev + 1);
       setCurrentRound(getCurrentRound());
       setTheWord(undefined);
     }
