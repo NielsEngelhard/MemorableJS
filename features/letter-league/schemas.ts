@@ -32,8 +32,18 @@ export interface LetterLeagueGuessCommand {
     word: string;
 }
 
-export interface LetterLeagueRound {
+export type LetterLeagueRound = {
+    word: LetterLeagueWord; 
     roundNumber: number;
     guesses: ValidatedWord[];
     guessedLetters: ValidatedLetter[];
+}
+
+export type LetterLeagueWord = {
+    letters: LetterLeagueWordLetter[];
+}
+
+export type LetterLeagueWordLetter = {
+    letter: string;
+    guessed: boolean;
 }
