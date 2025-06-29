@@ -4,21 +4,20 @@ import { db } from "@/drizzle/db";
 import { getCurrentUser } from "../auth/current-user";
 import { generateGameId } from "../game/game-id-generator";
 import { CreateLetterLeagueGame, LetterLeagueGame, LetterLeagueGuessCommand, LetterLeagueRound } from "./schemas";
-import GetRandomWords from "./word/actions";
 import { LetterLeagueGameTable } from "@/drizzle/schema";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { eq } from "drizzle-orm";
 import MapLetterLeagueGameFromDb from "./mappers";
 import { LetterLeagueGuessResponse, ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import validateLetterLeagueWord from "./word/word-validator";
-import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import LetterLeagueRoundFactory from "./letter-league-round-factory";
 import { LetterLeagueWordFactory } from "./word/word-factory";
+import { IWordService, TxtFileWordService } from "./word/word-service";
 
 // TODO actions splitsen naar action per file? miss command and query mappie erbij?
 
 export async function CreateGame(command: CreateLetterLeagueGame) {
-    const words = GetRandomWords(command.wordLength, "nl", command.totalRounds);
+    const words = await getWords(command.totalRounds, command.wordLength, "nl");
 
     const userId = (await getCurrentUser())?.user.id;
     if (!userId) throw new Error("User seems not logged in");
@@ -131,4 +130,9 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
         letterStates: round.guessedLetters,
         theWord: triggerNextRound ? round.word.word : undefined
     };
+}
+
+async function getWords(amount: number, wordLength: number, language: string): Promise<string[]> {
+    const wordService: IWordService = new TxtFileWordService();
+    return await wordService.getWords(amount, wordLength, language);
 }
