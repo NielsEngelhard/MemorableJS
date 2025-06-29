@@ -13,7 +13,7 @@ export default function MapLetterLeagueGameFromDb(game: DbLetterLeagueGame): Let
         timePerTurn: game.timePerTurn,
         totalRounds: game.totalRounds,
         userHostId: game.userHostId,
-        wordLength: game.words[0].word.length,
+        wordLength: game.wordLength,
         rounds: game.rounds,
         createdAt: game.createdAt,
     }

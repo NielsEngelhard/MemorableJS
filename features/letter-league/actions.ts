@@ -12,6 +12,8 @@ import MapLetterLeagueGameFromDb from "./mappers";
 import { LetterLeagueGuessResponse, ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
 import validateLetterLeagueWord from "./word/word-validator";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
+import LetterLeagueRoundFactory from "./letter-league-round-factory";
+import { LetterLeagueWordFactory } from "./word/word-factory";
 
 // TODO actions splitsen naar action per file? miss command and query mappie erbij?
 
@@ -27,19 +29,12 @@ export async function CreateGame(command: CreateLetterLeagueGame) {
         timePerTurn: command.timePerTurn,
         totalRounds: words.length,
         userHostId: userId,
-        words: words,
         visibility: command.gameVisibility ?? GameVisibility.Private,
         gameMode: command.gameMode,
         wordLength: command.wordLength,
         currentGuess: 1,
         currentRound: 1,
-        rounds: words.map((word, index) => {
-            return {
-                roundNumber: word.round,
-                guessedLetters: [{ letter: word.word[0], position: 1, state: LetterState.Correct }],
-                guesses: []
-            }                            
-        }),
+        rounds: LetterLeagueRoundFactory.createRounds(LetterLeagueWordFactory.createFromArray(words)),
     }).returning({
         gameId: LetterLeagueGameTable.id
     });
@@ -80,42 +75,24 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     // if (game.userId !== session.user.id) {
     //     throw new Error("User not authorized to play this game");
     // }
-    
-    const currentWord = game.words.find(w => w.round == game.currentRound);
-    if (!currentWord) throw Error(`There is no word for round ${game.currentRound}`);
 
+    let round = game.rounds.find(g => g.roundNumber == game.currentRound);
+    if (!round) throw Error(`LETTERLEAGUE: INVALID STATE could not find round`);    
+    
     // Validate word
-    const validatedLetters = validateLetterLeagueWord(command.word, currentWord.word);
-    if (validatedLetters == null) throw Error("Invalid guess");
+    const validationResult = validateLetterLeagueWord(command.word, round.word);
+    if (validationResult == null) throw Error("Invalid guess");
     
     const validatedWord: ValidatedWord = {
         guess: game.currentGuess,
-        letters: validatedLetters,        
+        letters: validationResult.validatedLetters,        
     };
-    
-    let round = game.rounds.find(g => g.roundNumber == game.currentRound);
-    if (!round) {
-        round = {
-            roundNumber: game.currentRound,
-            guesses: [],
-            guessedLetters: []
-        }
-        game.rounds.push(round);
-    }
     
     // Add the validated word to the guesses for this round
     round.guesses.push(validatedWord);
 
     // Add new validated letters without duplicating entries with same letter and state
-    round.guessedLetters = [
-    ...round.guessedLetters,
-    ...validatedLetters.filter(newLetter => 
-        !round.guessedLetters.some(existingLetter => 
-        existingLetter.letter === newLetter.letter && 
-        existingLetter.state === newLetter.state
-        )
-    )
-    ];
+    // TODO:
 
     await db.update(LetterLeagueGameTable)
         .set({
@@ -124,11 +101,11 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
         })
         .where(eq(LetterLeagueGameTable.id, command.gameId));
 
-    const isCorrectGuess = validatedLetters.every(letter => letter.state === LetterState.Correct);
-    const isLastGuessOfRound = game.currentGuess >= game.maxAttemptsPerRound || isCorrectGuess;
+    const maxGuessesReached = game.currentGuess >= game.maxAttemptsPerRound;
+    const isLastGuessOfRound = maxGuessesReached || validationResult.allCorrect;
     const isLastRound = game.currentRound >= game.totalRounds;
 
-    if (isCorrectGuess) {
+    if (validationResult.allCorrect) {
         // GOTO NEXT ROUND IF NOT LAST
         await db.update(LetterLeagueGameTable)
             .set({
@@ -148,10 +125,10 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
             .where(eq(LetterLeagueGameTable.id, command.gameId));
     }
     
-    const triggerNextRound = (isCorrectGuess || isLastGuessOfRound);
+    const triggerNextRound = (validationResult.allCorrect || isLastGuessOfRound);
     return {
         guess: validatedWord,
         letterStates: round.guessedLetters,
-        theWord: triggerNextRound ? currentWord.word : undefined
+        theWord: triggerNextRound ? round.word.word : undefined
     };
 }

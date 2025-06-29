@@ -1,10 +1,5 @@
-import { LetterLeagueGameWord } from "@/drizzle/schema";
-
-export default function GetRandomWords(wordLength: number, language: string, amount: number): LetterLeagueGameWord[] {
+export default function GetRandomWords(wordLength: number, language: string, amount: number): string[] {
     return Array.from({ length: amount}).map((value, index) => (
-      {
-        round: index + 1,
-        word: "water"
-      }
+      "water"
     ));
 }
