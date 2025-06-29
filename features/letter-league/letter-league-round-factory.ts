@@ -1,3 +1,4 @@
+import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { LetterLeagueRound, LetterLeagueWord } from "./schemas";
 
 export default class LetterLeagueRoundFactory {
@@ -5,7 +6,11 @@ export default class LetterLeagueRoundFactory {
         return {
             word: word,
             roundNumber: roundNumber,
-            guessedLetters: [word.letters[0]],
+            guessedLetters: [{
+                letter: word.letters[0].letter,
+                state: LetterState.Correct,
+                position: 0
+            }],
             guesses: [],            
         }
     }
