@@ -8,7 +8,6 @@ export interface WordValidationResponse {
   allCorrect: boolean;
 }
 
-// TODO: UNIT TEST
 export default function validateLetterLeagueWord(guess: string, actualWord: LetterLeagueWord): WordValidationResponse {
   if (guess.length !== actualWord.letters.length) throw Error("INVALID INPUT: guess must be as long as actual guess");
 
