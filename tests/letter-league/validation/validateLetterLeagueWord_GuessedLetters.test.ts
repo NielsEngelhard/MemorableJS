@@ -3,7 +3,7 @@ import { ValidatedLetter } from "@/drizzle/schema/model/letter-league-models";
 import { LetterLeagueWordFactory } from "@/features/letter-league/word/word-factory";
 import validateLetterLeagueWord from "@/features/letter-league/word/word-validator";
 
-describe("wordValidationAlgorithm", () => {
+describe("wordValidationAlgorithm_GuessedLettersTests", () => {
     it("should return only the new entry that was not already guessed", () => {
         const actual = LetterLeagueWordFactory.create("water");
         actual.letters[0].guessed = true;  // w w

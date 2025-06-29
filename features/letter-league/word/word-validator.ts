@@ -5,6 +5,7 @@ import { LetterLeagueWord } from "../schemas";
 export interface WordValidationResponse {
   validatedLetters: ValidatedLetter[];
   allCorrect: boolean;
+  score: number; // Score for this specific guess
 }
 
 export default function validateLetterLeagueWord(guess: string, actualWord: LetterLeagueWord, guessedLetters: ValidatedLetter[] = []): WordValidationResponse {
@@ -59,7 +60,8 @@ export default function validateLetterLeagueWord(guess: string, actualWord: Lett
   
   return {
     validatedLetters: validatedLetters,
-    allCorrect: validatedLetters.every(letter => letter.state === LetterState.Correct)
+    allCorrect: validatedLetters.every(letter => letter.state === LetterState.Correct),
+    score: 10
   };
 }
 
