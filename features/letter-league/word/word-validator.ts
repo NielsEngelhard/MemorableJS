@@ -4,15 +4,13 @@ import { LetterLeagueWord } from "../schemas";
 
 export interface WordValidationResponse {
   validatedLetters: ValidatedLetter[];
-  newEntries: ValidatedLetter[];
   allCorrect: boolean;
 }
 
-export default function validateLetterLeagueWord(guess: string, actualWord: LetterLeagueWord): WordValidationResponse {
+export default function validateLetterLeagueWord(guess: string, actualWord: LetterLeagueWord, guessedLetters: ValidatedLetter[] = []): WordValidationResponse {
   if (guess.length !== actualWord.letters.length) throw Error("INVALID INPUT: guess must be as long as actual guess");
 
   let validatedLetters: ValidatedLetter[] = new Array(guess.length);
-  let newEntries: ValidatedLetter[] = [];
 
   // First determine all correct letters. This is necesarry to determine after that if other guessed letters are wrong positioned or wrong.
   for (var i=0; i<guess.length; i++) {
@@ -20,13 +18,16 @@ export default function validateLetterLeagueWord(guess: string, actualWord: Lett
     const actualLetter = actualWord.letters[i];
 
     if (actualLetter.guessed || guessedLetter == actualLetter.letter.toLowerCase()) {
-      validatedLetters[i] = {
+      const letterData = {
         position: i + 1,
         letter: guessedLetter,
-        state: LetterState.Correct        
-      }   
+        state: LetterState.Correct  
+      };
 
+      validatedLetters[i] = letterData;
       actualWord.letters[i].guessed = true;
+
+      updateGuessedLetters(letterData, guessedLetters);
     }
   }
 
@@ -39,26 +40,41 @@ export default function validateLetterLeagueWord(guess: string, actualWord: Lett
     const guessedLetter = guess[i].toLowerCase();
     const letterOnWrongPosition = unguessedLetters.includes(guessedLetter);
   
+    const letterData = {
+      position: i + 1,
+      letter: guessedLetter,
+      state: LetterState.Wrong        
+    }   
+
     if (letterOnWrongPosition) {
-      validatedLetters[i] = {
-        position: i + 1, // TODO: ga ik position ooit gebruiken uberhaupt??
-        letter: guessedLetter,
-        state: LetterState.Correct        
-      }   
-    } else {
-      validatedLetters[i] = {
-        position: i + 1, // TODO: ga ik position ooit gebruiken uberhaupt??
-        letter: guessedLetter,
-        state: LetterState.WrongPosition        
-      }  
-    }
+      letterData.state = LetterState.WrongPosition;
+
+    } else { // WRONG entirely
+      letterData.state = LetterState.Wrong;
+    };
+
+    updateGuessedLetters(letterData, guessedLetters);
+    validatedLetters[i] = letterData;
   }
-
-
   
   return {
     validatedLetters: validatedLetters,
-    newEntries: newEntries,
     allCorrect: validatedLetters.every(letter => letter.state === LetterState.Correct)
   };
+}
+
+function updateGuessedLetters(letterData: ValidatedLetter, guessedLetters: ValidatedLetter[]) {
+  // Add the letter if it doesn't already exist with the same state
+  if (!guessedLetters.some(l => l.letter === letterData.letter && l.state === letterData.state)) {
+    guessedLetters.push(letterData);
+  }
+
+  // Special case: if letter is Wrong, remove any previous entries with different states (if any)
+  if (letterData.state === LetterState.Wrong) {
+    for (let i = guessedLetters.length - 1; i >= 0; i--) {
+      if (guessedLetters[i].letter === letterData.letter && guessedLetters[i].state !== LetterState.Wrong) {
+        guessedLetters.splice(i, 1);
+      }
+    }
+  }
 }

@@ -8,19 +8,15 @@ describe("wordValidationAlgorithm_CoreTests", () => {
         expect(result).not.toBeNull();
     });
 
-    it("should return all correct when the guess is correct", () => {
-        const word = LetterLeagueWordFactory.create("klonten");
-        const result = validateLetterLeagueWord("klonten", word);
-        expect(result.allCorrect).toBe(true);
-    });
-
     test.each([
-        ['water', 'guess', true],
-        ['abcde', 'fhijg', false],
-        ['apple', 'fruit', true],
-    ])('should not return allcorrect when the guess is not entirely correct', (guess, actual) => {
+        ['water', 'water', true],
+        ['waterpolo', 'waterpolo', true],
+        ['water', 'wator', false],
+        ['apple', 'fruit', false],
+        ['waterpolo', 'wateryolo', false],
+    ])('guess "%s" against actual "%s" returns allCorrect: %s', (guess, actual, expected) => {
         const word = LetterLeagueWordFactory.create(actual);
         const result = validateLetterLeagueWord(guess, word);
-        expect(result.allCorrect).toBe(false);
+        expect(result.allCorrect).toBe(expected);
     });
 });
