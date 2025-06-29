@@ -79,7 +79,7 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     if (!round) throw Error(`LETTERLEAGUE: INVALID STATE could not find round`);    
     
     // Validate word
-    const validationResult = validateLetterLeagueWord(command.word, round.word);
+    const validationResult = validateLetterLeagueWord(command.word, round.word, round.guessedLetters);
     if (validationResult == null) throw Error("Invalid guess");
     
     const validatedWord: ValidatedWord = {
@@ -89,9 +89,6 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     
     // Add the validated word to the guesses for this round
     round.guesses.push(validatedWord);
-
-    // Add new validated letters without duplicating entries with same letter and state
-    // TODO:
 
     await db.update(LetterLeagueGameTable)
         .set({
