@@ -3,7 +3,7 @@ import CardBody from "@/components/ui/card/CardBody";
 import SwitchInput from "@/components/ui/form/SwitchInput";
 import SubTitleText from "@/components/ui/text/SubTitleText";
 import { Settings } from "lucide-react";
-import { useLetterLeagueGame } from "../letter-league-game-context";
+import { useLetterLeagueGame } from "../../letter-league-game-context";
 
 export default function QuickSettings() {
     const { settings, setSettings } = useLetterLeagueGame();

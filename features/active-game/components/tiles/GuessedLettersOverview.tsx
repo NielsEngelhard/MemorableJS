@@ -1,12 +1,11 @@
 import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
-import SwitchInput from "@/components/ui/form/SwitchInput";
 import SubTitleText from "@/components/ui/text/SubTitleText";
 import { LetterText } from "lucide-react";
-import { useLetterLeagueGame } from "../letter-league-game-context";
 import { useEffect, useState } from "react";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
-import LetterTile from "../../word/components/LetterTile";
+import { useLetterLeagueGame } from "../../letter-league-game-context";
+import LetterTile from "@/features/word/components/LetterTile";
 
 export default function GuessedLettersOverview() {
     const { currentRound } = useLetterLeagueGame();
