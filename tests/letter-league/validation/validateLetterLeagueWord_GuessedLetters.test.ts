@@ -1,7 +1,7 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ValidatedLetter } from "@/drizzle/schema/model/letter-league-models";
-import { LetterLeagueWordFactory } from "@/features/letter-league/word/word-factory";
-import validateLetterLeagueWord from "@/features/letter-league/word/word-validator";
+import { LetterLeagueWordFactory } from "@/features/word/word-factory";
+import validateLetterLeagueWord from "@/features/word/word-validator";
 
 describe("wordValidationAlgorithm_GuessedLettersTests", () => {
     it("should return only the new entry that was not already guessed", () => {

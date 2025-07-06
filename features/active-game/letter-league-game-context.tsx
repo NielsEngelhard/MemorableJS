@@ -1,9 +1,9 @@
 import { GameMode } from "@/drizzle/schema";
 import React, { createContext, useContext, useState } from "react";
 import { LetterLeagueGame, LetterLeagueRound } from "./schemas";
-import { submitLetterLeagueGuess } from "./actions";
-import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from "./letter-league-constants";
+import { submitLetterLeagueGuess } from "../letter-league/actions";
 import { LetterLeagueSettings } from "@/drizzle/schema/model/letter-league-models";
+import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from "./active-game-constants";
 
 type LetterLeagueGameContextType = {
     maxAttemptsPerRound: number;

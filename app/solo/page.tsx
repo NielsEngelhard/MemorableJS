@@ -2,7 +2,7 @@
 
 import PageBase from "@/components/layout/PageBase";
 import { GameMode } from "@/drizzle/schema/enum/game-mode";
-import CreateLetterLeagueGameForm from "@/features/letter-league/components/CreateLetterLeagueGameForm";
+import CreateLetterLeagueGameForm from "@/features/game/create/CreateLetterLeagueGameForm";
 
 export default function SoloLetterLeagueGamePage() {
     return (

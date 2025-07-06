@@ -3,16 +3,16 @@
 import { db } from "@/drizzle/db";
 import { getCurrentUser } from "../auth/current-user";
 import { generateGameId } from "../game/game-id-generator";
-import { CreateLetterLeagueGame, LetterLeagueGame, LetterLeagueGuessCommand, LetterLeagueRound } from "./schemas";
+import { CreateLetterLeagueGame, LetterLeagueGame, LetterLeagueGuessCommand, LetterLeagueRound } from "../active-game/schemas";
 import { LetterLeagueGameTable } from "@/drizzle/schema";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { eq } from "drizzle-orm";
-import MapLetterLeagueGameFromDb from "./mappers";
+import MapLetterLeagueGameFromDb from "../active-game/mappers";
 import { LetterLeagueGuessResponse, ValidatedWord } from "@/drizzle/schema/model/letter-league-models";
-import validateLetterLeagueWord from "./word/word-validator";
-import LetterLeagueRoundFactory from "./letter-league-round-factory";
-import { LetterLeagueWordFactory } from "./word/word-factory";
-import { IWordService, TxtFileWordService } from "./word/word-service";
+import validateLetterLeagueWord from "../word/word-validator";
+import LetterLeagueRoundFactory from "../active-game/in-game-factory";
+import { LetterLeagueWordFactory } from "../word/word-factory";
+import { IWordService, TxtFileWordService } from "../word/word-service";
 
 // TODO actions splitsen naar action per file? miss command and query mappie erbij?
 

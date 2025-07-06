@@ -1,4 +1,4 @@
-import { LetterLeagueWord } from "../schemas";
+import { LetterLeagueWord } from "../active-game/schemas";
 
 export class  LetterLeagueWordFactory {
     static create(word: string): LetterLeagueWord {

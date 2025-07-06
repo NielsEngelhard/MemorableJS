@@ -1,6 +1,6 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ValidatedLetter } from "@/drizzle/schema/model/letter-league-models";
-import { LetterLeagueWord } from "../schemas";
+import { LetterLeagueWord } from "../active-game/schemas";
 
 export interface WordValidationResponse {
   validatedLetters: ValidatedLetter[];

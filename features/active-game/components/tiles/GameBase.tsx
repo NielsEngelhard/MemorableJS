@@ -1,10 +1,10 @@
 import Card from "@/components/ui/card/Card";
-import GameBoard from "./GameBoard";
 import CardBody from "@/components/ui/card/CardBody";
-import QuickSettings from "./QuickSettings";
-import GuessedLettersOverview from "./GuessedLettersOverview";
-import QuickOverview from "./QuickOverview";
 import CurrentScore from "./CurrentScore";
+import QuickSettings from "./QuickSettings";
+import QuickOverview from "./QuickOverview";
+import GameBoard from "../board/GameBoard";
+import GuessedLettersOverview from "./GuessedLettersOverview";
 
 interface Props {
 }

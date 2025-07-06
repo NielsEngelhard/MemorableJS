@@ -6,7 +6,7 @@ import { LetterText } from "lucide-react";
 import { useLetterLeagueGame } from "../letter-league-game-context";
 import { useEffect, useState } from "react";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
-import LetterTile from "../word/components/LetterTile";
+import LetterTile from "../../word/components/LetterTile";
 
 export default function GuessedLettersOverview() {
     const { currentRound } = useLetterLeagueGame();

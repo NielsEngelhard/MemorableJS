@@ -1,5 +1,5 @@
-import { LetterLeagueWordFactory } from "@/features/letter-league/word/word-factory";
-import validateLetterLeagueWord from "@/features/letter-league/word/word-validator";
+import { LetterLeagueWordFactory } from "@/features/word/word-factory";
+import validateLetterLeagueWord from "@/features/word/word-validator";
 
 describe("wordValidationAlgorithm_CoreTests", () => {
     it("should not return null with valid input", () => {

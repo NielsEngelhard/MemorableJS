@@ -4,7 +4,7 @@ import { UsersTable } from "./users";
 import { gameVisibilityEnum } from "./enum/game-visibility";
 import { gameModeEnum } from "../schema";
 import { InferSelectModel } from "drizzle-orm";
-import { LetterLeagueRound } from "@/features/letter-league/schemas";
+import { LetterLeagueRound } from "@/features/active-game/schemas";
 
 export const LetterLeagueGameTable = pgTable("letter_league_game", {
     id: text().primaryKey(),

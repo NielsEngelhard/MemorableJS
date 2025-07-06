@@ -1,14 +1,14 @@
 import { ValidatedLetter } from "@/drizzle/schema/model/letter-league-models";
-import LetterRow from "../word/components/LetterRow";
+import LetterRow from "../../../word/components/LetterRow";
 import TextInput from "@/components/ui/form/TextInput";
 import Button from "@/components/ui/Button";
 import { useEffect, useState } from "react";
-import { useLetterLeagueGame } from "../letter-league-game-context";
+import { useLetterLeagueGame } from "../../letter-league-game-context";
 import GameModeToText from "@/features/i18n/enum-to-text";
 import TitleText from "@/components/ui/text/TitleText";
-import { LETTER_ANIMATION_TIME_MS } from "../letter-league-constants";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
+import { LETTER_ANIMATION_TIME_MS } from "../../active-game-constants";
 
 interface Props {
 
