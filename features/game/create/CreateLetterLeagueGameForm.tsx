@@ -13,11 +13,11 @@ import TimePerTurnInput from "./inputs/TimePerTurnInput";
 import Button from "@/components/ui/Button";
 import { Play } from "lucide-react";
 import TextWithIcon from "@/components/ui/text/TextWithIcon";
-import { CreateGame } from "../../letter-league/actions";
 import { redirect } from 'next/navigation';
 import ShowFormErrors from "@/components/ui/form/ShowFormErrors";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { GameMode } from "@/drizzle/schema/enum/game-mode";
+import { CreateGame } from "@/features/active-game/actions";
 
 interface Props {
     gameMode: GameMode;
