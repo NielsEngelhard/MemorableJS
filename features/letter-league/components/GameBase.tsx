@@ -4,6 +4,7 @@ import CardBody from "@/components/ui/card/CardBody";
 import QuickSettings from "./QuickSettings";
 import GuessedLettersOverview from "./GuessedLettersOverview";
 import QuickOverview from "./QuickOverview";
+import CurrentScore from "./CurrentScore";
 
 interface Props {
 }
@@ -12,6 +13,7 @@ export default function GameBase({  }: Props) {
     return (
         <div className="w-full flex lg:grid lg:grid-cols-3 flex-col-reverse gap-10">
             <div className="flex flex-col gap-10">
+                <CurrentScore />
                 <GuessedLettersOverview />
                 <QuickSettings />                
                 <QuickOverview />                 

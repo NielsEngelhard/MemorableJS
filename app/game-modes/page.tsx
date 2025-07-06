@@ -21,7 +21,7 @@ export default function LetterLeaguePage() {
                     description="Practice your word skills in a relaxed single-player environment. Perfect for honing your strategy."
                     players="1 player"
                     time="5-10 min"
-                    href="/letter-league/solo"
+                    href="/solo"
                 />
 
                 <GameModeCard
@@ -32,7 +32,7 @@ export default function LetterLeaguePage() {
                     description="Challenge friends or join random players in competitive word battles. Test your speed and vocabulary."
                     players="2-6 players"
                     time="10-20 min"
-                    href="/letter-league/multiplayer"
+                    href="/multiplayer"
                 />    
 
                 <GameModeCard
@@ -44,7 +44,7 @@ export default function LetterLeaguePage() {
                     players="Daily Challenge"
                     time="Once per day"
                     cardClassName="!border-accent/40 !border-2"
-                    href="/letter-league/word-of-the-day"
+                    href="/word-of-the-day"
                 />                                
             </div>
 

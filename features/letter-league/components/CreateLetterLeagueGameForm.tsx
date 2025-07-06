@@ -38,7 +38,7 @@ export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
 
     async function onSubmit(data: CreateLetterLeagueGame) {
         var response = await CreateGame(data);
-        redirect(`/letter-league/play/${response.gameId}`);
+        redirect(`/play/${response.gameId}`);
     }
 
     return (
