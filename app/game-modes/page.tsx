@@ -1,7 +1,7 @@
 import PageBase from "@/components/layout/PageBase";
 import BasicPageIntro from "@/components/ui/block/BasicPageIntro";
 import { GameModeCard } from "@/features/game/components/GameModeCard";
-import LetterLeagueRules from "@/features/game/Rules";
+import LetterLeagueRules from "@/features/game/components/rules/Rules";
 import { Calendar, User, Users } from "lucide-react";
 
 export default function LetterLeaguePage() {

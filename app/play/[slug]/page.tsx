@@ -1,10 +1,10 @@
 "use client"
 import PageBase from "@/components/layout/PageBase";
-import { LetterLeagueGameProvider } from "@/features/active-game/letter-league-game-context";
+import { LetterLeagueGameProvider } from "@/features/game/letter-league-game-context";
 import { LetterLeagueGame } from "@/features/active-game/schemas";
 import { redirect, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import GameBase from "@/features/active-game/components/tiles/GameBase";
+import GameBase from "@/features/game/components/tiles/GameBase";
 import { GetLetterLeagueGame } from "@/features/active-game/actions";
 
 export default function PlayLetterLeagueGame() {
