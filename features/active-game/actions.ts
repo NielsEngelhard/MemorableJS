@@ -4,7 +4,7 @@ import { db } from "@/drizzle/db";
 import { getCurrentUser } from "../auth/current-user";
 import { generateGameId } from "../game/game-id-generator";
 import { CreateLetterLeagueGame, LetterLeagueGame, LetterLeagueGuessCommand, LetterLeagueRound } from "../active-game/schemas";
-import { LetterLeagueGameTable } from "@/drizzle/schema";
+import { GameTable } from "@/drizzle/schema";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { eq } from "drizzle-orm";
 import MapLetterLeagueGameFromDb from "../active-game/mappers";
@@ -22,7 +22,7 @@ export async function CreateGame(command: CreateLetterLeagueGame) {
     const userId = (await getCurrentUser())?.user.id;
     if (!userId) throw new Error("User seems not logged in");
 
-    const result = await db.insert(LetterLeagueGameTable).values({
+    const result = await db.insert(GameTable).values({
         id: generateGameId(),
         maxAttemptsPerRound: command.maxAttemptsPerRound,
         timePerTurn: command.timePerTurn,
@@ -35,7 +35,7 @@ export async function CreateGame(command: CreateLetterLeagueGame) {
         currentRound: 1,
         rounds: LetterLeagueRoundFactory.createRounds(LetterLeagueWordFactory.createFromArray(words)),
     }).returning({
-        gameId: LetterLeagueGameTable.id
+        gameId: GameTable.id
     });
 
     return result[0];
@@ -44,8 +44,8 @@ export async function CreateGame(command: CreateLetterLeagueGame) {
 export async function GetLetterLeagueGame(gameId: string): Promise<LetterLeagueGame | null> {
     const result = await db
         .select()
-        .from(LetterLeagueGameTable)
-        .where(eq(LetterLeagueGameTable.id, gameId));
+        .from(GameTable)
+        .where(eq(GameTable.id, gameId));
 
     if (result.length != 1) {
         console.log(`Could not find game with id ${gameId}`);
@@ -65,8 +65,8 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     
     const result = await db
         .select()
-        .from(LetterLeagueGameTable)
-        .where(eq(LetterLeagueGameTable.id, command.gameId));
+        .from(GameTable)
+        .where(eq(GameTable.id, command.gameId));
     if (result.length != 1) throw Error(`Could not find game with id ${command.gameId}`);
     const game = result[0];
     
@@ -75,58 +75,60 @@ export async function submitLetterLeagueGuess(command: LetterLeagueGuessCommand)
     //     throw new Error("User not authorized to play this game");
     // }
 
-    let round = game.rounds.find(g => g.roundNumber == game.currentRound);
-    if (!round) throw Error(`LETTERLEAGUE: INVALID STATE could not find round`);    
+    // let round = game.rounds.find(g => g.roundNumber == game.currentRound);
+    // if (!round) throw Error(`LETTERLEAGUE: INVALID STATE could not find round`);    
     
     // Validate word
     const validationResult = validateLetterLeagueWord(command.word, round.word, round.guessedLetters);
     if (validationResult == null) throw Error("Invalid guess");
     
     const validatedWord: ValidatedWord = {
-        guess: game.currentGuess,
+        guess: game.currentGuessIndex,
         letters: validationResult.validatedLetters,        
     };
     
     // Add the validated word to the guesses for this round
-    round.guesses.push(validatedWord);
+    // round.guesses.push(validatedWord);
 
-    await db.update(LetterLeagueGameTable)
-        .set({
-            rounds: game.rounds,
-            currentGuess: game.currentGuess + 1
-        })
-        .where(eq(LetterLeagueGameTable.id, command.gameId));
+    // await db.update(GameTable)
+    //     .set({
+    //         rounds: game.rounds,
+    //         currentGuess: game.currentGuess + 1
+    //     })
+    //     .where(eq(LetterLeagueGameTable.id, command.gameId));
 
-    const maxGuessesReached = game.currentGuess >= game.maxAttemptsPerRound;
+    const maxGuessesReached = game.currentGuessIndex >= game.maxAttemptsPerRound;
     const isLastGuessOfRound = maxGuessesReached || validationResult.allCorrect;
-    const isLastRound = game.currentRound >= game.totalRounds;
+    const isLastRound = game.currentRoundIndex >= game.totalRounds;
 
     if (validationResult.allCorrect) {
         // GOTO NEXT ROUND IF NOT LAST
-        await db.update(LetterLeagueGameTable)
+        await db.update(GameTable)
             .set({
-                currentGuess: 1,
-                currentRound: game.currentRound + 1
+                currentGuessIndex: 1,
+                currentRoundIndex: game.currentRoundIndex + 1
             })
-            .where(eq(LetterLeagueGameTable.id, command.gameId));        
+            .where(eq(GameTable.id, command.gameId));        
     } else if (isLastGuessOfRound && isLastRound) { // END THE GAME
         // TODO: write end game flow
     } else if (isLastGuessOfRound) {         // NEXT ROUND
         // Move to the next round AND SHOW WORD
-        await db.update(LetterLeagueGameTable)
+        await db.update(GameTable)
             .set({
-                currentGuess: 1,
-                currentRound: game.currentRound + 1
+                currentGuessIndex: 1,
+                currentRoundIndex: game.currentRoundIndex + 1
             })
-            .where(eq(LetterLeagueGameTable.id, command.gameId));
+            .where(eq(GameTable.id, command.gameId));
     }
     
     const triggerNextRound = (validationResult.allCorrect || isLastGuessOfRound);
-    return {
-        guess: validatedWord,
-        letterStates: round.guessedLetters,
-        theWord: triggerNextRound ? round.word.word : undefined
-    };
+
+    throw Error("err");
+    // return {
+    //     guess: validatedWord,
+    //     letterStates: round.guessedLetters,
+    //     theWord: triggerNextRound ? round.word.word : undefined
+    // };
 }
 
 async function getWords(amount: number, wordLength: number, language: string): Promise<string[]> {

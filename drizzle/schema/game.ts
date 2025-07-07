@@ -1,12 +1,12 @@
-import { integer, jsonb, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt } from "../schema-helpers";
 import { UsersTable } from "./users";
 import { gameVisibilityEnum } from "./enum/game-visibility";
 import { gameModeEnum } from "../schema";
-import { InferSelectModel } from "drizzle-orm";
-import { LetterLeagueRound } from "@/features/active-game/schemas";
+import { InferSelectModel, relations } from "drizzle-orm";
+import { GameRoundTable } from "./game-round";
 
-export const LetterLeagueGameTable = pgTable("game", {
+export const GameTable = pgTable("game", {
     id: text().primaryKey(),
     userHostId: uuid().references(() => UsersTable.id).notNull(),    
     totalRounds: integer().notNull(),
@@ -17,7 +17,10 @@ export const LetterLeagueGameTable = pgTable("game", {
     wordLength: integer().notNull(),    
     currentRoundIndex: integer().notNull().default(1),
     currentGuessIndex: integer().notNull().default(1),
-    rounds: jsonb('rounds').$type<LetterLeagueRound[]>().notNull().default([]),
     createdAt
 });
-export type DbGame = InferSelectModel<typeof LetterLeagueGameTable>;
+export type DbGame = InferSelectModel<typeof GameTable>;
+
+export const gameRelations = relations(GameTable, ({ many }) => ({
+  rounds: many(GameRoundTable)
+}));

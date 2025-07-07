@@ -27,7 +27,6 @@ export default function QuickSettings() {
                     <SwitchInput label="On-screen keyboard" initialValue={settings.showOnScreenKeyboard} onChange={toggleOnScreenKeyboard} />
                     <SwitchInput label="Sound effects" />
                     <SwitchInput label="Prefill guess" />
-                    <SwitchInput label="Show current state" />
                 </div>
             </CardBody>
         </Card>
