@@ -8,7 +8,7 @@ import GameModeToText from "@/features/i18n/enum-to-text";
 import TitleText from "@/components/ui/text/TitleText";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
-import { LETTER_ANIMATION_TIME_MS } from "../../active-game-constants";
+import { LETTER_ANIMATION_TIME_MS } from "../../game-constants";
 
 interface Props {
 

@@ -2,7 +2,7 @@ import { GameMode } from "@/drizzle/schema";
 import React, { createContext, useContext, useState } from "react";
 import { LetterLeagueGame, LetterLeagueRound } from "./schemas";
 import { LetterLeagueSettings } from "@/drizzle/schema/model/letter-league-models";
-import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from "./active-game-constants";
+import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from "./game-constants";
 import { submitLetterLeagueGuess } from "./actions";
 
 type LetterLeagueGameContextType = {

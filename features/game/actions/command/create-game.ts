@@ -3,7 +3,7 @@
 import { GameMode, GameTable } from "@/drizzle/schema";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { z } from "zod";
-import { generateGameId } from "../../game-id-generator";
+import { generateGameId } from "../../util/game-id-generator";
 import { db } from "@/drizzle/db";
 import { getCurrentUser } from "@/features/auth/current-user";
 
