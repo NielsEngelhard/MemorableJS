@@ -1,15 +1,20 @@
-import { integer, jsonb, pgTable, text } from "drizzle-orm/pg-core";
+import { integer, jsonb, pgTable, text, unique } from "drizzle-orm/pg-core";
 import { InferSelectModel, relations } from "drizzle-orm";
-import { ValidatedLetter, ValidatedWord } from "./model/letter-league-models";
 import { GameTable } from "./game";
+import { ValidatedLetter, ValidatedWord, Word } from "@/features/word/word-models";
+import { id } from "../schema-helpers";
 
 export const GameRoundTable = pgTable("game_round", {
-    gameId: text().references(() => GameTable.id).notNull().primaryKey(),
-    roundNumber: integer().notNull().primaryKey(),
-    word: text().notNull(),
+    id,
+    gameId: text().references(() => GameTable.id).notNull(),
+    roundNumber: integer().notNull(),
+    currentGuessIndex: integer().notNull().default(1),
+    word: jsonb('word').$type<Word>().notNull(),
     guesses: jsonb('guesses').$type<ValidatedWord[]>().notNull().default([]),
     guessedLetters: jsonb('guessed_letters').$type<ValidatedLetter[]>().notNull().default([]),
-});
+}, (t) => [
+  unique().on(t.gameId, t.roundNumber)
+]);
 
 export type DbGameRound = InferSelectModel<typeof GameRoundTable>;
 

@@ -1,7 +1,7 @@
-import { ValidatedLetter } from "@/drizzle/schema/model/letter-league-models";
 import LetterTile from "./LetterTile";
 import { useEffect, useState } from "react";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
+import { ValidatedLetter } from "../word-models";
 
 interface Props {
     letters: ValidatedLetter[];

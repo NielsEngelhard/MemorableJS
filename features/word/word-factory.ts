@@ -1,7 +1,7 @@
-import { LetterLeagueWord } from "../active-game/schemas";
+import { Word } from "./word-models";
 
 export class  LetterLeagueWordFactory {
-    static create(word: string): LetterLeagueWord {
+    static create(word: string): Word {
         return {
             word: word,
             letters: word.split('').map((letter, index) => {
@@ -13,7 +13,7 @@ export class  LetterLeagueWordFactory {
         }
     }
 
-    static createFromArray(words: string[]): LetterLeagueWord[] {
+    static createFromArray(words: string[]): Word[] {
         return words.map((word, index) => {
             return this.create(word);
         });
