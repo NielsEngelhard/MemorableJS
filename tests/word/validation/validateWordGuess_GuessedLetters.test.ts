@@ -1,11 +1,11 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
-import { ValidatedLetter } from "@/drizzle/schema/model/letter-league-models";
-import { LetterLeagueWordFactory } from "@/features/word/word-factory";
+import { WordFactory } from "@/features/word/word-factory";
+import { ValidatedLetter } from "@/features/word/word-models";
 import validateLetterLeagueWord from "@/features/word/word-validator";
 
 describe("wordValidationAlgorithm_GuessedLettersTests", () => {
     it("should return only the new entry that was not already guessed", () => {
-        const actual = LetterLeagueWordFactory.create("water");
+        const actual = WordFactory.create("water");
         actual.letters[0].guessed = true;  // w w
         actual.letters[1].guessed = true;  // a a
         actual.letters[2].guessed = false; // t f <-- f should be a new incorrect
@@ -27,7 +27,7 @@ describe("wordValidationAlgorithm_GuessedLettersTests", () => {
     it("guessedletters should contain all letters of the word if the guess is correct", () => {
         // Arrange
         let guessedLetters: ValidatedLetter[] = [];
-        const previousWord = LetterLeagueWordFactory.create("water");
+        const previousWord = WordFactory.create("water");
         previousWord.letters.forEach(letter => letter.guessed = true);
 
         // Act
@@ -40,7 +40,7 @@ describe("wordValidationAlgorithm_GuessedLettersTests", () => {
 it("guessedletters should not add any duplicate values to the guessed letters", () => {
     // Arrange
     let guessedLetters: ValidatedLetter[] = [];
-    const previousWord = LetterLeagueWordFactory.create("rataplan");
+    const previousWord = WordFactory.create("rataplan");
     previousWord.letters.forEach(letter => letter.guessed = true);
 
     // Act
