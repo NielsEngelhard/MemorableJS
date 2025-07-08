@@ -7,5 +7,11 @@ export function createOfficialWordsTable(language: string) {
   });
 }
 
-// Supported languages
+// Tables
 export const NlWordsTable = createOfficialWordsTable("nl");
+export const EnWordsTable = createOfficialWordsTable("en");
+
+export const officialWordsLanguageTableMap = {
+  "nl": NlWordsTable,
+  "en": EnWordsTable,
+};
