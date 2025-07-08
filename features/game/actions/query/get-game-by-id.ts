@@ -1,3 +1,5 @@
+"use server";
+
 import { db } from "@/drizzle/db";
 import { GameModel } from "../../models";
 import { DbGameWithRounds } from "@/drizzle/schema";

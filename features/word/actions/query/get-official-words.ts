@@ -1,3 +1,5 @@
+"use server"
+
 import { db } from "@/drizzle/db";
 import { officialWordsLanguageTableMap } from "@/drizzle/schema/official-words";
 import { SupportedLanguage } from "@/features/i18n/languages";
