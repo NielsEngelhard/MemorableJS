@@ -6,3 +6,4 @@ export * from "./schema/user-session";
 export * from "./schema/game";
 export * from "./schema/user-settings";
 export * from "./schema/official-words";
+export * from "./schema/game-round";
