@@ -1,9 +1,10 @@
 import { boolean, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { UsersTable } from "./users";
 import { relations } from "drizzle-orm";
+import { id } from "../schema-helpers";
 
 export const UserSettingsTable = pgTable("user_settings", {
-    settingsId: text().notNull().unique().primaryKey(),
+    settingsId: id,
     userId: uuid().references(() => UsersTable.id, { onDelete: "cascade" }),
     showOnScreenKeyboard: boolean().notNull().default(true),
     playSoundEffects: boolean().notNull().default(true),
