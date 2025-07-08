@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from 'next/font/local'
 import "./globals.css";
 import Header from "@/components/layout/Header";
-import { Providers } from "@/components/layout/Providers";
+import { Providers } from "@/components/layout/GlobalProviders";
 import AuthModal from "@/features/auth/components/AuthModal";
 import { APP_NAME } from "@/lib/global-constants";
 

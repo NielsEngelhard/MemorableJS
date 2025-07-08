@@ -3,7 +3,7 @@ import { GameModel } from "../../models";
 import { DbGameWithRounds } from "@/drizzle/schema";
 import { MapGameToModel } from "../../mappers";
 
-export async function getGameById(gameId: string): Promise<GameModel | null> {
+export async function GetGameById(gameId: string): Promise<GameModel | null> {
     const game = await getGame(gameId);
     return MapGameToModel(game);
 }

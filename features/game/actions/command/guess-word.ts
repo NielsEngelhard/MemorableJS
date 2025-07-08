@@ -31,7 +31,7 @@ export default async function GuessWord(command: GuessWordCommand): Promise<Gues
 
     const currentGuess = await updateCurrentGameState(game, currentRound, validationResult);
 
-    return await updateCurrentGameState(game, currentRound, validationResult);
+    return currentGuess;
 }
 
 async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, validationResult: WordValidationResult): Promise<GuessWordResponse> {

@@ -1,14 +1,14 @@
 "use client"
 import PageBase from "@/components/layout/PageBase";
-import { LetterLeagueGameProvider } from "@/features/game/letter-league-game-context";
-import { LetterLeagueGame } from "@/features/active-game/schemas";
 import { redirect, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import GameBase from "@/features/game/components/tiles/GameBase";
-import { GetLetterLeagueGame } from "@/features/active-game/actions";
+import { GameModel } from "@/features/game/models";
+import { GetGameById } from "@/features/game/actions/query/get-game-by-id";
+import { ActiveGameProvider } from "@/features/game/letter-league-game-context";
 
 export default function PlayLetterLeagueGame() {
-    const [game, setGame] = useState<LetterLeagueGame | undefined>(undefined);
+    const [game, setGame] = useState<GameModel | undefined>(undefined);
 
     const params = useParams();
     const slug = params.slug;
@@ -16,7 +16,7 @@ export default function PlayLetterLeagueGame() {
     useEffect(() => {
         async function GetGame() {
             if (!slug) return;
-            var resp = await GetLetterLeagueGame(slug.toString());
+            var resp = await GetGameById(slug.toString());
 
             if (!resp) redirect("/letter-league");
             setGame(resp);
@@ -28,11 +28,11 @@ export default function PlayLetterLeagueGame() {
     return (
         <PageBase>
             {game ? (
-            <LetterLeagueGameProvider
+            <ActiveGameProvider
                 game={game}
             >
                 <GameBase />          
-            </LetterLeagueGameProvider>                 
+            </ActiveGameProvider>                 
             ) : (
                 <div>loading...</div>
             )}          

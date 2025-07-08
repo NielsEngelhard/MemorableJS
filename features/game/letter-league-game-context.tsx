@@ -1,11 +1,10 @@
 import { GameMode } from "@/drizzle/schema";
 import React, { createContext, useContext, useState } from "react";
-import { LetterLeagueGame, LetterLeagueRound } from "./schemas";
-import { LetterLeagueSettings } from "@/drizzle/schema/model/letter-league-models";
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from "./game-constants";
-import { submitLetterLeagueGuess } from "./actions";
+import { GameModel, RoundModel } from "./models";
+import GuessWord from "./actions/command/guess-word";
 
-type LetterLeagueGameContextType = {
+type ActiveGameContextType = {
     maxAttemptsPerRound: number;
     wordLength: number;
     submitGuess: (guess: string) => void;
@@ -13,29 +12,26 @@ type LetterLeagueGameContextType = {
     totalRounds: number;
     gameMode: GameMode;
     createdAt: Date;
-    rounds: LetterLeagueRound[];
+    rounds: RoundModel[];
     currentRoundIndex: number;
     currentGuessIndex: number;
-    currentRound: LetterLeagueRound;
+    currentRound: RoundModel;
     theWord: string | undefined;
-    settings: LetterLeagueSettings;
-    setSettings: (value: LetterLeagueSettings) => void;
 }
 
-const LetterLeagueGameContext = createContext<LetterLeagueGameContextType | undefined>(undefined);
+const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
 
-interface LetterLeagueGameProviderProps {
-  game: LetterLeagueGame;
+interface ActiveGameProviderProps {
+  game: GameModel;
   children: React.ReactNode;
 }
 
-export function LetterLeagueGameProvider({ children, game }: LetterLeagueGameProviderProps) {
-    const [currentRoundIndex, setCurrentRoundIndex] = useState(game.currentRound);
-    const [currentGuessIndex, setCurrentGuessIndex] = useState(game.currentGuess);
-    const [rounds, setRounds] = useState<LetterLeagueRound[]>(game.rounds);
-    const [currentRound, setCurrentRound] = useState<LetterLeagueRound>(getCurrentRound());
+export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) {
+    const [currentRoundIndex, setCurrentRoundIndex] = useState(game.currentRoundIndex);
+    const [rounds, setRounds] = useState<RoundModel[]>(game.rounds);
+    const [currentRound, setCurrentRound] = useState<RoundModel>(getCurrentRound());
+    const [currentGuessIndex, setCurrentGuessIndex] = useState(currentRound.currentGuessIndex);
     const [theWord, setTheWord] = useState<string | undefined>(undefined);
-    const [settings, setSettings] = useState<LetterLeagueSettings>({ showOnScreenKeyboard: true });
 
     const id = game.id;
     const userHostid =  game.userHostId;
@@ -49,7 +45,7 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
     async function submitGuess(guess: string) {
       if (guess.length != wordLength) return;
 
-      var response = await submitLetterLeagueGuess({
+      var response = await GuessWord({
         gameId: id,
         word: guess
       });
@@ -75,7 +71,7 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
       }      
     }
 
-    function getCurrentRound(): LetterLeagueRound {
+    function getCurrentRound(): RoundModel {
       const round = rounds.find(r => r.roundNumber == currentRoundIndex);
       if (!round) throw Error("Could not find current round CORRUPT STATE");
       return round;
@@ -97,13 +93,8 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
       console.log("end of game");
     }
 
-    function toggleOnScreenKeyboard() {
-      settings.showOnScreenKeyboard = !settings.showOnScreenKeyboard;
-      setSettings(settings);
-    }
-
     return (
-        <LetterLeagueGameContext.Provider value={{
+        <ActiveGameContext.Provider value={{
           currentGuessIndex,
           currentRoundIndex,
           maxAttemptsPerRound,
@@ -116,18 +107,17 @@ export function LetterLeagueGameProvider({ children, game }: LetterLeagueGamePro
           rounds,
           currentRound,
           theWord,
-          settings,
-          setSettings }}
+          }}
         >
           {children}
-        </LetterLeagueGameContext.Provider>
+        </ActiveGameContext.Provider>
     )
 }
 
-export function useLetterLeagueGame() {
-  const context = useContext(LetterLeagueGameContext);
+export function useActiveGame() {
+  const context = useContext(ActiveGameContext);
   if (context === undefined) {
-    throw new Error('useLetterLeagueGame must be used within an LetterLeagueGameProvider');
+    throw new Error('useActiveGame must be used within an ActiveGameProvider');
   }
   return context;
 }

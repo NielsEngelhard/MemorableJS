@@ -19,7 +19,7 @@ interface Props {
 export function GameModeCard({ name, color, bgColor, description, players, time, Icon, cardClassName, href }: Props) {
     return (
         <Link href={href}>
-            <Card className={cardClassName}>
+            <Card className={`${cardClassName} transition-all duration-300 hover:scale-105 hover:shadow-md`}>
                 <CardBody>
                     <div className="flex flex-row items-center gap-2 lg:gap-3">
                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${bgColor}`}>

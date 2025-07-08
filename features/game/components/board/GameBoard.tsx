@@ -1,21 +1,23 @@
-import { ValidatedLetter } from "@/drizzle/schema/model/letter-league-models";
 import LetterRow from "../../../word/components/LetterRow";
 import TextInput from "@/components/ui/form/TextInput";
 import Button from "@/components/ui/Button";
 import { useEffect, useState } from "react";
-import { useLetterLeagueGame } from "../../letter-league-game-context";
 import GameModeToText from "@/features/i18n/enum-to-text";
 import TitleText from "@/components/ui/text/TitleText";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { LETTER_ANIMATION_TIME_MS } from "../../game-constants";
+import { ValidatedLetter } from "@/features/word/word-models";
+import { useUserSettings } from "@/features/settings/user-settings-context";
+import { useActiveGame } from "../../letter-league-game-context";
 
 interface Props {
 
 }
 
 export default function GameBoard({  }: Props) {
-    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode, theWord, currentGuessIndex, settings } = useLetterLeagueGame();
+    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode, theWord, currentGuessIndex } = useActiveGame();
+    const { settings } = useUserSettings();
     const [currentGuess, setCurrentGuess] = useState<string>("");
     const [canGuess, setCanGuess] = useState(true);
     const nEmptyRows: number = maxAttemptsPerRound - currentRound.guesses.length - 1;

@@ -2,7 +2,6 @@
 
 import { FormProvider, useForm } from "react-hook-form";
 import WordLengthInput from "./inputs/WordLengthInput";
-import { CreateLetterLeagueGame, createLetterLeagueGameSchema } from "../../active-game/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
@@ -17,7 +16,8 @@ import { redirect } from 'next/navigation';
 import ShowFormErrors from "@/components/ui/form/ShowFormErrors";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { GameMode } from "@/drizzle/schema/enum/game-mode";
-import { CreateGame } from "@/features/active-game/actions";
+import CreateGame from "../../actions/command/create-game";
+import { CreateLetterLeagueGame, createLetterLeagueGameSchema } from "../../schemas";
 
 interface Props {
     gameMode: GameMode;

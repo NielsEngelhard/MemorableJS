@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoggedIn(true);
 
     setShowAuthModal(false);
-    redirect("/play");
+    redirect("/game-modes");
   };
 
   const toggleShowAuthModal = () => {

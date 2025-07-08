@@ -1,4 +1,3 @@
-import { UsersTable } from "../schema";
 import { NlWordsTable, NlWordsTableType } from "../schema/official-words";
 
 export default async function seedWords(db: any) {
