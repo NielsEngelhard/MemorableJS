@@ -7,9 +7,9 @@ import { db } from "@/drizzle/db";
 import { getCurrentUser } from "@/features/auth/current-user";
 import getWords from "@/features/word/actions/query/get-official-words";
 import { SupportedLanguage } from "@/features/i18n/languages";
-import { CreateLetterLeagueGame } from "../../schemas";
+import { CreateGameSchema } from "../../schemas";
 
-export default async function CreateGame(command: CreateLetterLeagueGame) {
+export default async function CreateGame(command: CreateGameSchema) {
     const words = await getWords(command.totalRounds, command.wordLength, SupportedLanguage.nl);
 
     const userId = (await getCurrentUser())?.user.id;

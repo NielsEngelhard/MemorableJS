@@ -2,12 +2,12 @@
 
 import PageBase from "@/components/layout/PageBase";
 import { GameMode } from "@/drizzle/schema/enum/game-mode";
-import CreateLetterLeagueGameForm from "@/features/game/components/create/CreateLetterLeagueGameForm";
+import CreateGameForm from "@/features/game/components/create/CreateGameForm";
 
-export default function SoloLetterLeagueGamePage() {
+export default function SoloGamePage() {
     return (
         <PageBase>
-            <CreateLetterLeagueGameForm gameMode={GameMode.Solo}></CreateLetterLeagueGameForm>
+            <CreateGameForm gameMode={GameMode.Solo}></CreateGameForm>
         </PageBase>
     )
 }

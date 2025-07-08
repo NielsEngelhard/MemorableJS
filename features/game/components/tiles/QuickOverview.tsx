@@ -4,10 +4,10 @@ import OverviewStatistic from "@/components/ui/text/OverviewStatistic";
 import SubTitleText from "@/components/ui/text/SubTitleText";
 import { HardDrive } from "lucide-react";
 import { formatDateToDayMonthNameYearTime } from "@/lib/string-util";
-import { useLetterLeagueGame } from "../../letter-league-game-context";
+import { useActiveGame } from "../../active-game-context";
 
 export default function QuickOverview() {
-    const { gameMode, timePerTurn, wordLength, totalRounds, createdAt } = useLetterLeagueGame();
+    const { gameMode, timePerTurn, wordLength, totalRounds, createdAt } = useActiveGame();
 
     return (
         <Card>

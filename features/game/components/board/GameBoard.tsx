@@ -9,7 +9,7 @@ import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { LETTER_ANIMATION_TIME_MS } from "../../game-constants";
 import { ValidatedLetter } from "@/features/word/word-models";
 import { useUserSettings } from "@/features/settings/user-settings-context";
-import { useActiveGame } from "../../letter-league-game-context";
+import { useActiveGame } from "../../active-game-context";
 
 interface Props {
 

@@ -1,14 +1,14 @@
 import PageBase from "@/components/layout/PageBase";
 import BasicPageIntro from "@/components/ui/block/BasicPageIntro";
 import { GameModeCard } from "@/features/game/components/GameModeCard";
-import LetterLeagueRules from "@/features/game/components/rules/Rules";
+import Rules from "@/features/game/components/rules/Rules";
 import { Calendar, User, Users } from "lucide-react";
 
-export default function LetterLeaguePage() {
+export default function GameModesPage() {
     return (
         <PageBase>
             <BasicPageIntro
-                title="LetterLeague"
+                title="WW"
                 subText="Master the art of word formation"                
             ></BasicPageIntro>
 
@@ -48,7 +48,7 @@ export default function LetterLeaguePage() {
                 />                                
             </div>
 
-            <LetterLeagueRules />
+            <Rules />
         </PageBase>
     )
 }

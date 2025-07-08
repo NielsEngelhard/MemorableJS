@@ -4,11 +4,11 @@ import SubTitleText from "@/components/ui/text/SubTitleText";
 import { LetterText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
-import { useLetterLeagueGame } from "../../letter-league-game-context";
 import LetterTile from "@/features/word/components/LetterTile";
+import { useActiveGame } from "../../active-game-context";
 
 export default function GuessedLettersOverview() {
-    const { currentRound } = useLetterLeagueGame();
+    const { currentRound } = useActiveGame();
 
     const [correctLetters, setCorrectLetters] = useState<string[]>([]);
     const [wrongLetters, setWrongLetters] = useState<string[]>([]);

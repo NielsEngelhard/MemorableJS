@@ -1,6 +1,6 @@
 import { Word } from "./word-models";
 
-export class  LetterLeagueWordFactory {
+export class WordFactory {
     static create(word: string): Word {
         return {
             word: word,

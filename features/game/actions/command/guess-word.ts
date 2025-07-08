@@ -5,7 +5,7 @@ import { DbGame, DbGameWithRounds, GameMode, GameTable } from "@/drizzle/schema"
 import { DbGameRound, GameRoundTable } from "@/drizzle/schema/game-round";
 import { getCurrentUser } from "@/features/auth/current-user";
 import { ValidatedLetter, ValidatedWord } from "@/features/word/word-models";
-import validateLetterLeagueWord, { WordValidationResult } from "@/features/word/word-validator";
+import validateWordGuess, { WordValidationResult } from "@/features/word/word-validator";
 import { eq } from "drizzle-orm";
 
 export interface GuessWordCommand {
@@ -25,7 +25,7 @@ export default async function GuessWord(command: GuessWordCommand): Promise<Gues
     await validateUserAuth(game);
 
     let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
-    if (!currentRound) throw Error(`LETTERLEAGUE: INVALID STATE could not find round`);    
+    if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);    
     
     const validationResult = validateAndAddWord(command.word, currentRound);
 
@@ -82,7 +82,7 @@ async function triggerEndGame(game: DbGame) {
 }
 
 function validateAndAddWord(guess: string, currentRound: DbGameRound): WordValidationResult {
-    const validationResult = validateLetterLeagueWord(guess, currentRound.word, currentRound.guessedLetters);
+    const validationResult = validateWordGuess(guess, currentRound.word, currentRound.guessedLetters);
     if (validationResult == null) throw Error("Invalid guess");
     
     const validatedWord: ValidatedWord = {

@@ -1,4 +1,4 @@
-export default function LetterLeagueRules() {
+export default function Rules() {
     return (
     <div className="mt-12 bg-white rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-3">How to Play</h3>

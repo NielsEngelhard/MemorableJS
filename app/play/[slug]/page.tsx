@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import GameBase from "@/features/game/components/tiles/GameBase";
 import { GameModel } from "@/features/game/models";
 import { GetGameById } from "@/features/game/actions/query/get-game-by-id";
-import { ActiveGameProvider } from "@/features/game/letter-league-game-context";
+import { ActiveGameProvider } from "@/features/game/active-game-context";
 
-export default function PlayLetterLeagueGame() {
+export default function PlayGame() {
     const [game, setGame] = useState<GameModel | undefined>(undefined);
 
     const params = useParams();
@@ -18,7 +18,7 @@ export default function PlayLetterLeagueGame() {
             if (!slug) return;
             var resp = await GetGameById(slug.toString());
 
-            if (!resp) redirect("/letter-league");
+            if (!resp) redirect("/game-modes");
             setGame(resp);
         }
 

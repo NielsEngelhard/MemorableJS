@@ -8,12 +8,12 @@ type UserSettingsContextType = {
 
 const UserSettingsContext = createContext<UserSettingsContextType | undefined>(undefined);
 
-interface LetterLeagueGameProviderProps {
+interface UserSettingsProviderProps {
   _settings: UserSettingsModel;
   children: React.ReactNode;
 }
 
-export function UserSettingsProvider({ children, _settings }: LetterLeagueGameProviderProps) {
+export function UserSettingsProvider({ children, _settings }: UserSettingsProviderProps) {
     const [settings, setSettings] = useState<UserSettingsModel>(_settings);
 
     return (

@@ -7,7 +7,7 @@ export interface WordValidationResult {
   score: number; // Score for this specific guess
 }
 
-export default function validateLetterLeagueWord(guess: string, actualWord: Word, guessedLetters: ValidatedLetter[] = []): WordValidationResult {
+export default function validateWordGuess(guess: string, actualWord: Word, guessedLetters: ValidatedLetter[] = []): WordValidationResult {
   if (guess.length !== actualWord.letters.length) throw Error("INVALID INPUT: guess must be as long as actual guess");
 
   let validatedLetters: ValidatedLetter[] = new Array(guess.length);

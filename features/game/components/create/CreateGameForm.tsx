@@ -17,15 +17,15 @@ import ShowFormErrors from "@/components/ui/form/ShowFormErrors";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { GameMode } from "@/drizzle/schema/enum/game-mode";
 import CreateGame from "../../actions/command/create-game";
-import { CreateLetterLeagueGame, createLetterLeagueGameSchema } from "../../schemas";
+import { CreateGameSchema, createGameSchema } from "../../schemas";
 
 interface Props {
     gameMode: GameMode;
 }
 
-export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
-        const form = useForm<CreateLetterLeagueGame>({
-            resolver: zodResolver(createLetterLeagueGameSchema),
+export default function CreateGameForm({ gameMode }: Props) {
+        const form = useForm<CreateGameSchema>({
+            resolver: zodResolver(createGameSchema),
             defaultValues: {
                 wordLength: 6,
                 timePerTurn: undefined,
@@ -36,7 +36,7 @@ export default function CreateLetterLeagueGameForm({ gameMode }: Props) {
             }
         })  
 
-    async function onSubmit(data: CreateLetterLeagueGame) {
+    async function onSubmit(data: CreateGameSchema) {
         var response = await CreateGame(data);
         redirect(`/play/${response.gameId}`);
     }
