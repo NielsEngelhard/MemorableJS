@@ -125,7 +125,7 @@ export default function GameBoard({  }: Props) {
                 :
                 settings.showOnScreenKeyboard
                 ?
-                    <div className="flex flex-col items-center gap-2">
+                    <div className="w-full flex flex-col items-center gap-2">
                         <CustomKeyboard
                             onKeyPress={onKeyPress}
                             onDelete={onKeyDelete}
@@ -134,7 +134,6 @@ export default function GameBoard({  }: Props) {
                             warningKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.WrongPosition && l.letter !== undefined).map(l => l.letter as string)}
                             errorKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Wrong && l.letter !== undefined).map(l => l.letter as string)}
                         />
-                        <Button className="w-fit" onClick={onSubmit} disabled={!canGuess}>Guess</Button>
                     </div>
                 :
                 <div className="w-full lg:px-10 gap-2 flex flex-col">
