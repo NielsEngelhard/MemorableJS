@@ -12,11 +12,11 @@ export const KeyboardKeyVariants = cva(
     {
         variants: {
             variant: {
-                neutral: "bg-[#F1F3F6]/75 border-gray-200 hover:bg-gray-200",
-                success: "bg-success/75 border-success hover:opacity-90 text-white",
-                warning: "bg-warning/75 border-warning hover:opacity-90 text-white",
-                primary: "bg-primary/75 border-primary hover:opacity-90 text-white",
-                error: "bg-error/75 border-error hover:opacity-90 text-white",
+                neutral: "bg-[#F1F3F6]/85 border-gray-200 hover:bg-gray-200",
+                success: "bg-success/85 border-success hover:opacity-90 text-white",
+                warning: "bg-warning/85 border-warning hover:opacity-90 text-white",
+                primary: "bg-primary/85 border-primary hover:opacity-90 text-white",
+                error: "bg-error/85 border-error hover:opacity-90 text-white",
             }
         }
     }
@@ -33,7 +33,7 @@ export default function KeyboardKey({
         <button
             className={`
                 ${KeyboardKeyVariants({ variant })} 
-                ${fixedWidth ? 'lg:w-7 lg:h-10 min-w-[2.5rem] h-12' : ''}
+                ${fixedWidth ? 'lg:w-7 lg:h-12 lg:min-w-[2.5rem]' : ''}
                 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
             `}
             type="button"
