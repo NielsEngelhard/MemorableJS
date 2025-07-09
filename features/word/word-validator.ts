@@ -63,24 +63,32 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
   };
 }
 
+// Duplicates can only occur between:
+// CORRECT - WRONG
+// CORRECT - WRONGPOSITION 
 function updateGuessedLetters(justValidatedLetters: ValidatedLetter[], guessedLetters: ValidatedLetter[]) {
-  debugger;
-
   for (var i=0; i < justValidatedLetters.length; i++) {
-    
+    const letter = justValidatedLetters[i];
+
+    if (letter.state == LetterState.Wrong) {
+      addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
+    } else if (letter.state == LetterState.Correct) {
+      addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
+      // TODO REMOVE FROM WRONG POSITION 
+    } else if (letter.state == LetterState.WrongPosition) {
+      addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
+    }
   }
+}
 
-  // Add the letter if it doesn't already exist with the same state
-  // if (!guessedLetters.some(l => l.letter === letterData.letter && l.state === letterData.state)) {
-  //   guessedLetters.push(letterData);
-  // }
+function addGuessedLetterIfLetterAndStateNotExist(guessedLetter: ValidatedLetter, guessedLetters: ValidatedLetter[]) {
+  if (!guessedLetters.some(el => el.letter == guessedLetter.letter && el.state == guessedLetter.state)) {
+    if (guessedLetter.state != LetterState.Correct) guessedLetter.position = undefined;
 
-  // // Special case: if letter is Wrong, remove any previous entries with different states (if any)
-  // if (letterData.state === LetterState.Wrong) {
-  //   for (let i = guessedLetters.length - 1; i >= 0; i--) {
-  //     if (guessedLetters[i].letter === letterData.letter && guessedLetters[i].state !== LetterState.Wrong) {
-  //       guessedLetters.splice(i, 1);
-  //     }
-  //   }
-  // }
+    guessedLetters.push(guessedLetter);
+  }
+}
+
+function removeLetterFromWrongPositionIfGuessed() {
+  
 }
