@@ -20,7 +20,6 @@ describe("wordValidationAlgorithm_GuessedLettersTests", () => {
                 expect.objectContaining({ letter: "f", state: LetterState.Wrong, position: 3 }),
                 expect.objectContaining({ letter: "r", state: LetterState.Correct, position: 5 }),
             ])
-            
         );
     });
 
@@ -37,28 +36,45 @@ describe("wordValidationAlgorithm_GuessedLettersTests", () => {
         expect(guessedLetters).toHaveLength(5);
     });   
     
-it("guessedletters should not add any duplicate values to the guessed letters", () => {
-    // Arrange
-    let guessedLetters: ValidatedLetter[] = [];
-    const previousWord = WordFactory.create("rataplan");
-    previousWord.letters.forEach(letter => letter.guessed = true);
+    it("guessedletters should not add any duplicate values to the guessed letters", () => {
+        // Arrange
+        let guessedLetters: ValidatedLetter[] = [];
+        const previousWord = WordFactory.create("rataplan");
+        previousWord.letters.forEach(letter => letter.guessed = true);
 
-    // Act
-    const result = validateLetterLeagueWord("rataplan", previousWord, guessedLetters);
+        // Act
+        const result = validateLetterLeagueWord("rataplan", previousWord, guessedLetters);
 
-    // Assert
-    // Check that each unique letter appears only once in guessedLetters
-    const letterCounts = guessedLetters.reduce((counts, letter) => {
-        const key = `${letter.letter}-${letter.state}`;
-        counts[key] = (counts[key] || 0) + 1;
-        return counts;
-    }, {} as Record<string, number>);
-    
-    const duplicates = Object.values(letterCounts).filter(count => count > 1);
-    expect(duplicates).toHaveLength(0);
-    
-    // Or alternatively, check that the length equals unique combinations
-    const uniqueKeys = new Set(guessedLetters.map(l => `${l.letter}-${l.state}`));
-    expect(guessedLetters).toHaveLength(uniqueKeys.size);
-});  
+        // Assert
+        // Check that each unique letter appears only once in guessedLetters
+        const letterCounts = guessedLetters.reduce((counts, letter) => {
+            const key = `${letter.letter}-${letter.state}`;
+            counts[key] = (counts[key] || 0) + 1;
+            return counts;
+        }, {} as Record<string, number>);
+        
+        const duplicates = Object.values(letterCounts).filter(count => count > 1);
+        expect(duplicates).toHaveLength(0);
+        
+        // Or alternatively, check that the length equals unique combinations
+        const uniqueKeys = new Set(guessedLetters.map(l => `${l.letter}-${l.state}`));
+        expect(guessedLetters).toHaveLength(uniqueKeys.size);
+    });  
+
+    it("guessedletters should not remove earlier correct letter", () => {
+        // Arrange
+        let guessedLetters: ValidatedLetter[] = [{ letter: 'd', position: 1, state: LetterState.Correct }];
+        const actualWord = WordFactory.create("daarin");
+        const guess = "donder";
+
+        // Act
+        validateLetterLeagueWord(guess, actualWord, guessedLetters);
+
+        // Assert
+        expect(guessedLetters).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ letter: "d", state: LetterState.Correct, position: 1 }),
+            ])
+        );
+    });  
 });

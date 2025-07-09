@@ -26,8 +26,6 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
 
       validatedLetters[i] = letterData;
       actualWord.letters[i].guessed = true;
-
-      updateGuessedLetters(letterData, guessedLetters);
     }
   }
 
@@ -53,9 +51,10 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
       letterData.state = LetterState.Wrong;
     };
 
-    updateGuessedLetters(letterData, guessedLetters);
     validatedLetters[i] = letterData;
   }
+
+  updateGuessedLetters(validatedLetters, guessedLetters);
   
   return {
     validatedLetters: validatedLetters,
@@ -64,18 +63,24 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
   };
 }
 
-function updateGuessedLetters(letterData: ValidatedLetter, guessedLetters: ValidatedLetter[]) {
-  // Add the letter if it doesn't already exist with the same state
-  if (!guessedLetters.some(l => l.letter === letterData.letter && l.state === letterData.state)) {
-    guessedLetters.push(letterData);
+function updateGuessedLetters(justValidatedLetters: ValidatedLetter[], guessedLetters: ValidatedLetter[]) {
+  debugger;
+
+  for (var i=0; i < justValidatedLetters.length; i++) {
+    
   }
 
-  // Special case: if letter is Wrong, remove any previous entries with different states (if any)
-  if (letterData.state === LetterState.Wrong) {
-    for (let i = guessedLetters.length - 1; i >= 0; i--) {
-      if (guessedLetters[i].letter === letterData.letter && guessedLetters[i].state !== LetterState.Wrong) {
-        guessedLetters.splice(i, 1);
-      }
-    }
-  }
+  // Add the letter if it doesn't already exist with the same state
+  // if (!guessedLetters.some(l => l.letter === letterData.letter && l.state === letterData.state)) {
+  //   guessedLetters.push(letterData);
+  // }
+
+  // // Special case: if letter is Wrong, remove any previous entries with different states (if any)
+  // if (letterData.state === LetterState.Wrong) {
+  //   for (let i = guessedLetters.length - 1; i >= 0; i--) {
+  //     if (guessedLetters[i].letter === letterData.letter && guessedLetters[i].state !== LetterState.Wrong) {
+  //       guessedLetters.splice(i, 1);
+  //     }
+  //   }
+  // }
 }
