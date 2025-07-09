@@ -27,7 +27,22 @@ export default function GameBoard({  }: Props) {
     }, []);
 
     function resetCurrentGuess() {
-        setCurrentGuess(currentRound.guessedLetters.find(l => l.position == 1)?.letter ?? "");
+        if (settings.preFillWord) {
+            preFillWord();
+        }
+    }
+
+    function preFillWord() {
+        var preFill = "";
+
+        for(var i=0; i<wordLength; i++) {
+            const correctGuess = currentRound.guessedLetters.find(l => l.position == i+1 && l.state == LetterState.Correct);
+            if (!correctGuess || !correctGuess.letter) break;         
+            
+            preFill += correctGuess.letter;
+        }
+
+        setCurrentGuess(preFill);
     }
 
     function displayEmptyRow(index: number) {
