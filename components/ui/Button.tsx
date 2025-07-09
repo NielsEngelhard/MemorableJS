@@ -15,7 +15,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        fade: "text-foreground bg-gradient-to-r from-primary to-secondary text-white",
+        primary: "text-white bg-primary",
+        fade: "bg-gradient-to-r from-primary to-secondary text-white",
         skeleton: "bg-transparent border-border border-2 font-semibold hover:bg-opacity-5",
       },
     },

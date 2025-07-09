@@ -148,7 +148,7 @@ export default function GameBoard({  }: Props) {
                         onChange={onInputChange}
                     />
 
-                    <Button className="w-full" onClick={onSubmit} disabled={!canGuess}>Guess</Button>
+                    <Button className="w-full" onClick={onSubmit} disabled={!canGuess} variant="primary">Guess</Button>
                 </div>   
                 
             }
