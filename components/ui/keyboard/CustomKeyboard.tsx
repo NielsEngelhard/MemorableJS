@@ -33,6 +33,7 @@ export default function CustomKeyboard({ correctKeys, warningKeys, errorKeys, on
                     {/* ENTER Key - positioned at the beginning of the bottom row */}
                     {onEnter && rowIndex === keyboardRows.length - 1 && (
                         <KeyboardKey
+                        
                             key="kb-key-enter"
                             variant="primary"
                             fixedWidth={false}

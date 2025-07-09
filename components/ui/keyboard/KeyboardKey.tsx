@@ -33,7 +33,7 @@ export default function KeyboardKey({
         <button
             className={`
                 ${KeyboardKeyVariants({ variant })} 
-                ${fixedWidth ? 'lg:w-7 lg:h-12 lg:min-w-[2.5rem]' : ''}
+                ${fixedWidth ? 'lg:w-7 lg:h-12 lg:min-w-[2.5rem] px-2 lg:px-0' : ''}
                 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
             `}
             type="button"
