@@ -73,7 +73,7 @@ function updateGuessedLetters(justValidatedLetters: ValidatedLetter[], guessedLe
     if (letter.state == LetterState.Wrong) {
       addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
     } else if (letter.state == LetterState.Correct) {
-      addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
+      addGuessedLetterIfLetterAndStateAndPositionCombinationNotExist(letter, guessedLetters);
       // TODO REMOVE FROM WRONG POSITION 
     } else if (letter.state == LetterState.WrongPosition) {
       addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
@@ -89,6 +89,10 @@ function addGuessedLetterIfLetterAndStateNotExist(guessedLetter: ValidatedLetter
   }
 }
 
-function removeLetterFromWrongPositionIfGuessed() {
-  
+function addGuessedLetterIfLetterAndStateAndPositionCombinationNotExist(guessedLetter: ValidatedLetter, guessedLetters: ValidatedLetter[]) {
+  if (!guessedLetters.some(el => el.letter == guessedLetter.letter && el.state == guessedLetter.state && el.state == guessedLetter.state)) {
+    if (guessedLetter.state != LetterState.Correct) guessedLetter.position = undefined;
+
+    guessedLetters.push(guessedLetter);
+  }
 }
