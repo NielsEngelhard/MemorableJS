@@ -3,7 +3,7 @@ import { UserSettingsModel } from "../user/models";
 
 type UserSettingsContextType = {
     settings: UserSettingsModel;
-    setSettings: (v: UserSettingsModel) => void;
+    toggleSetting: (key: keyof UserSettingsModel) => boolean;
 }
 
 const UserSettingsContext = createContext<UserSettingsContextType | undefined>(undefined);
@@ -16,10 +16,19 @@ interface UserSettingsProviderProps {
 export function UserSettingsProvider({ children, _settings }: UserSettingsProviderProps) {
     const [settings, setSettings] = useState<UserSettingsModel>(_settings);
 
+    const toggleSetting = (key: keyof UserSettingsModel): boolean => {
+      const newValue = !settings[key];
+      setSettings(prev => ({
+        ...prev,
+        [key]: newValue,
+      }));
+      return newValue;
+    };
+
     return (
         <UserSettingsContext.Provider value={{
           settings,
-          setSettings }}
+          toggleSetting }}
         >
           {children}
         </UserSettingsContext.Provider>

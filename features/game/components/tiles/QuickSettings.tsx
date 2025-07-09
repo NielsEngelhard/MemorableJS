@@ -6,14 +6,7 @@ import { Settings } from "lucide-react";
 import { useUserSettings } from "@/features/settings/user-settings-context";
 
 export default function QuickSettings() {
-    const { settings, setSettings } = useUserSettings();
-
-    function toggleOnScreenKeyboard() {
-        setSettings({
-            ...settings,
-            showOnScreenKeyboard: !settings.showOnScreenKeyboard
-        });
-    }
+    const { settings, toggleSetting } = useUserSettings();
 
     return (
         <Card>
@@ -24,9 +17,9 @@ export default function QuickSettings() {
                 />
 
                 <div className="flex flex-col gap-4">
-                    <SwitchInput label="On-screen keyboard" initialValue={settings.showOnScreenKeyboard} onChange={toggleOnScreenKeyboard} />
-                    <SwitchInput label="Sound effects" />
-                    <SwitchInput label="Prefill guess" />
+                    <SwitchInput label="On-screen keyboard" initialValue={settings.showOnScreenKeyboard} onChange={() => toggleSetting("showOnScreenKeyboard")} />
+                    <SwitchInput label="Sound effects" initialValue={settings.playSoundEffects} onChange={() => toggleSetting("playSoundEffects")} />
+                    <SwitchInput label="Prefill guess" initialValue={settings.preFillWord} onChange={() => toggleSetting("preFillWord")} />
                 </div>
             </CardBody>
         </Card>
