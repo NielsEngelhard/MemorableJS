@@ -63,7 +63,7 @@ async function triggerNextGuess(currentRound: DbGameRound, currentGuess: Validat
     await db.update(GameRoundTable)
         .set({
             currentGuessIndex: currentRound.currentGuessIndex + 1,
-            guesses: [...currentRound.guesses, currentGuess],
+            guesses: currentRound.guesses,
             guessedLetters: currentRound.guessedLetters
         })
         .where(eq(GameRoundTable.id, currentRound.id));          
