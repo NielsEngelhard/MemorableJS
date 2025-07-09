@@ -25,7 +25,7 @@ export default function SignUpForm() {
         if (!error) {
             await login({ username: data.email, password: data.password });
             toggleShowAuthModal();
-            redirect("/game-modes");
+            redirect("/play");
         } 
 
         form.setError("root", {

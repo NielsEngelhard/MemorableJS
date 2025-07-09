@@ -5,7 +5,7 @@ import { officialWordsLanguageTableMap } from "@/drizzle/schema/official-words";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { eq, sql } from "drizzle-orm";
 
-export default async function getWords(amount: number, wordLength: number, language: SupportedLanguage) {
+export default async function getWords(amount: number, wordLength: number, language: SupportedLanguage): Promise<string[]> {
     const wordsTable = officialWordsLanguageTableMap[language as SupportedLanguage];
 
     const words = await db.select()
@@ -14,5 +14,5 @@ export default async function getWords(amount: number, wordLength: number, langu
         .orderBy(sql`RANDOM()`)
         .limit(amount);
 
-    return words;
+    return words.map(w => w.word);
 }

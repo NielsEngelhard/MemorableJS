@@ -37,8 +37,8 @@ export default function CreateGameForm({ gameMode }: Props) {
         })  
 
     async function onSubmit(data: CreateGameSchema) {
-        var response = await CreateGame(data);
-        redirect(`/play/${response.gameId}`);
+        var gameId = await CreateGame(data);
+        redirect(`/play/${gameId}`);
     }
 
     return (

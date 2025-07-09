@@ -18,7 +18,7 @@ export default function PlayGame() {
             if (!slug) return;
             var resp = await GetGameById(slug.toString());
 
-            if (!resp) redirect("/game-modes");
+            if (!resp) redirect("/play");
             setGame(resp);
         }
 
