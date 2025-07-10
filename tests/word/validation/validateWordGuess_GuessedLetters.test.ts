@@ -36,30 +36,44 @@ describe("wordValidationAlgorithm_GuessedLettersTests", () => {
         expect(guessedLetters).toHaveLength(5);
     });   
     
-    it("guessedletters should not add any duplicate values to the guessed letters", () => {
+    it("guessedletters should not add any duplicate values of type WRONG to the guessed letters", () => {
         // Arrange
         let guessedLetters: ValidatedLetter[] = [];
-        const previousWord = WordFactory.create("rataplan");
-        previousWord.letters.forEach(letter => letter.guessed = true);
+        const actualWord = WordFactory.create("aaaaaa", false);
+        const guess = "bbbbbb";
 
         // Act
-        const result = validateLetterLeagueWord("rataplan", previousWord, guessedLetters);
+        validateLetterLeagueWord(guess, actualWord, guessedLetters);
 
         // Assert
-        // Check that each unique letter appears only once in guessedLetters
-        const letterCounts = guessedLetters.reduce((counts, letter) => {
-            const key = `${letter.letter}-${letter.state}`;
-            counts[key] = (counts[key] || 0) + 1;
-            return counts;
-        }, {} as Record<string, number>);
-        
-        const duplicates = Object.values(letterCounts).filter(count => count > 1);
-        expect(duplicates).toHaveLength(0);
-        
-        // Or alternatively, check that the length equals unique combinations
-        const uniqueKeys = new Set(guessedLetters.map(l => `${l.letter}-${l.state}`));
-        expect(guessedLetters).toHaveLength(uniqueKeys.size);
+        expect(guessedLetters).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ letter: "b", state: LetterState.Wrong }),
+            ])
+        );
+
+        expect(guessedLetters).toHaveLength(1);
     });  
+
+    it("guessedletters should not add any duplicate values of type WRONG_POSITION to the guessed letters", () => {
+        // Arrange
+        let guessedLetters: ValidatedLetter[] = [];
+        const actualWord = WordFactory.create("aabbaa", false);
+        const guess = "bbcccc";
+
+        // Act
+        validateLetterLeagueWord(guess, actualWord, guessedLetters);
+
+        // Assert
+        expect(guessedLetters).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ letter: "c", state: LetterState.Wrong }),
+                expect.objectContaining({ letter: "b", state: LetterState.WrongPosition }),
+            ])
+        );
+
+        expect(guessedLetters).toHaveLength(2);
+    });      
 
     it("guessedletters should not remove earlier correct letter", () => {
         // Arrange

@@ -54,7 +54,7 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
     validatedLetters[i] = letterData;
   }
 
-  updateGuessedLetters(validatedLetters, guessedLetters, actualWord);
+  updateGuessedLetters(validatedLetters, guessedLetters, unguessedLetters);
   
   return {
     validatedLetters: validatedLetters,
@@ -66,7 +66,7 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
 // Duplicates can only occur between:
 // CORRECT - WRONG
 // CORRECT - WRONGPOSITION 
-function updateGuessedLetters(justValidatedLetters: ValidatedLetter[], guessedLetters: ValidatedLetter[], currentWordState: Word) {
+function updateGuessedLetters(justValidatedLetters: ValidatedLetter[], guessedLetters: ValidatedLetter[], unguessedLetters: string[]) {
   for (var i=0; i < justValidatedLetters.length; i++) {
     const letter = justValidatedLetters[i];
 
@@ -74,7 +74,7 @@ function updateGuessedLetters(justValidatedLetters: ValidatedLetter[], guessedLe
       addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
     } else if (letter.state == LetterState.Correct) {
       addGuessedLetterIfLetterAndStateAndPositionCombinationNotExist(letter, guessedLetters);
-      removeFromWrongPositionIfNotOccurAnymore(letter, guessedLetters, currentWordState);
+      removeFromWrongPositionIfNotOccurAnymore(letter, guessedLetters, unguessedLetters);
     } else if (letter.state == LetterState.WrongPosition) {
       addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
     }
@@ -97,9 +97,11 @@ function addGuessedLetterIfLetterAndStateAndPositionCombinationNotExist(guessedL
   }
 }
 
-function removeFromWrongPositionIfNotOccurAnymore(guessedLetter: ValidatedLetter, guessedLetters: ValidatedLetter[], currentWordState: Word) {
+function removeFromWrongPositionIfNotOccurAnymore(guessedLetter: ValidatedLetter, guessedLetters: ValidatedLetter[], unguessedLetters: string[]) {
+  if (!guessedLetter.letter) return;
+  
   // If the letter does not occur in the word anymore and it is correct - remove it from wrong position if it was there
-  if (!currentWordState.letters.some(l => l.guessed == false && l.letter == guessedLetter.letter)) {
+  if (!unguessedLetters.includes(guessedLetter.letter)) {
     const index = guessedLetters.findIndex(el => 
       el.letter == guessedLetter.letter && el.state == LetterState.WrongPosition
     );
