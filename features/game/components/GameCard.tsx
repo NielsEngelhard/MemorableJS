@@ -20,13 +20,13 @@ interface Props {
 export default function GameCard({ name, Icon , description, amountOfPlayers, time, fromColor, toColor, href }: Props) {
     return (
         <Card>
-            <CardHeader fromColor={fromColor} toColor={toColor}>
+            {/* <CardHeader fromColor={fromColor} toColor={toColor}>
                 <div className="flex items-end h-full p-3">
                     <div className="flex items-center gap-1 text-white font-bold text-xl">
                         <Icon />{name} 
                     </div>
                 </div>
-            </CardHeader>
+            </CardHeader> */}
 
             <CardBody className="justify-between">
                 <p className="text-md text-foreground-muted leading-relaxed mb-2">{description}</p>                              

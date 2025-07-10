@@ -136,7 +136,7 @@ export default function RootLayout({
       >
         <Providers>
           <Header></Header>
-          <div className="flex justify-center">
+          <div className="flex justify-center bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen">
             {children} 
           </div>          
           <AuthModal />
