@@ -90,7 +90,7 @@ function addGuessedLetterIfLetterAndStateNotExist(guessedLetter: ValidatedLetter
 }
 
 function addGuessedLetterIfLetterAndStateAndPositionCombinationNotExist(guessedLetter: ValidatedLetter, guessedLetters: ValidatedLetter[]) {
-  if (!guessedLetters.some(el => el.letter == guessedLetter.letter && el.state == guessedLetter.state && el.state == guessedLetter.state)) {
+  if (!guessedLetters.some(el => el.letter == guessedLetter.letter && el.state == guessedLetter.state && el.position == guessedLetter.position)) {
     if (guessedLetter.state != LetterState.Correct) guessedLetter.position = undefined;
 
     guessedLetters.push(guessedLetter);

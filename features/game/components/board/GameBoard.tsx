@@ -1,15 +1,12 @@
 import LetterRow from "../../../word/components/LetterRow";
-import TextInput from "@/components/ui/form/TextInput";
-import Button from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import GameModeToText from "@/features/i18n/enum-to-text";
-import TitleText from "@/components/ui/text/TitleText";
-import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { LETTER_ANIMATION_TIME_MS } from "../../game-constants";
 import { ValidatedLetter } from "@/features/word/word-models";
 import { useUserSettings } from "@/features/settings/user-settings-context";
 import { useActiveGame } from "../../active-game-context";
+import WordInput from "./WordInput";
 
 interface Props {
 
@@ -81,17 +78,7 @@ export default function GameBoard({  }: Props) {
         )
     }
 
-    function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setCurrentGuess(event.target.value);
-    }
 
-    function onKeyPress(keyboardKey: string) {
-        setCurrentGuess(currentGuess + keyboardKey);
-    }
-
-    function onKeyDelete() {
-        setCurrentGuess((prev) => prev.slice(0, -1));
-    }
 
     async function onSubmit() {
         if (currentGuess.length != wordLength) return;
@@ -118,7 +105,7 @@ export default function GameBoard({  }: Props) {
             </div>
 
             {/* Body */}
-            <div className="w-full items-center flex flex-col p-6 gap-6">
+            <div className="w-full items-center flex flex-col lg:p-6 gap-6">
 
                 {/* Rows */}
                 <div className="flex flex-col gap-2">
@@ -134,39 +121,14 @@ export default function GameBoard({  }: Props) {
                     ))}
                 </div>
 
-                {theWord
-                ?
-                <TitleText>{theWord}</TitleText>
-                :
-                settings.showOnScreenKeyboard
-                ?
-                    <div className="w-full flex flex-col items-center gap-2">
-                        <CustomKeyboard
-                            onKeyPress={onKeyPress}
-                            onDelete={onKeyDelete}
-                            onEnter={onSubmit}
-                            correctKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Correct && l.letter !== undefined).map(l => l.letter as string)}
-                            warningKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.WrongPosition && l.letter !== undefined).map(l => l.letter as string)}
-                            errorKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Wrong && l.letter !== undefined).map(l => l.letter as string)}
-                        />
-                    </div>
-                :
-                <div className="w-full lg:px-10 gap-2 flex flex-col">
-                    <TextInput
-                        disabled={!canGuess}
-                        value={currentGuess}
+                    <WordInput
+                        theWord={theWord}
+                        currentGuess={currentGuess}
                         maxLength={wordLength}
-                        centerText={true}
-                        className="!font-monos flex items-center"
-                        placeholder="Enter your guess ..."
-                        supportedSymbols={/^[a-zA-Z]$/}
-                        onChange={onInputChange}
+                        onChange={setCurrentGuess}
+                        onEnter={onSubmit}
+                        disabled={!canGuess}                        
                     />
-
-                    <Button className="w-full" onClick={onSubmit} disabled={!canGuess} variant="primary">Guess</Button>
-                </div>   
-                
-            }
             </div>            
         </div>
     )
