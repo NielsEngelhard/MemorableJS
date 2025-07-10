@@ -9,7 +9,7 @@ export default function GameModesPage() {
         <PageBase>
             <PlayHeader />
 
-            <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-6">
+            <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-6">
                 <GameModeCard
                     name="Solo Game"
                     Icon={User}
@@ -32,7 +32,7 @@ export default function GameModesPage() {
                     href="/multiplayer"
                 />    
 
-                <GameModeCard
+                {/* <GameModeCard
                     name="Word of the Day"
                     Icon={Calendar}
                     bgColor="bg-accent/20"
@@ -42,10 +42,8 @@ export default function GameModesPage() {
                     time="Once per day"
                     cardClassName="!border-accent/40 !border-2"
                     href="/word-of-the-day"
-                />                                
+                />                                 */}
             </div>
-
-            <Rules />
         </PageBase>
     )
 }

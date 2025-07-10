@@ -1,6 +1,7 @@
 "use client"
 
 import PageBase from "@/components/layout/PageBase";
+import BasicPageIntro from "@/components/ui/block/BasicPageIntro";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
@@ -72,28 +73,11 @@ const ScoringSystem = () => {
   return (
     <PageBase>
       <div>
-        {/* Header */}
-        <div className="mb-8">
-          <Button
-            variant="skeleton"
-            className="mb-4 -ml-2"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-          
-          <div className="text-center">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-              <Trophy className="w-8 h-8 text-white" />
-            </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-              Scoring System
-            </h1>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Understanding how points are calculated in Letter League to maximize your score
-            </p>
-          </div>
-        </div>
+        <BasicPageIntro
+          title="Scoring System"
+          Icon={Trophy}
+          subText="Understanding how points are calculated. Maybe you learn something. Maybe you dont."
+        />
 
         <div className="space-y-8">
           {/* Base Points */}

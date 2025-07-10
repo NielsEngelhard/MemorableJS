@@ -1,7 +1,9 @@
 import PageBase from "@/components/layout/PageBase";
 import Button from "@/components/ui/Button";
 import { APP_NAME } from "@/lib/global-constants";
+import { GAME_MODES_ROUTE, SCORE_EXPLANATION_ROUTE } from "@/lib/routes";
 import { Brain, Play, Sparkles, Trophy, Users2 } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -36,17 +38,18 @@ export default function Home() {
         </div>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <div>
+          <Link href={GAME_MODES_ROUTE}>
             <Button variant="primary">
              <Play className="w-5 h-5 mr-2" />
               Start Guessing Words
             </Button>
-          </div>
+          </Link>
+          <Link href={SCORE_EXPLANATION_ROUTE}>
             <Button variant="skeleton">
              <Trophy className="w-5 h-5 mr-2" />
               Scoring System
             </Button>
-          </div>
+          </Link>
         </div>
 
         {/* Fun stats section */}
@@ -124,6 +127,7 @@ export default function Home() {
             Join thousands of players who are already addicted to the most engaging word guessing game ever created!
           </p>
         </div>
-    </PageBase>
+      </div>
+    </PageBase>    
   );
 }
