@@ -40,7 +40,7 @@ export default function WordInput({ theWord, currentGuess, onEnter, onChange, ma
         :
         settings.showOnScreenKeyboard
         ?
-            <Card className="w-full flex flex-col items-center gap-2 p-2 lg:p-4">
+            <Card className="w-full flex flex-col items-center gap-2 p-0 lg:p-4 border-0 md:border-2">
                 <CustomKeyboard
                     onKeyPress={onKeyPress}
                     onDelete={onKeyDelete}
@@ -49,7 +49,7 @@ export default function WordInput({ theWord, currentGuess, onEnter, onChange, ma
                     warningKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.WrongPosition && l.letter !== undefined).map(l => l.letter as string)}
                     errorKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Wrong && l.letter !== undefined).map(l => l.letter as string)}
                 />
-                {/* <KeyboardColorExplanation /> */}
+                <KeyboardColorExplanation />
             </Card>
         :
         <div className="w-full lg:px-10 gap-2 flex flex-col">
