@@ -16,7 +16,11 @@ export default function GuessedLettersOverview() {
 
     // POC kijken of ik overal hier moet subscriben mbt depedency en of dit het echt gaat updaten
     useEffect(() => {
-        setCorrectLetters(currentRound.guessedLetters.filter(l => l.state == LetterState.Correct && l.letter != undefined).map(l => l.letter ?? ""));
+        setCorrectLetters([...new Set(
+        currentRound.guessedLetters
+            .filter(l => l.state == LetterState.Correct && l.letter != undefined)
+            .map(l => l.letter ?? "")
+        )]);
         setWrongLetters(currentRound.guessedLetters.filter(l => l.state == LetterState.Wrong && l.letter != undefined).map(l => l.letter ?? ""));
         setWrongPositionLetters(currentRound.guessedLetters.filter(l => l.state == LetterState.WrongPosition && l.letter != undefined).map(l => l.letter ?? ""));
     }, [currentRound]);
