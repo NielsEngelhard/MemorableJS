@@ -1,16 +1,13 @@
 import PageBase from "@/components/layout/PageBase";
-import BasicPageIntro from "@/components/ui/block/BasicPageIntro";
-import { GameModeCard } from "@/features/game/components/GameModeCard";
+import { GameModeCard } from "@/features/game/components/game-modes/GameModeCard";
+import PlayHeader from "@/features/game/components/game-modes/PlayHeader";
 import Rules from "@/features/game/components/rules/Rules";
 import { Calendar, User, Users } from "lucide-react";
 
 export default function GameModesPage() {
     return (
         <PageBase>
-            <BasicPageIntro
-                title="WW"
-                subText="Master the art of word formation"                
-            ></BasicPageIntro>
+            <PlayHeader />
 
             <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-6">
                 <GameModeCard

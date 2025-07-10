@@ -1,26 +1,24 @@
-import { ArrowLeft } from "lucide-react";
-import Button from "../Button";
-import TextWithIcon from "../text/TextWithIcon";
 import TitleText from "../text/TitleText";
+import React from "react";
 
 interface Props {
     title: string;
     subText: string;
+    children?: React.ReactNode;
+    Icon?: React.ElementType;
 }
 
-export default function BasicPageIntro({ title, subText }: Props) {
+export default function BasicPageIntro({ title, subText, children, Icon }: Props) {
     return (
-        <div className="flex flex-row justify-between w-full items-center">
-            <div className="flex flex-col gap-2">
-                <TitleText faded={true}>{title}</TitleText>
-                <div className="text-xl text-foreground-muted">{subText}</div>
-            </div>
-
-            <div className="hidden lg:block">
-                <Button variant="skeleton" className="font-medium items-center">
-                    <TextWithIcon Icon={ArrowLeft}>Back to HUB</TextWithIcon>
-                </Button>                
-            </div>
+        <div className="flex flex-col w-full items-center text-center justify-center gap-2 lg:gap-4">
+            {Icon && (
+                <div className="bg-gradient-to-bl from-primary to-secondary p-2 rounded-full">
+                    <Icon className="text-white w-8 h-8" />
+                </div>
+            )}
+            <TitleText faded={true}>{title}</TitleText>
+            <div className="text-lg text-foreground-muted font-medium max-w-xl">{subText}</div>
+            {children}
         </div>
     )
 }
