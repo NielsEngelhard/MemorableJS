@@ -20,6 +20,7 @@ export default function QuickSettings() {
                     <SwitchInput label="On-screen keyboard" initialValue={settings.showOnScreenKeyboard} onChange={() => toggleSetting("showOnScreenKeyboard")} />
                     <SwitchInput label="Sound effects" initialValue={settings.playSoundEffects} onChange={() => toggleSetting("playSoundEffects")} />
                     <SwitchInput label="Prefill guess" initialValue={settings.preFillWord} onChange={() => toggleSetting("preFillWord")} />
+                    <SwitchInput label="Show score in Tiles" initialValue={settings.preFillWord} onChange={() => toggleSetting("preFillWord")} />
                 </div>
             </CardBody>
         </Card>
