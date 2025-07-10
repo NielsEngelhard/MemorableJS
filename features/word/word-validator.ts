@@ -99,7 +99,7 @@ function addGuessedLetterIfLetterAndStateAndPositionCombinationNotExist(guessedL
 
 function removeFromWrongPositionIfNotOccurAnymore(guessedLetter: ValidatedLetter, guessedLetters: ValidatedLetter[], currentWordState: Word) {
   // If the letter does not occur in the word anymore and it is correct - remove it from wrong position if it was there
-  if (currentWordState.letters.find(l => l.guessed == false && l.letter == guessedLetter.letter)) {
+  if (!currentWordState.letters.some(l => l.guessed == false && l.letter == guessedLetter.letter)) {
     const index = guessedLetters.findIndex(el => 
       el.letter == guessedLetter.letter && el.state == LetterState.WrongPosition
     );

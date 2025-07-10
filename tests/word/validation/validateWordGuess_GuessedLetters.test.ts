@@ -122,7 +122,7 @@ describe("wordValidationAlgorithm_GuessedLettersTests", () => {
     it("guessedletters does not remove letter from WRONG_POSITION if guessed and there still is a unguessed position of that letter", () => {
         // Arrange
         const actualWord = WordFactory.create("bbbaaa");
-        const guess = "bbaaaa";
+        const guess = "bbcccc";
 
         // 'b' was wrong position and a b is guessed, but still there still is an unguessed 'b' letter
         let guessedLetters: ValidatedLetter[] = [{ letter: 'b', state: LetterState.WrongPosition }];
@@ -135,6 +135,8 @@ describe("wordValidationAlgorithm_GuessedLettersTests", () => {
         // All a's are guessed so it should remove it from wrong position
         expect(guessedLetters).toEqual(
             expect.arrayContaining([
+                expect.objectContaining({ letter: 'b', state: LetterState.Correct, position: 1 }),
+                expect.objectContaining({ letter: 'b', state: LetterState.Correct, position: 2 }),
                 expect.objectContaining({ letter: 'b', state: LetterState.WrongPosition }),
             ])
         );
