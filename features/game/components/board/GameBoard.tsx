@@ -78,8 +78,6 @@ export default function GameBoard({  }: Props) {
         )
     }
 
-
-
     async function onSubmit() {
         if (currentGuess.length != wordLength) return;
 

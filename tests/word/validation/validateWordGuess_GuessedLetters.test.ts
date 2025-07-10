@@ -145,8 +145,6 @@ describe("wordValidationAlgorithm_GuessedLettersTests", () => {
         validateLetterLeagueWord(guess, actualWord, guessedLetters);
 
         // Assert
-
-        // All a's are guessed so it should remove it from wrong position
         expect(guessedLetters).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ letter: 'b', state: LetterState.Correct, position: 1 }),
@@ -161,7 +159,6 @@ describe("wordValidationAlgorithm_GuessedLettersTests", () => {
         const actualWord = WordFactory.create("aabbcc");
         const guess = "aaaaaa";
 
-        // A was wrong position but now all a's are guessed - so it should remove it from wrong_position
         let guessedLetters: ValidatedLetter[] = [{ letter: 'a', state: LetterState.WrongPosition }];
 
         // Act
@@ -175,4 +172,29 @@ describe("wordValidationAlgorithm_GuessedLettersTests", () => {
             ])
         );
     });   
+
+    it("guessedletters should remove the WRONG_POSITION if the word is guessed and letter does not occur anymore", () => {
+        // Arrange
+        const actualWord = WordFactory.create("sunset");
+        const guess = "sunsol";
+
+        let guessedLetters: ValidatedLetter[] = [
+            { letter: 's', state: LetterState.WrongPosition },
+        ];
+
+        // Act
+        validateLetterLeagueWord(guess, actualWord, guessedLetters);
+
+        // Assert
+        expect(guessedLetters).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ letter: "s", state: LetterState.Correct, position: 1 }),
+                expect.objectContaining({ letter: "u", state: LetterState.Correct, position: 2 }),
+                expect.objectContaining({ letter: "n", state: LetterState.Correct, position: 3 }),
+                expect.objectContaining({ letter: "s", state: LetterState.Correct, position: 4 }),
+                expect.objectContaining({ letter: "o", state: LetterState.Wrong }),
+                expect.objectContaining({ letter: "l", state: LetterState.Wrong }),                                
+            ])
+        );
+    });       
 });
