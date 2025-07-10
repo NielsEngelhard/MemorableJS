@@ -54,7 +54,7 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
     validatedLetters[i] = letterData;
   }
 
-  updateGuessedLetters(validatedLetters, guessedLetters);
+  updateGuessedLetters(validatedLetters, guessedLetters, actualWord);
   
   return {
     validatedLetters: validatedLetters,
@@ -66,7 +66,7 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
 // Duplicates can only occur between:
 // CORRECT - WRONG
 // CORRECT - WRONGPOSITION 
-function updateGuessedLetters(justValidatedLetters: ValidatedLetter[], guessedLetters: ValidatedLetter[]) {
+function updateGuessedLetters(justValidatedLetters: ValidatedLetter[], guessedLetters: ValidatedLetter[], currentWordState: Word) {
   for (var i=0; i < justValidatedLetters.length; i++) {
     const letter = justValidatedLetters[i];
 
@@ -74,7 +74,7 @@ function updateGuessedLetters(justValidatedLetters: ValidatedLetter[], guessedLe
       addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
     } else if (letter.state == LetterState.Correct) {
       addGuessedLetterIfLetterAndStateAndPositionCombinationNotExist(letter, guessedLetters);
-      // TODO REMOVE FROM WRONG POSITION 
+      removeFromWrongPositionIfNotOccurAnymore(letter, guessedLetters, currentWordState);
     } else if (letter.state == LetterState.WrongPosition) {
       addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
     }
@@ -94,5 +94,18 @@ function addGuessedLetterIfLetterAndStateAndPositionCombinationNotExist(guessedL
     if (guessedLetter.state != LetterState.Correct) guessedLetter.position = undefined;
 
     guessedLetters.push(guessedLetter);
+  }
+}
+
+function removeFromWrongPositionIfNotOccurAnymore(guessedLetter: ValidatedLetter, guessedLetters: ValidatedLetter[], currentWordState: Word) {
+  // If the letter does not occur in the word anymore and it is correct - remove it from wrong position if it was there
+  if (currentWordState.letters.find(l => l.guessed == false && l.letter == guessedLetter.letter)) {
+    const index = guessedLetters.findIndex(el => 
+      el.letter == guessedLetter.letter && el.state == LetterState.WrongPosition
+    );
+    
+    if (index !== -1) {
+      guessedLetters.splice(index, 1);
+    }
   }
 }
