@@ -39,6 +39,8 @@ export class WordValidator {
                 addCorrectGuessIfNotAlreadyExists(currentLetter, previouslyGuessedLetters, newLetters);
             } else if (currentLetter.state == LetterState.Wrong) {
                 addWrongGuessIfNotAlreadyExists(currentLetter, previouslyGuessedLetters, newLetters);
+            } else if (currentLetter.state == LetterState.Misplaced) {
+                addMisplacedIfNotAlreadyExists(currentLetter, previouslyGuessedLetters, newLetters);
             }
         }
 
@@ -53,6 +55,12 @@ function addCorrectGuessIfNotAlreadyExists(validatedLetter: ValidatedLetter, pre
 }
 
 function addWrongGuessIfNotAlreadyExists(validatedLetter: ValidatedLetter, previouslyGuessedLetters: ValidatedLetter[], newLetters: ValidatedLetter[]) {  
+    if (!previouslyGuessedLetters.some(l => l.letter == validatedLetter.letter && l.state == validatedLetter.state)) {
+        newLetters.push(validatedLetter);
+    }
+}
+
+function addMisplacedIfNotAlreadyExists(validatedLetter: ValidatedLetter, previouslyGuessedLetters: ValidatedLetter[], newLetters: ValidatedLetter[]) {  
     if (!previouslyGuessedLetters.some(l => l.letter == validatedLetter.letter && l.state == validatedLetter.state)) {
         newLetters.push(validatedLetter);
     }
