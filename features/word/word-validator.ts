@@ -29,13 +29,23 @@ export class WordValidator {
     }
 
     // Filter only the newly guessed letters
-    static filterNewLetters(validatedWord: ValidatedLetter[], existingLetters: ValidatedLetter[]): ValidatedLetter[] {
-        var newLetters: ValidatedLetter[] = new Array(validatedWord.length);
+    static filterNewLetters(validatedWord: ValidatedLetter[], previouslyGuessedLetters: ValidatedLetter[]): ValidatedLetter[] {
+        var newLetters: ValidatedLetter[] = [];
 
         for(var i=0; i<validatedWord.length; i++) {
-            
+            const currentLetter = validatedWord[i];
+
+            if (currentLetter.state == LetterState.Correct) {
+                addCorrectGuessIfNotAlreadyExist(currentLetter, newLetters);
+            }
         }
 
         return newLetters;        
+    }    
+}
+
+function addCorrectGuessIfNotAlreadyExist(validatedLetter: ValidatedLetter, newLetters: ValidatedLetter[]) {
+    if (!newLetters.some(l => l.letter == validatedLetter.letter && l.position == validatedLetter.position && l.state == validatedLetter.state)) {
+        newLetters.push(validatedLetter);
     }
 }
