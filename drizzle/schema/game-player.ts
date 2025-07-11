@@ -1,10 +1,10 @@
-import { integer, pgTable, text, primaryKey } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, primaryKey, uuid } from "drizzle-orm/pg-core";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { GameTable } from "./game";
 import { UsersTable } from "./users";
 
 export const GamePlayerTable = pgTable("game_player", {
-    userId: text().references(() => UsersTable.id).notNull(),
+    userId: uuid().references(() => UsersTable.id).notNull(),
     gameId: text().references(() => GameTable.id).notNull(),
     score: integer().notNull().default(0)
 }, (t) => [

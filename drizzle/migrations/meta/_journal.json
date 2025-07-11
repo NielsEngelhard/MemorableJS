@@ -15,6 +15,13 @@
       "when": 1751986582178,
       "tag": "0001_dusty_dreadnoughts",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1752250897596,
+      "tag": "0002_omniscient_sauron",
+      "breakpoints": true
     }
   ]
 }
