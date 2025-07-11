@@ -7,6 +7,7 @@ import { getCurrentUser } from "@/features/auth/current-user";
 import { ValidatedLetter, ValidatedWord } from "@/features/word/word-models";
 import validateWordGuess, { WordValidationResult } from "@/features/word/deprecated-word-validator";
 import { eq } from "drizzle-orm";
+import { WordValidator } from "@/features/word/word-validator";
 
 export interface GuessWordCommand {
     gameId: string;
@@ -27,7 +28,8 @@ export default async function GuessWord(command: GuessWordCommand): Promise<Gues
     let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
     if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);    
     
-    // TODO: Validate current guess
+    const validatedWord = WordValidator.validateAndFilter(command.word, currentRound.word.word, currentRound.guessedLetters);
+
     // TODO: Assign score(s) based on current guess
     // TODO: Update the current game
 

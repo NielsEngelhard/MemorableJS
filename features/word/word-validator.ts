@@ -1,7 +1,22 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ValidatedLetter } from "./word-models";
 
+export interface DetailedValidationResult {
+    validatedWord: ValidatedLetter[];
+    newLetters: ValidatedLetter[];
+}
+
 export class WordValidator {
+    static validateAndFilter(guess: string, word: string, previouslyGuessedLetters: ValidatedLetter[] ): DetailedValidationResult {
+        const validatedWord = this.validate(guess, word,);
+        const newLetters = this.filterNewLetters(validatedWord, previouslyGuessedLetters);
+        
+        return {
+            validatedWord: validatedWord,
+            newLetters: newLetters
+        }
+    }
+
     static validate(guess: string, word: string): ValidatedLetter[] {
         var validatedLetters: ValidatedLetter[] = new Array(guess.length);
 

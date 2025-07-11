@@ -46,7 +46,7 @@ describe("filterNewLetters correct letters", () => {
                 expect.objectContaining({ letter: "O", state: LetterState.Misplaced }),
                 expect.objectContaining({ letter: "T", state: LetterState.Misplaced }),
             ])
-        );   
+        );
         
         expect(result).not.toEqual(
             expect.arrayContaining([
