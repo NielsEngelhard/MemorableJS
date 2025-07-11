@@ -10,15 +10,15 @@ export class WordValidator {
             const actualLetter = word[i].toUpperCase();            
 
             const letterData: ValidatedLetter = {
-                letter: guessedLetter,
-                position: i + 1,
+                letter: guessedLetter,                
                 state: LetterState.Wrong
             }
 
             const guessIsCorrect = guessedLetter == actualLetter;
             if (guessIsCorrect) {
+                letterData.position = i + 1;
                 letterData.state = LetterState.Correct;
-            } else if (word.includes(guessedLetter)) {
+            } else if (word.toUpperCase().includes(guessedLetter)) {
                 letterData.state = LetterState.WrongPosition;
             };
 
