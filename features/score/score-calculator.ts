@@ -1,5 +1,7 @@
-import { ValidatedLetter, Word } from "../word/word-models";
+import { ValidatedLetter } from "../word/word-models";
 
-export function calculateScore(): number {
-    return 10;
+export class ScoreCalculator {
+    static calculate(newLetters: ValidatedLetter[]): number {
+        return 10;
+    }
 }
