@@ -43,6 +43,12 @@ describe("filterNewLetters correct letters", () => {
             expect.arrayContaining([
                 expect.objectContaining({ letter: "S", state: LetterState.Correct, position: 4 }),
             ])
-        );       
+        );   
+        
+        expect(result).not.toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ letter: "K", state: LetterState.Correct, position: 4 }),
+            ])
+        );           
     });
 });
