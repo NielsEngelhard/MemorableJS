@@ -10,6 +10,7 @@ export interface WordValidationResult {
 export default function validateWordGuess(guess: string, actualWord: Word, guessedLetters: ValidatedLetter[] = []): WordValidationResult {
   if (guess.length !== actualWord.letters.length) throw Error("INVALID INPUT: guess must be as long as actual guess");
 
+  let score: number = 0;
   let validatedLetters: ValidatedLetter[] = new Array(guess.length);
 
   // First determine all correct letters. This is necesarry to determine after that if other guessed letters are wrong positioned or wrong.
@@ -17,6 +18,7 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
     const guessedLetter = guess[i].toLowerCase();
     const actualLetter = actualWord.letters[i];
 
+    // TODO: REFACTOR INTO METHOD FOR READABILITY?!
     if (actualLetter.guessed || guessedLetter == actualLetter.letter.toLowerCase()) {
       const letterData = {
         position: i + 1,
@@ -26,6 +28,9 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
 
       validatedLetters[i] = letterData;
       actualWord.letters[i].guessed = true;
+
+      // TODO SCORE SOMETING?
+
     }
   }
 
@@ -59,7 +64,7 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
   return {
     validatedLetters: validatedLetters,
     allCorrect: validatedLetters.every(letter => letter.state === LetterState.Correct),
-    score: 10
+    score: score
   };
 }
 
