@@ -44,7 +44,7 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
     if (validatedLetters[i] != undefined) continue;
 
     const guessedLetter = guess[i].toLowerCase();
-    const letterOnWrongPosition = unguessedLetters.includes(guessedLetter);
+    const letterOnMisplaced = unguessedLetters.includes(guessedLetter);
   
     const letterData = {
       position: i + 1,
@@ -52,8 +52,8 @@ export default function validateWordGuess(guess: string, actualWord: Word, guess
       state: LetterState.Wrong        
     }   
 
-    if (letterOnWrongPosition) {
-      letterData.state = LetterState.WrongPosition;
+    if (letterOnMisplaced) {
+      letterData.state = LetterState.Misplaced;
 
     } else { // WRONG entirely
       letterData.state = LetterState.Wrong;
@@ -82,8 +82,8 @@ function updateGuessedLetters(justValidatedLetters: ValidatedLetter[], guessedLe
       addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
     } else if (letter.state == LetterState.Correct) {
       addGuessedLetterIfLetterAndStateAndPositionCombinationNotExist(letter, guessedLetters);
-      removeFromWrongPositionIfNotOccurAnymore(letter, guessedLetters, unguessedLetters);
-    } else if (letter.state == LetterState.WrongPosition) {
+      removeFromMisplacedIfNotOccurAnymore(letter, guessedLetters, unguessedLetters);
+    } else if (letter.state == LetterState.Misplaced) {
       addGuessedLetterIfLetterAndStateNotExist(letter, guessedLetters);
     }
   }
@@ -105,13 +105,13 @@ function addGuessedLetterIfLetterAndStateAndPositionCombinationNotExist(guessedL
   }
 }
 
-function removeFromWrongPositionIfNotOccurAnymore(guessedLetter: ValidatedLetter, guessedLetters: ValidatedLetter[], unguessedLetters: string[]) {
+function removeFromMisplacedIfNotOccurAnymore(guessedLetter: ValidatedLetter, guessedLetters: ValidatedLetter[], unguessedLetters: string[]) {
   if (!guessedLetter.letter) return;
   
   // If the letter does not occur in the word anymore and it is correct - remove it from wrong position if it was there
   if (!unguessedLetters.includes(guessedLetter.letter)) {
     const index = guessedLetters.findIndex(el => 
-      el.letter == guessedLetter.letter && el.state == LetterState.WrongPosition
+      el.letter == guessedLetter.letter && el.state == LetterState.Misplaced
     );
     
     if (index !== -1) {

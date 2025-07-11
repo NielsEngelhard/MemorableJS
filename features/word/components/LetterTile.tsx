@@ -25,7 +25,7 @@ export default function LetterTile({ state, letter, correctAnimation = false, va
              ${correctAnimation ? 'animate-bounce transition-colors duration-300' : ''}
              ${state == LetterState.Correct ? 'bg-success text-white' : ''}
              ${state == LetterState.Wrong ? 'bg-error text-white' : ''}
-             ${state == LetterState.WrongPosition ? 'bg-warning text-white' : ''}
+             ${state == LetterState.Misplaced ? 'bg-warning text-white' : ''}
              ${!state && !letter ? 'bg-border/30' : ''}
              ${!state && letter ? 'bg-primary/20 border-primary/40' : ''}`}>
             <span className="font-bold uppercase">{letter}</span>

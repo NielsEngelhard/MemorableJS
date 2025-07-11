@@ -1,7 +1,7 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { WordValidator } from "@/features/word/word-validator";
 
-describe("validateLetters casing", () => {
+describe("validate casing", () => {
     it("should ignore casing 1", () => {
         const actualWord = "A";
         const guess      = "a";

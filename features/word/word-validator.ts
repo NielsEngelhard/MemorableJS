@@ -19,12 +19,23 @@ export class WordValidator {
                 letterData.position = i + 1;
                 letterData.state = LetterState.Correct;
             } else if (word.toUpperCase().includes(guessedLetter)) {
-                letterData.state = LetterState.WrongPosition;
+                letterData.state = LetterState.Misplaced;
             };
 
             validatedLetters[i] = letterData;            
         }
 
         return validatedLetters;
+    }
+
+    // Filter only the newly guessed letters
+    static filterNewLetters(validatedWord: ValidatedLetter[], existingLetters: ValidatedLetter[]): ValidatedLetter[] {
+        var newLetters: ValidatedLetter[] = new Array(validatedWord.length);
+
+        for(var i=0; i<validatedWord.length; i++) {
+            
+        }
+
+        return newLetters;        
     }
 }

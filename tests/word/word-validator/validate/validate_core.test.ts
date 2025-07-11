@@ -1,7 +1,7 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { WordValidator } from "@/features/word/word-validator";
 
-describe("validateLetters core", () => {
+describe("validate core", () => {
     it("should validate full correct guess correctly", () => {
         const actualWord = "banaan";
         const guess      = "banaan";
@@ -44,12 +44,12 @@ describe("validateLetters core", () => {
 
         expect(result).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({ letter: "K", state: LetterState.WrongPosition }),
-                expect.objectContaining({ letter: "O", state: LetterState.WrongPosition }),
-                expect.objectContaining({ letter: "N", state: LetterState.WrongPosition }),
-                expect.objectContaining({ letter: "I", state: LetterState.WrongPosition }),
-                expect.objectContaining({ letter: "J", state: LetterState.WrongPosition }),
-                expect.objectContaining({ letter: "N", state: LetterState.WrongPosition }),                
+                expect.objectContaining({ letter: "K", state: LetterState.Misplaced }),
+                expect.objectContaining({ letter: "O", state: LetterState.Misplaced }),
+                expect.objectContaining({ letter: "N", state: LetterState.Misplaced }),
+                expect.objectContaining({ letter: "I", state: LetterState.Misplaced }),
+                expect.objectContaining({ letter: "J", state: LetterState.Misplaced }),
+                expect.objectContaining({ letter: "N", state: LetterState.Misplaced }),                
             ])
         );        
     });
@@ -76,7 +76,7 @@ describe("WordValidator - mixed letter states", () => {
         { letter: "S", state: LetterState.Correct },
         { letter: "T", state: LetterState.Correct },
         { letter: "O", state: LetterState.Correct },
-        { letter: "E", state: LetterState.WrongPosition },
+        { letter: "E", state: LetterState.Misplaced },
         { letter: "L", state: LetterState.Wrong },
       ],
     },

@@ -12,7 +12,7 @@ export default function GuessedLettersOverview() {
 
     const [correctLetters, setCorrectLetters] = useState<string[]>([]);
     const [wrongLetters, setWrongLetters] = useState<string[]>([]);
-    const [wrongPositionLetters, setWrongPositionLetters] = useState<string[]>([]);
+    const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
 
     // POC kijken of ik overal hier moet subscriben mbt depedency en of dit het echt gaat updaten
     useEffect(() => {
@@ -22,7 +22,7 @@ export default function GuessedLettersOverview() {
             .map(l => l.letter ?? "")
         )]);
         setWrongLetters(currentRound.guessedLetters.filter(l => l.state == LetterState.Wrong && l.letter != undefined).map(l => l.letter ?? ""));
-        setWrongPositionLetters(currentRound.guessedLetters.filter(l => l.state == LetterState.WrongPosition && l.letter != undefined).map(l => l.letter ?? ""));
+        setMisplacedLetters(currentRound.guessedLetters.filter(l => l.state == LetterState.Misplaced && l.letter != undefined).map(l => l.letter ?? ""));
     }, [currentRound]);
 
     return (
@@ -47,13 +47,13 @@ export default function GuessedLettersOverview() {
                         </div>                        
                     )}
 
-                    {(wrongPositionLetters && wrongPositionLetters.length > 0) && (
+                    {(misplacedLetters && misplacedLetters.length > 0) && (
                         <div className="flex gap-2">
-                            {wrongPositionLetters.map((value, index) => (
+                            {misplacedLetters.map((value, index) => (
                                 <LetterTile
                                     key={`wrongpos-${index}`}
                                     letter={value}
-                                    state={LetterState.WrongPosition}
+                                    state={LetterState.Misplaced}
                                     variant="small"
                                 />
                             ))}                        
