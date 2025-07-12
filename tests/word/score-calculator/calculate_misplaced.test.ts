@@ -1,9 +1,9 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ScoreCalculator } from "@/features/score/score-calculator";
-import { CORRECT_AFTER_MISPLACED_POINTS, MISPLACED_POINTS } from "@/features/score/score-constants";
+import { MISPLACED_POINTS } from "@/features/score/score-constants";
 import { ValidatedLetter } from "@/features/word/word-models";
 
-describe("calculate score correct", () => {
+describe("calculate score misplaced", () => {
     it("should assign points of single misplaced when 1 new letter is misplaced", () => {
         const newMisplacedLetters: ValidatedLetter[] = [
             { letter: "X", position: 1, state: LetterState.Misplaced }
