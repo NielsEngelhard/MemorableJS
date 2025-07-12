@@ -9,8 +9,12 @@ describe("calculate score misplaced", () => {
             { letter: "X", position: 1, state: LetterState.Misplaced }
         ];
 
-        const score = ScoreCalculator.calculate(newMisplacedLetters, []);
-
+        const score = ScoreCalculator.calculate({
+            newLetters: newMisplacedLetters,
+            previouslyGuessedLetters: [],
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
         expect(score).toEqual(MISPLACED_POINTS);
     });
 
@@ -21,7 +25,12 @@ describe("calculate score misplaced", () => {
             { letter: "Q", position: 3, state: LetterState.Misplaced }
         ];
 
-        const score = ScoreCalculator.calculate(newMisplacedLetters, []);
+        const score = ScoreCalculator.calculate({
+            newLetters: newMisplacedLetters,
+            previouslyGuessedLetters: [],
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
 
         expect(score).toEqual(MISPLACED_POINTS * newMisplacedLetters.length);
     });         

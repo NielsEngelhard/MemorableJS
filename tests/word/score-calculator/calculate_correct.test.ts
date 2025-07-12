@@ -9,7 +9,12 @@ describe("calculate score correct", () => {
             { letter: "A", position: 1, state: LetterState.Correct }
         ];
 
-        const score = ScoreCalculator.calculate(newCorrectLetters, []);
+        const score = ScoreCalculator.calculate({
+            newLetters: newCorrectLetters,
+            previouslyGuessedLetters: [],
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
 
         expect(score).toEqual(INSTANT_CORRECT_POINTS);
     });
@@ -21,7 +26,12 @@ describe("calculate score correct", () => {
             { letter: "C", position: 5, state: LetterState.Correct }
         ];
 
-        const score = ScoreCalculator.calculate(newCorrectLetters, []);
+        const score = ScoreCalculator.calculate({
+            newLetters: newCorrectLetters,
+            previouslyGuessedLetters: [],
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
 
         expect(score).toEqual(INSTANT_CORRECT_POINTS * newCorrectLetters.length);
     });
@@ -35,7 +45,12 @@ describe("calculate score correct", () => {
             { letter: "A", state: LetterState.Misplaced }
         ];
 
-        const score = ScoreCalculator.calculate(correctLetterThatWasMisplacedBefore, alreadyGuessedLetters);
+        const score = ScoreCalculator.calculate({
+            newLetters: correctLetterThatWasMisplacedBefore,
+            previouslyGuessedLetters: alreadyGuessedLetters,
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
 
         expect(score).toEqual(CORRECT_AFTER_MISPLACED_POINTS);
     });    
@@ -52,7 +67,12 @@ describe("calculate score correct", () => {
             { letter: "C", state: LetterState.Misplaced }
         ];
 
-        const score = ScoreCalculator.calculate(correctLetterThatWasMisplacedBefore, alreadyGuessedLetters);
+        const score = ScoreCalculator.calculate({
+            newLetters: correctLetterThatWasMisplacedBefore,
+            previouslyGuessedLetters: alreadyGuessedLetters,
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
 
         expect(score).toEqual((CORRECT_AFTER_MISPLACED_POINTS * 2) + INSTANT_CORRECT_POINTS);
     });        
@@ -62,7 +82,12 @@ describe("calculate score correct", () => {
             { letter: "a", position: 1, state: LetterState.Correct }
         ];
 
-        const score = ScoreCalculator.calculate(newCorrectLetters, []);
+        const score = ScoreCalculator.calculate({
+            newLetters: newCorrectLetters,
+            previouslyGuessedLetters: [],
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
 
         expect(score).toEqual(INSTANT_CORRECT_POINTS);
     });   
@@ -72,8 +97,13 @@ describe("calculate score correct", () => {
             { letter: "A", position: 1, state: LetterState.Correct }
         ];
 
-        const score = ScoreCalculator.calculate(newCorrectLetters, []);
-
+        const score = ScoreCalculator.calculate({
+            newLetters: newCorrectLetters,
+            previouslyGuessedLetters: [],
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
+        
         expect(score).toEqual(INSTANT_CORRECT_POINTS);
     });      
     
@@ -86,8 +116,13 @@ describe("calculate score correct", () => {
             { letter: "A", position: 1, state: LetterState.Misplaced }
         ];        
 
-        const score = ScoreCalculator.calculate(newCorrectLetters, previouslyGuessedLetters);
-
+        const score = ScoreCalculator.calculate({
+            newLetters: newCorrectLetters,
+            previouslyGuessedLetters: previouslyGuessedLetters,
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
+        
         expect(score).toEqual(CORRECT_AFTER_MISPLACED_POINTS);
     });   
     
@@ -100,7 +135,12 @@ describe("calculate score correct", () => {
             { letter: "a", position: 1, state: LetterState.Misplaced }
         ];              
 
-        const score = ScoreCalculator.calculate(newCorrectLetters, previouslyGuessedLetters);
+        const score = ScoreCalculator.calculate({
+            newLetters: newCorrectLetters,
+            previouslyGuessedLetters: previouslyGuessedLetters,
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
 
         expect(score).toEqual(CORRECT_AFTER_MISPLACED_POINTS);
     });     
