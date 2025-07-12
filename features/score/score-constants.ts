@@ -1,7 +1,7 @@
 // BASE
 export const INSTANT_CORRECT_POINTS: number = 5;
-export const WRONG_POSITION_POINTS: number = 2;
-export const CORRECT_AFTER_WRONG_POSITION_POINTS: number = 2;
+export const MISPLACED_POINTS: number = 2;
+export const CORRECT_AFTER_MISPLACED_POINTS: number = 2;
 
 // BONUS
 export const INSTANT_GUESS_BONUS: number = 10;

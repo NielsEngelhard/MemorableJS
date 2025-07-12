@@ -32,6 +32,7 @@ export default async function GuessWord(command: GuessWordCommand): Promise<Gues
     const validatedWord = WordValidator.validateAndFilter(command.word, currentRound.word.word, currentRound.guessedLetters);
     const score = ScoreCalculator.calculate(validatedWord.newLetters);
 
+    // TODO: ADD MORE ASSIGNERS ETC? CALCULATION IS DONE BUT THE ASSIGNMENT AND SAFE ETC IS NOT SAFED YET>
     // TODO: Assign score(s) based on current guess
     // TODO: Update the current game
 

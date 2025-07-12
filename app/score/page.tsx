@@ -7,7 +7,7 @@ import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import CardHeader from "@/components/ui/card/CardHeader";
 import TitleText from "@/components/ui/text/TitleText";
-import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_WRONG_POSITION_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, POINTS_PER_STREAK_ITEM, SECOND_GUESS_BONUS, STREAK_THRESHOLD, THIRD_GUESS_BONUS, WRONG_POSITION_POINTS } from "@/features/score/score-constants";
+import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, POINTS_PER_STREAK_ITEM, SECOND_GUESS_BONUS, STREAK_THRESHOLD, THIRD_GUESS_BONUS, MISPLACED_POINTS } from "@/features/score/score-constants";
 import { ArrowLeft, Trophy, CheckCircle, AlertCircle, Circle, Target, Zap, TrendingUp } from "lucide-react";
 
 const ScoringSystem = () => {
@@ -99,14 +99,14 @@ const ScoringSystem = () => {
                 <ScoreCard
                   icon={AlertCircle}
                   title="Wrong Position"
-                  points={WRONG_POSITION_POINTS}
+                  points={MISPLACED_POINTS}
                   description="Letter is in the word but wrong position"
                   color="yellow"
                 />
                 <ScoreCard
                   icon={Circle}
                   title="Correct After Yellow"
-                  points={CORRECT_AFTER_WRONG_POSITION_POINTS}
+                  points={CORRECT_AFTER_MISPLACED_POINTS}
                   description="Letter moves from yellow to green position"
                   color="blue"
                 />
