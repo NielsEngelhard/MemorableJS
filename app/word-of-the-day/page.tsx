@@ -1,14 +1,15 @@
 import PageBase from "@/components/layout/PageBase";
 import Badge from "@/components/ui/Badge";
 import BasicPageIntro from "@/components/ui/block/BasicPageIntro";
+import Button from "@/components/ui/Button";
 import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import CardHeader from "@/components/ui/card/CardHeader";
 import { getLocalizedFullDayString } from "@/lib/date-util";
-import { Calendar, Sparkles, Target } from "lucide-react";
+import { Brain, Calendar, Sparkles } from "lucide-react";
 
 export default function WordOfTheDayPage() {
-    const available = false;
+    const available = true;
 
     return (
         <PageBase>
@@ -33,15 +34,30 @@ export default function WordOfTheDayPage() {
                 <CardBody>
                     <CardHeader>
                         <div className="flex items-center justify-center w-full font-bold gap-1">
-                            <Target size={24} className="text-accent" />
+                            <Brain size={24} className="text-accent" />
                             <span className="text-accent text-xl">Today's Challenge</span>
                         </div>
                     </CardHeader>
 
                     <div className="text-center text-foreground-muted">
-                        Every day at midnight, we reveal a new carefully selected word for the entire LetterLeague community to solve.
+                        Every day at midnight <span className="font-medium">UTC+02:00</span>, we reveal a new carefully selected word for the entire LetterLeague community to solve.
                         Challenge yourself and compete with players worldwide to see who can guess today's word in the fewest attempts.                            
                     </div>                    
+
+                    <div>
+                        - Elke dag weer een verrasing
+                        - Woord is hand picked elke dag
+                        - 24 Hours One attempt per day
+                    </div>
+
+                   <div className="flex flex-col gap-1">
+                        <Button variant="orange" disabled={!available}>
+                            Play!
+                        </Button>
+                        <div className="text-foreground-muted text-xs text-center">
+                            Remember: You only get one attempt per day, so make it count!
+                        </div>                    
+                   </div>
 
                 </CardBody>
             </Card>
