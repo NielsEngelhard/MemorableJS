@@ -5,7 +5,6 @@ import { DbGame, DbGamePlayer, DbGameWithRoundsAndPlayers, GameMode, GameTable }
 import { DbGameRound, GameRoundTable } from "@/drizzle/schema/game-round";
 import { getCurrentUser } from "@/features/auth/current-user";
 import { ValidatedLetter, ValidatedWord } from "@/features/word/word-models";
-import validateWordGuess, { WordValidationResult } from "@/features/word/deprecated-word-validator";
 import { eq } from "drizzle-orm";
 import { DetailedValidationResult, WordValidator } from "@/features/word/word-validator";
 import { ScoreCalculator } from "@/features/score/score-calculator";
@@ -19,6 +18,7 @@ export interface GuessWordCommand {
 export interface GuessWordResponse {
     guess: ValidatedWord;
     letterStates: ValidatedLetter[];
+    scoreResult: CalculateScoreResult;
     theWord?: string; // The word is send along when the current round is over
 }
 
@@ -27,38 +27,42 @@ export default async function GuessWord(command: GuessWordCommand): Promise<Gues
     const game = await getGame(command.gameId);
     await validateUserAuth(game);
 
-    let currentPlayer = game.players
+    let currentPlayer = getCurrentPlayer(game);
 
     let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
     if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);    
     
     const validationResult = WordValidator.validateAndFilter(command.word, currentRound.word.word, currentRound.guessedLetters);
 
-    const score = ScoreCalculator.calculate({
+    // TODO: move this line to UPDATE CURRENT GAME STATE
+    currentRound.guesses.push({
+        guessIndex: currentRound.currentGuessIndex,
+        letters: validationResult.validatedWord
+    });
+
+    const scoreResult = ScoreCalculator.calculate({
         currentGuessIndex: currentRound.currentGuessIndex,
         newLetters: validationResult.newLetters,
         previouslyGuessedLetters: currentRound.guessedLetters,
         wordGuessed: validationResult.allCorrect
     });
 
-    addScoreToPlayer(score, game.);
+    addScoreToPlayer(scoreResult, currentPlayer);
 
-    // TODO: ADD MORE ASSIrGNERS ETC? CALCULATION IS DONE BUT THE ASSIGNMENT AND SAFE ETC IS NOT SAFED YET>
-    // TODO: Assign score(s) based on current guess
-    // TODO: Update the curent game
-
-    // const validationResult = validateAndAddWord(command.word, currentRound);
-
-    const currentGuess = await updateCurrentGameState(game, currentRound, validationResult);
+    const currentGuess = await updateCurrentGameState(game, currentRound, validationResult, scoreResult);
 
     return currentGuess;
 }
 
-function addScoreToPlayer(score: CalculateScoreResult, player: DbGamePlayer) {
-
+function addScoreToPlayer(scoreResult: CalculateScoreResult, player: DbGamePlayer) {
+    player.score += scoreResult.totalScore;
 }
 
-async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, validationResult: DetailedValidationResult): Promise<GuessWordResponse> {
+function getCurrentPlayer(game: DbGameWithRoundsAndPlayers): DbGamePlayer {
+    return game.players[0]; // Works for solo game because then there is only 1 player - but needs adjustments for multiplayer games TODO FUTURE
+}
+
+async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, validationResult: DetailedValidationResult, scoreResult: CalculateScoreResult): Promise<GuessWordResponse> {
     const roundMaxGuessesReached = currentRound.currentGuessIndex >= game.maxAttemptsPerRound;
     const endCurrentRound = roundMaxGuessesReached || validationResult.allCorrect;
     const endGame = endCurrentRound && (game.currentRoundIndex >= game.totalRounds);
@@ -79,7 +83,8 @@ async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, v
     return {
         guess: currentGuess,
         letterStates: currentRound.guessedLetters,
-        theWord: endCurrentRound ? currentRound.word.word : undefined
+        theWord: endCurrentRound ? currentRound.word.word : undefined,
+        scoreResult: scoreResult
     };    
 }
 
@@ -103,20 +108,6 @@ async function triggerNextRound(game: DbGame) {
 
 async function triggerEndGame(game: DbGame) {
 
-}
-
-function validateAndAddWord(guess: string, currentRound: DbGameRound): WordValidationResult {
-    const validationResult = validateWordGuess(guess, currentRound.word, currentRound.guessedLetters);
-    if (validationResult == null) throw Error("Invalid guess");
-    
-    const validatedWord: ValidatedWord = {
-        guessIndex: currentRound.currentGuessIndex,
-        letters: validationResult.validatedLetters,
-    };
-    
-    currentRound.guesses.push(validatedWord);
-    
-    return validationResult;
 }
 
 async function getGame(gameId: string): Promise<DbGameWithRoundsAndPlayers> {
