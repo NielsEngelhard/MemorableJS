@@ -57,6 +57,14 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
         guesses: [...prevRound.guesses, response.guessResult],
         guessedLetters: response.letterStates
       }));
+
+      setPlayers(prevPlayers =>
+        prevPlayers.map(player =>
+          player.id === response.userId
+            ? { ...player, score: player.score + response.scoreResult.totalScore }
+            : player
+        )
+      );      
       
       setCurrentGuessIndex(currentGuessIndex + 1);
 

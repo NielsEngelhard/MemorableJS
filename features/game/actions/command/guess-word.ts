@@ -16,6 +16,7 @@ export interface GuessWordCommand {
 }
 
 export interface GuessWordResponse {
+    userId: string;
     guessResult: ValidatedWord;
     letterStates: ValidatedLetter[];
     scoreResult: CalculateScoreResult;
@@ -76,6 +77,7 @@ async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, v
     }
 
     return {
+        userId: currentPlayer.userId,
         guessResult: currentGuess,
         letterStates: currentRound.guessedLetters,
         theWord: endCurrentRound ? currentRound.word.word : undefined,
