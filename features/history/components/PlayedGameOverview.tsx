@@ -4,7 +4,7 @@ import BasicPageIntro from "@/components/ui/block/BasicPageIntro";
 import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import StatisticCard from "@/components/ui/card/StatisticCard";
-import { Star, Trophy } from "lucide-react";
+import { LetterText, Trophy } from "lucide-react";
 import RoundHistory from "./RoundHistory";
 import TitleText from "@/components/ui/text/TitleText";
 import CardHeader from "@/components/ui/card/CardHeader";
@@ -23,7 +23,7 @@ export default function PlayedGameOverview({ gameHistory }: Props) {
                 <CardBody>
                     <BasicPageIntro
                         title="GAME OVERVIEW"
-                        subText="Keep practicing"
+                        subText="Not bad. Not bad."
                         Icon={Trophy}
                     />
 
@@ -38,8 +38,8 @@ export default function PlayedGameOverview({ gameHistory }: Props) {
           <Card>
             <CardBody>
                 <CardHeader>
-                    <Star className="w-6 h-6 text-blue-600" />
-                    <TitleText>Round breakdown</TitleText>
+                    <LetterText className="w-6 h-6 text-blue-600" />
+                    <TitleText>Rounds</TitleText>
                 </CardHeader> 
 
                 <div className="flex flex-col gap-2">

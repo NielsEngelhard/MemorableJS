@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function GameBoard({  }: Props) {
-    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode, theWord, currentGuessIndex } = useActiveGame();
+    const { maxAttemptsPerRound, wordLength, submitGuess, currentRound, totalRounds, gameMode, theWord, players } = useActiveGame();
     const { settings } = useUserSettings();
     const [currentGuess, setCurrentGuess] = useState<string>("");
     const [canGuess, setCanGuess] = useState(true);
@@ -22,11 +22,13 @@ export default function GameBoard({  }: Props) {
 
     useEffect(() => {
         resetCurrentGuess();
-    }, []);
+    }, [settings.preFillWord, currentRound]);
 
     function resetCurrentGuess() {
         if (settings.preFillWord) {
             preFillWord();
+        } else {
+            setCurrentGuess("");
         }
     }
 
@@ -96,7 +98,11 @@ export default function GameBoard({  }: Props) {
             
             {/* Header section */}
             <div className="grid grid-cols-3 text-center mb-2 lg:mb-0">
-                <div></div>
+                <div className="text-start font-bold text-secondary/50">
+                    {players.length == 1 && (
+                        <span>{players[0].score}pts</span>
+                    )}
+                </div>
                 <div className="font-bold text-xl md:text-3xl">{GameModeToText(gameMode)}</div>
                 <div className="flex justify-end items-center"><Badge size="lg">{currentRound.roundNumber} / {totalRounds}</Badge></div>
             </div>
