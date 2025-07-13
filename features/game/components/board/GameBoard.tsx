@@ -95,10 +95,10 @@ export default function GameBoard({  }: Props) {
         <div className="w-full">
             
             {/* Header section */}
-            <div className="grid grid-cols-3 text-center">
+            <div className="grid grid-cols-3 text-center mb-2 lg:mb-0">
                 <div></div>
-                <div className="font-bold text-3xl">{GameModeToText(gameMode)}</div>
-                <div className="flex justify-end"><Badge size="lg">{currentRound.roundNumber} / {totalRounds}</Badge></div>
+                <div className="font-bold text-xl md:text-3xl">{GameModeToText(gameMode)}</div>
+                <div className="flex justify-end items-center"><Badge size="lg">{currentRound.roundNumber} / {totalRounds}</Badge></div>
             </div>
 
             {/* Body */}
@@ -117,7 +117,6 @@ export default function GameBoard({  }: Props) {
                         displayEmptyRow(index)
                     ))}
                 </div>
-
                     <WordInput
                         theWord={theWord}
                         currentGuess={currentGuess}

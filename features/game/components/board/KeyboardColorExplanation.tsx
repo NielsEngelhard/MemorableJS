@@ -1,6 +1,6 @@
 export default function KeyboardColorExplanation() {
     return (
-      <div className="mt-4 flex justify-center gap-4 text-xs text-foreground-muted flex-col lg:flex-row">
+      <div className="mt-4 flex justify-center gap-4 text-xs text-foreground-muted flex-col md:flex-row">
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 bg-success rounded"></div>
           <span>Correct</span>

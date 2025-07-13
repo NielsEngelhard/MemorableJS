@@ -18,9 +18,9 @@ interface Props {
 
 export default function CustomKeyboard({ correctKeys, warningKeys, errorKeys, onKeyPress, onDelete, onEnter }: Props) {
     function determineKeyVariant(keyboardKey: string): "neutral" | "success" | "warning" | "error" | null | undefined {
-        if (warningKeys?.includes(keyboardKey.toLowerCase())) return "warning";
-        if (correctKeys?.includes(keyboardKey.toLowerCase())) return "success";        
-        if (errorKeys?.includes(keyboardKey.toLowerCase())) return "error";
+        if (warningKeys?.includes(keyboardKey.toUpperCase())) return "warning";
+        if (correctKeys?.includes(keyboardKey.toUpperCase())) return "success";        
+        if (errorKeys?.includes(keyboardKey.toUpperCase())) return "error";
 
         return "neutral";
     }
