@@ -2,7 +2,11 @@ import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import SubTitleText from "@/components/ui/text/SubTitleText";
 
-export default function CurrentScore() {
+interface Props {
+    score: number;
+}
+
+export default function SinglePlayerScoreTile({score} : Props) {
     return (
         <Card variant="fade">
             <CardBody className="p-2 lg:p-6 items-center text-primary !gap-0">
@@ -10,7 +14,7 @@ export default function CurrentScore() {
                     text="Score"
                 />   
                 <div className="font-bold text-2xl">
-                    12
+                    {score}
                 </div>
 
                 <div>

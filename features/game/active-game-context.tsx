@@ -1,7 +1,7 @@
 import { GameMode } from "@/drizzle/schema";
 import React, { createContext, useContext, useState } from "react";
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from "./game-constants";
-import { GameModel, RoundModel } from "./models";
+import { GameModel, GamePlayerModel, RoundModel } from "./models";
 import GuessWord from "./actions/command/guess-word";
 
 type ActiveGameContextType = {
@@ -17,6 +17,7 @@ type ActiveGameContextType = {
     currentGuessIndex: number;
     currentRound: RoundModel;
     theWord: string | undefined;
+    players: GamePlayerModel[];
 }
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
@@ -32,6 +33,7 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
     const [currentRound, setCurrentRound] = useState<RoundModel>(getCurrentRound());
     const [currentGuessIndex, setCurrentGuessIndex] = useState(currentRound.currentGuessIndex);
     const [theWord, setTheWord] = useState<string | undefined>(undefined);
+    const [players, setPlayers] = useState<GamePlayerModel[]>(game.players);
 
     const id = game.id;
     const userHostid =  game.userHostId;
@@ -52,7 +54,7 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
       
       setCurrentRound(prevRound => ({
         ...prevRound,
-        guesses: [...prevRound.guesses, response.guess],
+        guesses: [...prevRound.guesses, response.guessResult],
         guessedLetters: response.letterStates
       }));
       
@@ -107,6 +109,7 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
           rounds,
           currentRound,
           theWord,
+          players
           }}
         >
           {children}
