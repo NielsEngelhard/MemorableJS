@@ -50,7 +50,8 @@ export function mapGameToHistory(game: DbGameWithRoundsAndPlayers): DbGameHistor
                 index: r.roundNumber,
                 word: r.word.word,
                 wordGuessed: r.guesses.some(g => !g.letters.some(l => l.state != LetterState.Correct)),
-                guesses: r.guesses.flatMap(guess => guess.letters.map(letter => letter.letter as string)),
+                guesses: r.guesses.map(guess => guess.letters.map(letter => letter.letter as string).join('')),
+                points: r.score
             }
         }),
         players: game.players.map(p => {

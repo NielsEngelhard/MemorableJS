@@ -1,4 +1,4 @@
-import { integer, pgTable, text, uuid, boolean } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt } from "../schema-helpers";
 import { UsersTable } from "./users";
 import { gameVisibilityEnum } from "./enum/game-visibility";
@@ -16,7 +16,7 @@ export const GameTable = pgTable("game", {
     visibility: gameVisibilityEnum().notNull(),
     gameMode: gameModeEnum().notNull(),
     wordLength: integer().notNull(),    
-    currentRoundIndex: integer().notNull().default(1),
+    currentRoundIndex: integer().notNull().default(1),    
     createdAt,
 });
 export type DbGame = InferSelectModel<typeof GameTable>;

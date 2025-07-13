@@ -1,4 +1,4 @@
-import { integer, jsonb, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { integer, jsonb, pgTable, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id } from "../schema-helpers";
 import { UsersTable } from "./users";
 import { gameModeEnum } from "../schema";
@@ -10,7 +10,7 @@ export const GameHistoryTable = pgTable("game_history", {
     gameMode: gameModeEnum().notNull(),
     totalScore: integer().notNull(),
     rounds: jsonb('guesses').$type<GameHistoryRound[]>().notNull(),
-    players: jsonb('players').$type<GameHistoryPlayer[]>().notNull(),
+    players: jsonb('players').$type<GameHistoryPlayer[]>().notNull(),    
     createdAt,
 });
 

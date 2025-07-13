@@ -12,6 +12,7 @@ export const GameRoundTable = pgTable("game_round", {
     word: jsonb('word').$type<Word>().notNull(),
     guesses: jsonb('guesses').$type<ValidatedWord[]>().notNull().default([]),
     guessedLetters: jsonb('guessed_letters').$type<ValidatedLetter[]>().notNull().default([]),
+    score: integer().notNull().default(0),
 }, (t) => [
   unique().on(t.gameId, t.roundNumber)
 ]);
