@@ -4,9 +4,10 @@ import { APP_NAME } from "@/lib/global-constants";
 import Button from "../ui/Button";
 import FadedText from "../ui/text/FadedText";
 import { useAuth } from "@/features/auth/auth-context";
-import { Calendar, Play, Sparkle, Sparkles, User } from "lucide-react";
+import { Calendar, Play, Sparkles, User } from "lucide-react";
 import Link from "next/link";
 import Badge from "../ui/Badge";
+import { WORD_OF_THE_DAY_ROUTE } from "@/lib/routes";
 
 export default function Header() {
     const { user, toggleShowAuthModal } = useAuth();    
@@ -25,11 +26,13 @@ export default function Header() {
                     </div>
                     
                     {user && (
-                        <Badge variant="accent" size="md">
-                            <Calendar size={12} />
-                            WoD available!
-                            <Sparkles size={12} />
-                        </Badge>
+                        <Link href={WORD_OF_THE_DAY_ROUTE}>
+                            <Badge variant="accent" size="md">
+                                <Calendar size={12} />
+                                WoD available!
+                                <Sparkles size={12} />
+                            </Badge>                        
+                        </Link>
                     )}                    
                 </div>
 

@@ -13,6 +13,8 @@ const badgeVariants = cva(
     variants: {
       variant: {
         primary: "bg-primary text-white",
+        success: "bg-success/15 text-success/80",
+        error: "bg-error/15 text-error/80",
         primaryLight: "bg-primary/20 text-primary",
         accent: "bg-orange-50 border border-orange-200 hover:bg-orange-100 text-orange-700",
       },
