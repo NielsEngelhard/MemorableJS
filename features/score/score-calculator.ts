@@ -1,6 +1,6 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ValidatedLetter } from "../word/word-models";
-import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, MISPLACED_POINTS, SECOND_GUESS_BONUS, STREAK_THRESHOLD, THIRD_GUESS_BONUS } from "./score-constants";
+import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, MISPLACED_POINTS, SECOND_GUESS_BONUS, STREAK_THRESHOLD, JUST_A_GUESS_BONUS } from "./score-constants";
 import { CalculateCommand, CalculateScoreResult } from "./score-models";
 import { StreakFinder } from "./streak-finder";
 
@@ -65,10 +65,8 @@ function calculateWordGuessedBonus(currentGuessIndex: number): number {
             return INSTANT_GUESS_BONUS;
         case 2: 
             return SECOND_GUESS_BONUS;
-        case 3: 
-            return THIRD_GUESS_BONUS;
-        default:
-            return 0;                        
+        default: 
+            return JUST_A_GUESS_BONUS;
     }
 }
 

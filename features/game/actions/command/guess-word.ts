@@ -1,14 +1,15 @@
 "use server";
 
 import { db } from "@/drizzle/db";
-import { DbGame, DbGameWithRounds, GameMode, GameTable } from "@/drizzle/schema";
+import { DbGame, DbGamePlayer, DbGameWithRounds, GameMode, GameTable } from "@/drizzle/schema";
 import { DbGameRound, GameRoundTable } from "@/drizzle/schema/game-round";
 import { getCurrentUser } from "@/features/auth/current-user";
 import { ValidatedLetter, ValidatedWord } from "@/features/word/word-models";
 import validateWordGuess, { WordValidationResult } from "@/features/word/deprecated-word-validator";
 import { eq } from "drizzle-orm";
-import { WordValidator } from "@/features/word/word-validator";
+import { DetailedValidationResult, WordValidator } from "@/features/word/word-validator";
 import { ScoreCalculator } from "@/features/score/score-calculator";
+import { CalculateScoreResult } from "@/features/score/score-models";
 
 export interface GuessWordCommand {
     gameId: string;
@@ -29,33 +30,40 @@ export default async function GuessWord(command: GuessWordCommand): Promise<Gues
     let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
     if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);    
     
-    const validatedWord = WordValidator.validateAndFilter(command.word, currentRound.word.word, currentRound.guessedLetters);
+    const validationResult = WordValidator.validateAndFilter(command.word, currentRound.word.word, currentRound.guessedLetters);
+
     const score = ScoreCalculator.calculate({
         currentGuessIndex: currentRound.currentGuessIndex,
-        newLetters: [],// TODO
+        newLetters: validationResult.newLetters,
         previouslyGuessedLetters: currentRound.guessedLetters,
-        wordGuessed: false // TODO
+        wordGuessed: validationResult.allCorrect
     });
 
-    // TODO: ADD MORE ASSIGNERS ETC? CALCULATION IS DONE BUT THE ASSIGNMENT AND SAFE ETC IS NOT SAFED YET>
-    // TODO: Assign score(s) based on current guess
-    // TODO: Update the current game
 
-    const validationResult = validateAndAddWord(command.word, currentRound);
+
+    // TODO: ADD MORE ASSIrGNERS ETC? CALCULATION IS DONE BUT THE ASSIGNMENT AND SAFE ETC IS NOT SAFED YET>
+    // TODO: Assign score(s) based on current guess
+    // TODO: Update the curent game
+
+    // const validationResult = validateAndAddWord(command.word, currentRound);
 
     const currentGuess = await updateCurrentGameState(game, currentRound, validationResult);
 
     return currentGuess;
 }
 
-async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, validationResult: WordValidationResult): Promise<GuessWordResponse> {
+function addScoreToPlayer(player: DbGamePlayer, score: CalculateScoreResult) {
+    
+}
+
+async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, validationResult: DetailedValidationResult): Promise<GuessWordResponse> {
     const roundMaxGuessesReached = currentRound.currentGuessIndex >= game.maxAttemptsPerRound;
     const endCurrentRound = roundMaxGuessesReached || validationResult.allCorrect;
     const endGame = endCurrentRound && (game.currentRoundIndex >= game.totalRounds);
 
     const currentGuess: ValidatedWord = {
         guessIndex: currentRound.currentGuessIndex,
-        letters: validationResult.validatedLetters
+        letters: validationResult.newLetters
     }
 
     if (endGame) {
@@ -113,7 +121,8 @@ async function getGame(gameId: string): Promise<DbGameWithRounds> {
     const game = await db.query.GameTable.findFirst({
         where: (game, { eq }) => eq(game.id, gameId),
         with: {
-            rounds: true
+            rounds: true, // OPTIMIZE: maybe only retrieve the relevant rounds
+            players: true // OPTIMIZE: maybe only retrieve the relevant players
         }
     });
 

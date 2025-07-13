@@ -1,6 +1,6 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ScoreCalculator } from "@/features/score/score-calculator";
-import { INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, POINTS_PER_STREAK_ITEM, SECOND_GUESS_BONUS, THIRD_GUESS_BONUS } from "@/features/score/score-constants";
+import { INSTANT_GUESS_BONUS, SECOND_GUESS_BONUS, JUST_A_GUESS_BONUS } from "@/features/score/score-constants";
 import { ValidatedLetter } from "@/features/word/word-models";
 
 describe("calculate bonus points", () => {
@@ -36,7 +36,7 @@ describe("calculate bonus points", () => {
         expect(score.wordGuessedBonusScore).toEqual(SECOND_GUESS_BONUS);
     });
     
-    it("should assign bonus points when the guess is guessed in the third round", () => {
+    it("should assign bonus points when the guess is guessed after the second round", () => {
         const newCorrectLetters: ValidatedLetter[] = [
             { letter: "A", position: 1, state: LetterState.Correct },
             { letter: "B", position: 2, state: LetterState.Correct },
@@ -49,10 +49,10 @@ describe("calculate bonus points", () => {
             previouslyGuessedLetters: [],
         });
 
-        expect(score.wordGuessedBonusScore).toEqual(THIRD_GUESS_BONUS);
+        expect(score.wordGuessedBonusScore).toEqual(JUST_A_GUESS_BONUS);
     });  
     
-    it("should not assign bonus points if guess is guessed after third round", () => {
+    it("should assign standard guess points if guess is guessed after second round", () => {
         const newCorrectLetters: ValidatedLetter[] = [
             { letter: "A", position: 1, state: LetterState.Correct },
             { letter: "B", position: 2, state: LetterState.Correct },
@@ -66,6 +66,6 @@ describe("calculate bonus points", () => {
         });
 
 
-        expect(score.wordGuessedBonusScore).toEqual(0);
+        expect(score.wordGuessedBonusScore).toEqual(JUST_A_GUESS_BONUS);
     });      
 });

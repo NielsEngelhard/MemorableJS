@@ -1,21 +1,21 @@
 import { WordValidator } from "@/features/word/word-validator";
 
-describe("is correct in response", () => {
-    it("should return isCorrect=TRUE when the word is guessed", () => {
+describe("allCorrect in response", () => {
+    it("should return allCorrect=TRUE when the word is guessed", () => {
         const actualWord = "banaan";
         const guess      = "banaan";
 
         const result = WordValidator.validateAndFilter(guess, actualWord, []);
 
-        expect(result.isCorrect).toBe(true);    
+        expect(result.allCorrect).toBe(true);    
     });
 
-    it("should return isCorrect=FALSE when the word is NOT guessed", () => {
+    it("should return allCorrect=FALSE when the word is NOT guessed", () => {
         const actualWord = "banaan";
         const guess      = "banaen";
 
         const result = WordValidator.validateAndFilter(guess, actualWord, []);
 
-        expect(result.isCorrect).toBe(false);    
+        expect(result.allCorrect).toBe(false);    
     });    
 });

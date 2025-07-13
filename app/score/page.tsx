@@ -7,7 +7,7 @@ import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import CardHeader from "@/components/ui/card/CardHeader";
 import TitleText from "@/components/ui/text/TitleText";
-import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, POINTS_PER_STREAK_ITEM, SECOND_GUESS_BONUS, STREAK_THRESHOLD, THIRD_GUESS_BONUS, MISPLACED_POINTS } from "@/features/score/score-constants";
+import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, POINTS_PER_STREAK_ITEM, SECOND_GUESS_BONUS, STREAK_THRESHOLD, JUST_A_GUESS_BONUS, MISPLACED_POINTS } from "@/features/score/score-constants";
 import { ArrowLeft, Trophy, CheckCircle, AlertCircle, Circle, Target, Zap, TrendingUp } from "lucide-react";
 
 const ScoringSystem = () => {
@@ -150,8 +150,8 @@ const ScoringSystem = () => {
                 <ScoreCard
                   icon={Trophy}
                   title="Third Guess"
-                  points={THIRD_GUESS_BONUS}
-                  description="Solve the word on your third try"
+                  points={JUST_A_GUESS_BONUS}
+                  description="Solve the word after round 2"
                   color="purple"
                 />
               </div>
