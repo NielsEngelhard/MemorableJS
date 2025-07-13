@@ -13,9 +13,6 @@ describe("calculate bonus points", () => {
             { letter: "C", position: 3, state: LetterState.Correct },
         ];
 
-        const expectedScore = (newCorrectLetters.length * INSTANT_CORRECT_POINTS)   // CORRECT PER LETTER
-                              + (newCorrectLetters.length * POINTS_PER_STREAK_ITEM) // STREAK BONUS TIMES STREAK LENGTH                            
-
         const score = ScoreCalculator.calculate({
             currentGuessIndex: 6,
             wordGuessed: false,
@@ -23,7 +20,7 @@ describe("calculate bonus points", () => {
             previouslyGuessedLetters: [],
         });
 
-        expect(score).toEqual(expectedScore);
+        expect(score.streakScore).toEqual(newCorrectLetters.length * POINTS_PER_STREAK_ITEM);
     });
 
     it("should assign streak bonus when the streak threshold is surpassed by a few", () => {
@@ -37,9 +34,6 @@ describe("calculate bonus points", () => {
             { letter: "Z", position: 4, state: LetterState.Correct },
         ];
 
-        const expectedScore = (newCorrectLetters.length * INSTANT_CORRECT_POINTS)   // CORRECT PER LETTER
-                              + (newCorrectLetters.length * POINTS_PER_STREAK_ITEM) // STREAK BONUS TIMES STREAK LENGTH                            
-
         const score = ScoreCalculator.calculate({
             currentGuessIndex: 6,
             wordGuessed: false,
@@ -47,7 +41,7 @@ describe("calculate bonus points", () => {
             previouslyGuessedLetters: [],
         });
 
-        expect(score).toEqual(expectedScore);
+        expect(score.streakScore).toEqual(newCorrectLetters.length * POINTS_PER_STREAK_ITEM);
     });   
     
     it("should not assign streak bonus when one of the items in the streak has another letter state", () => {
@@ -62,8 +56,6 @@ describe("calculate bonus points", () => {
             { letter: "Q", position: 6, state: LetterState.Correct },
         ];
 
-        const expectedScore = (newCorrectLetters.length * INSTANT_CORRECT_POINTS); // CORRECT PER LETTER
-
         const score = ScoreCalculator.calculate({
             currentGuessIndex: 6,
             wordGuessed: false,
@@ -71,6 +63,6 @@ describe("calculate bonus points", () => {
             previouslyGuessedLetters: [],
         });
 
-        expect(score).toEqual(expectedScore);
+        expect(score.streakScore).toEqual(0);
     });       
 });

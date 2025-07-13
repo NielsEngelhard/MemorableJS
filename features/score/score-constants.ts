@@ -3,7 +3,7 @@ export const INSTANT_CORRECT_POINTS: number = 5;
 export const MISPLACED_POINTS: number = 2;
 export const CORRECT_AFTER_MISPLACED_POINTS: number = 2;
 
-// BONUS
+// WORD GUESSED BONUS 
 export const INSTANT_GUESS_BONUS: number = 10;
 export const SECOND_GUESS_BONUS: number = 5;
 export const THIRD_GUESS_BONUS: number = 3;

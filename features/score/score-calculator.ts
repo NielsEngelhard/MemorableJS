@@ -1,7 +1,8 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ValidatedLetter } from "../word/word-models";
-import { CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, MISPLACED_POINTS, SECOND_GUESS_BONUS, THIRD_GUESS_BONUS } from "./score-constants";
+import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, MISPLACED_POINTS, SECOND_GUESS_BONUS, STREAK_THRESHOLD, THIRD_GUESS_BONUS } from "./score-constants";
 import { CalculateCommand, CalculateScoreResult } from "./score-models";
+import { StreakFinder } from "./streak-finder";
 
 export class ScoreCalculator {
     static calculate(command: CalculateCommand): CalculateScoreResult {
@@ -21,7 +22,17 @@ export class ScoreCalculator {
 }
 
 function assignStreakBonusScore(command: CalculateCommand, result: CalculateScoreResult) {
-    // TODO
+    const newCorrectLetterPositions: number[] = command.newLetters
+                                                       .filter(l => l.state == LetterState.Correct && l.position != undefined)
+                                                       .map(l => l.position as number);
+    
+    const streaks = StreakFinder.findStreaks(newCorrectLetterPositions, STREAK_THRESHOLD);
+
+    for (var i=0; i<streaks.length; i++) {
+        const score = CALCULATE_STREAK_POINTS(streaks[i].length);
+        result.totalScore += score;
+        result.streakScore += score;
+    }
 }
 
 function assignLetterStateScore(letter: ValidatedLetter, command: CalculateCommand, result: CalculateScoreResult) {

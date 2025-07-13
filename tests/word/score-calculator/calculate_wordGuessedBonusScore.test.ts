@@ -10,9 +10,6 @@ describe("calculate bonus points", () => {
             { letter: "B", position: 2, state: LetterState.Correct },
         ];
 
-        const expectedScore = (newCorrectLetters.length * INSTANT_CORRECT_POINTS)  // CORRECT PER LETTER
-                              + INSTANT_GUESS_BONUS                                // BONUS FOR INSTANT GUESS BONUS
-
         const score = ScoreCalculator.calculate({
             currentGuessIndex: 1,
             wordGuessed: true,
@@ -20,7 +17,7 @@ describe("calculate bonus points", () => {
             previouslyGuessedLetters: [],
         });
 
-        expect(score).toEqual(expectedScore);
+        expect(score.wordGuessedBonusScore).toEqual(INSTANT_GUESS_BONUS);
     });
 
     it("should assign bonus points when the guess is guessed in the first round", () => {
@@ -29,9 +26,6 @@ describe("calculate bonus points", () => {
             { letter: "B", position: 2, state: LetterState.Correct },
         ];
 
-        const expectedScore = (newCorrectLetters.length * INSTANT_CORRECT_POINTS)  // CORRECT PER LETTER
-                              + SECOND_GUESS_BONUS                                // BONUS FOR SECOND GUESS BONUS
-
         const score = ScoreCalculator.calculate({
             currentGuessIndex: 2,
             wordGuessed: true,
@@ -39,7 +33,7 @@ describe("calculate bonus points", () => {
             previouslyGuessedLetters: [],
         });
 
-        expect(score).toEqual(expectedScore);
+        expect(score.wordGuessedBonusScore).toEqual(SECOND_GUESS_BONUS);
     });
     
     it("should assign bonus points when the guess is guessed in the first round", () => {
@@ -58,7 +52,7 @@ describe("calculate bonus points", () => {
             previouslyGuessedLetters: [],
         });
 
-        expect(score).toEqual(expectedScore);
+        expect(score.wordGuessedBonusScore).toEqual(expectedScore);
     });  
     
     it("should not assign bonus points if guess is guessed after third round", () => {
@@ -67,8 +61,6 @@ describe("calculate bonus points", () => {
             { letter: "B", position: 2, state: LetterState.Correct },
         ];
 
-        const expectedScore = (newCorrectLetters.length * INSTANT_CORRECT_POINTS);
-
         const score = ScoreCalculator.calculate({
             currentGuessIndex: 4,
             wordGuessed: true,
@@ -76,6 +68,6 @@ describe("calculate bonus points", () => {
             previouslyGuessedLetters: [],
         });
 
-        expect(score).toEqual(expectedScore);
+        expect(score.wordGuessedBonusScore).toEqual(0);
     });      
 });

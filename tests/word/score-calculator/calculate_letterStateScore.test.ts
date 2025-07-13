@@ -1,6 +1,6 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ScoreCalculator } from "@/features/score/score-calculator";
-import { CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS } from "@/features/score/score-constants";
+import { CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, MISPLACED_POINTS } from "@/features/score/score-constants";
 import { ValidatedLetter } from "@/features/word/word-models";
 
 describe("calculate score correct", () => {
@@ -16,10 +16,10 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score).toEqual(INSTANT_CORRECT_POINTS);
+        expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS);
     });
 
-    it("should assign points of when multiple letters are correct that are not in a streak", () => {
+    it("should assign correct letter state points with multiple correct", () => {
         const newCorrectLetters: ValidatedLetter[] = [
             { letter: "A", position: 1, state: LetterState.Correct },
             { letter: "B", position: 3, state: LetterState.Correct },
@@ -33,7 +33,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score).toEqual(INSTANT_CORRECT_POINTS * newCorrectLetters.length);
+        expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS * newCorrectLetters.length);
     });
     
     it("should assign less points when a already misplaced letter becomes correct", () => {
@@ -52,7 +52,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score).toEqual(CORRECT_AFTER_MISPLACED_POINTS);
+        expect(score.letterStateScore).toEqual(CORRECT_AFTER_MISPLACED_POINTS);
     });    
     
     it("should assign less points when multiple already misplaced letters becomes correct and 1 is new correct", () => {
@@ -74,7 +74,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score).toEqual((CORRECT_AFTER_MISPLACED_POINTS * 2) + INSTANT_CORRECT_POINTS);
+        expect(score.letterStateScore).toEqual((CORRECT_AFTER_MISPLACED_POINTS * 2) + INSTANT_CORRECT_POINTS);
     });        
 
     it("should ignore casing when determining if a letter is correct 1", () => {
@@ -89,7 +89,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score).toEqual(INSTANT_CORRECT_POINTS);
+        expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS);
     });   
     
     it("should ignore casing when determining if a letter is correct 2", () => {
@@ -104,7 +104,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
         
-        expect(score).toEqual(INSTANT_CORRECT_POINTS);
+        expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS);
     });      
     
     it("should ignore casing when determining if a letter is correct after being misplaced 1", () => {
@@ -123,7 +123,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
         
-        expect(score).toEqual(CORRECT_AFTER_MISPLACED_POINTS);
+        expect(score.letterStateScore).toEqual(CORRECT_AFTER_MISPLACED_POINTS);
     });   
     
     it("should ignore casing when determining if a letter is correct after being misplaced 2", () => {
@@ -142,6 +142,52 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score).toEqual(CORRECT_AFTER_MISPLACED_POINTS);
+        expect(score.letterStateScore).toEqual(CORRECT_AFTER_MISPLACED_POINTS);
+    });     
+
+    it("should assign points of single misplaced when 1 new letter is misplaced", () => {
+        const newMisplacedLetters: ValidatedLetter[] = [
+            { letter: "X", position: 1, state: LetterState.Misplaced }
+        ];
+
+        const score = ScoreCalculator.calculate({
+            newLetters: newMisplacedLetters,
+            previouslyGuessedLetters: [],
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
+        expect(score.letterStateScore).toEqual(MISPLACED_POINTS);
+    });
+
+    it("should assign points of when multiple letters are misplaced", () => {
+        const newMisplacedLetters: ValidatedLetter[] = [
+            { letter: "F", position: 1, state: LetterState.Misplaced },
+            { letter: "A", position: 2, state: LetterState.Misplaced },
+            { letter: "Q", position: 3, state: LetterState.Misplaced }
+        ];
+
+        const score = ScoreCalculator.calculate({
+            newLetters: newMisplacedLetters,
+            previouslyGuessedLetters: [],
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
+
+        expect(score.letterStateScore).toEqual(MISPLACED_POINTS * newMisplacedLetters.length);
+    }); 
+    
+    it("should not assign score for wrong letter state", () => {
+        const newMisplacedLetters: ValidatedLetter[] = [
+            { letter: "F", position: 1, state: LetterState.Wrong }
+        ];
+
+        const score = ScoreCalculator.calculate({
+            newLetters: newMisplacedLetters,
+            previouslyGuessedLetters: [],
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
+
+        expect(score.letterStateScore).toEqual(0);
     });     
 });
