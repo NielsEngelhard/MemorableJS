@@ -1,15 +1,16 @@
 import { integer, jsonb, pgTable, text, uuid } from "drizzle-orm/pg-core";
-import { createdAt } from "../schema-helpers";
+import { createdAt, id } from "../schema-helpers";
 import { UsersTable } from "./users";
 import { gameModeEnum } from "../schema";
 import { InferSelectModel } from "drizzle-orm";
 
 export const GameHistoryTable = pgTable("game_history", {
-    id: text().primaryKey(),
+    id,
     userHostId: uuid().references(() => UsersTable.id).notNull(),
     gameMode: gameModeEnum().notNull(),
     totalScore: integer().notNull(),
     rounds: jsonb('guesses').$type<GameHistoryRound[]>().notNull(),
+    players: jsonb('players').$type<GameHistoryPlayer[]>().notNull(),
     createdAt,
 });
 
