@@ -30,7 +30,7 @@ interface ActiveGameProviderProps {
 export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) {
     const [currentRoundIndex, setCurrentRoundIndex] = useState(game.currentRoundIndex);
     const [rounds, setRounds] = useState<RoundModel[]>(game.rounds);
-    const [currentRound, setCurrentRound] = useState<RoundModel>(getCurrentRound());
+    const [currentRound, setCurrentRound] = useState<RoundModel>(getRound());
     const [currentGuessIndex, setCurrentGuessIndex] = useState(currentRound.currentGuessIndex);
     const [theWord, setTheWord] = useState<string | undefined>(undefined);
     const [players, setPlayers] = useState<GamePlayerModel[]>(game.players);
@@ -52,7 +52,6 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
         word: guess
       });
       
-      debugger;
       setCurrentRound(prevRound => ({
         ...prevRound,
         guesses: [...prevRound.guesses, response.guessResult],
@@ -92,16 +91,20 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
       }      
     }
 
-    function getCurrentRound(): RoundModel {
-      const round = rounds.find(r => r.roundNumber == currentRoundIndex);
+    function getRound(index?: number): RoundModel {
+      if (!index) index = currentRoundIndex; 
+
+      const round = rounds.find(r => r.roundNumber == index);
       if (!round) throw Error("Could not find current round CORRUPT STATE");
       return round;
     }
 
     function triggerNextRound() {
+      const nextRoundIndex = currentRoundIndex + 1;
+      
       setCurrentGuessIndex(1);
-      setCurrentRoundIndex(prev => prev + 1);
-      setCurrentRound(getCurrentRound());
+      setCurrentRoundIndex(nextRoundIndex);
+      setCurrentRound(getRound(nextRoundIndex));
       setTheWord(undefined);
     }
 

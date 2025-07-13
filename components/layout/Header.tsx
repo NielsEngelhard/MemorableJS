@@ -25,7 +25,7 @@ export default function Header() {
                     </div>
                     
                     {user && (
-                        <Badge variant="accent">
+                        <Badge variant="accent" size="md">
                             <Calendar size={12} />
                             WoD available!
                             <Sparkles size={12} />

@@ -1,6 +1,5 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ValidatedLetter } from "./word-models";
-import { addToArrayIfNotExists } from "@/lib/utils";
 
 export interface DetailedValidationResult {
     validatedWord: ValidatedLetter[];

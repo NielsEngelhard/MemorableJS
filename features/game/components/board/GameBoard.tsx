@@ -7,6 +7,7 @@ import { ValidatedLetter } from "@/features/word/word-models";
 import { useUserSettings } from "@/features/settings/user-settings-context";
 import { useActiveGame } from "../../active-game-context";
 import WordInput from "./WordInput";
+import Badge from "@/components/ui/Badge";
 
 interface Props {
 
@@ -94,12 +95,10 @@ export default function GameBoard({  }: Props) {
         <div className="w-full">
             
             {/* Header section */}
-            <div className="flex flex-col text-center">
+            <div className="grid grid-cols-3 text-center">
+                <div></div>
                 <div className="font-bold text-3xl">{GameModeToText(gameMode)}</div>
-                <div className="flex flex-row text-md text-foreground-muted justify-center gap-2">
-                    <div>Round {currentRound.roundNumber}/{totalRounds}</div>
-                    <div>Guess {currentGuessIndex}/{maxAttemptsPerRound}</div>
-                </div>                
+                <div className="flex justify-end"><Badge size="lg">{currentRound.roundNumber} / {totalRounds}</Badge></div>
             </div>
 
             {/* Body */}
