@@ -27,6 +27,7 @@ export interface GuessWordResponse {
 export interface RoundTransitionData {    
     currentWord: string;
     isEndOfGame: boolean;
+    gameHistoryId: string;
     nextRoundFirstLetter?: string;    
 }
 
@@ -73,10 +74,11 @@ async function updateCurrentGameState(game: DbGameWithRoundsAndPlayers, currentR
         letters: validationResult.validatedWord
     }
 
+    let gameHistoryId = "";
     if (endGame) {
         currentPlayer.score += scoreResult.totalScore;
         currentRound.guesses.push(currentGuess);
-        await triggerEndGame(game);
+        gameHistoryId = await triggerEndGame(game);
     } else if (endCurrentRound) {
         await triggerNextRound(currentRound, validationResult, currentPlayer, scoreResult, game);
     } else {
@@ -92,6 +94,7 @@ async function updateCurrentGameState(game: DbGameWithRoundsAndPlayers, currentR
             isEndOfGame: endGame,
             currentWord: currentRound.word.word,
             nextRoundFirstLetter: endCurrentRound ? "Z" : undefined,
+            gameHistoryId: gameHistoryId
         } : undefined
     };    
 }
@@ -111,12 +114,16 @@ async function triggerNextRound(currentRound: DbGameRound, validationResult: Det
     });          
 }
 
-async function triggerEndGame(game: DbGameWithRoundsAndPlayers) {
+async function triggerEndGame(game: DbGameWithRoundsAndPlayers): Promise<string> {
+    let gameHistoryId: string = "";
+    
     // OPTIMIZATION: Do this via a message broker so that the request can be handled async and the speed of the entire flow will benefit
     await db.transaction(async (tx) => {
-        await createGameHistory(game);   
+        gameHistoryId = await createGameHistory(game);   
         await deleteGame(game.id);
     });  
+
+    return gameHistoryId;
 }
 
 async function getGame(gameId: string): Promise<DbGameWithRoundsAndPlayers> {
@@ -171,9 +178,13 @@ async function deleteGame(gameId: string) {
         .where(eq(GameTable.id, gameId));      
 }
 
-async function createGameHistory(game: DbGameWithRoundsAndPlayers) {
+async function createGameHistory(game: DbGameWithRoundsAndPlayers): Promise<string> {
     const gameHistory = mapGameToHistory(game);
-    await db.insert(GameHistoryTable).values(gameHistory);        
+    const result = await db.insert(GameHistoryTable).values(gameHistory).returning({
+        gameHistoryId: GameHistoryTable.id
+    });        
+
+    return result[0].gameHistoryId;
 }
 
 async function addScoreForPlayer(player: DbGamePlayer, score: number) {

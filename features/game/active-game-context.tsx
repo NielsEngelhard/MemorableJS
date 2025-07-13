@@ -3,6 +3,8 @@ import React, { createContext, useContext, useState } from "react";
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from "./game-constants";
 import { GameModel, GamePlayerModel, RoundModel } from "./models";
 import GuessWord from "./actions/command/guess-word";
+import { redirect } from "next/navigation";
+import { GAME_HISTORY_ROUTE } from "@/lib/routes";
 
 type ActiveGameContextType = {
     maxAttemptsPerRound: number;
@@ -79,7 +81,7 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
         if (response.roundTransitionData?.isEndOfGame)
         {
           setTimeout(() => {
-             triggerEndOfGame();
+             triggerEndOfGame(response.roundTransitionData?.gameHistoryId ?? "");
             }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
         }
         else
@@ -108,8 +110,8 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
       setTheWord(undefined);
     }
 
-    function triggerEndOfGame() {
-      console.log("end of game");
+    function triggerEndOfGame(gameHistoryId: string) {
+      redirect(GAME_HISTORY_ROUTE(gameHistoryId));
     }
 
     return (
