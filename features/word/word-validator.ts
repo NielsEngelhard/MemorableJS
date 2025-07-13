@@ -4,6 +4,7 @@ import { ValidatedLetter } from "./word-models";
 export interface DetailedValidationResult {
     validatedWord: ValidatedLetter[];
     newLetters: ValidatedLetter[];
+    isCorrect: boolean;
 }
 
 export class WordValidator {
@@ -13,7 +14,8 @@ export class WordValidator {
         
         return {
             validatedWord: validatedWord,
-            newLetters: newLetters
+            newLetters: newLetters,
+            isCorrect: !validatedWord.some(l => l.state != LetterState.Correct)
         }
     }
 
