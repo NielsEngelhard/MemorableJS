@@ -30,7 +30,7 @@ export default async function GuessWord(command: GuessWordCommand): Promise<Gues
     if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);    
     
     const validatedWord = WordValidator.validateAndFilter(command.word, currentRound.word.word, currentRound.guessedLetters);
-    const score = ScoreCalculator.calculate(validatedWord.newLetters);
+    const score = ScoreCalculator.calculate(validatedWord.newLetters, );
 
     // TODO: ADD MORE ASSIGNERS ETC? CALCULATION IS DONE BUT THE ASSIGNMENT AND SAFE ETC IS NOT SAFED YET>
     // TODO: Assign score(s) based on current guess

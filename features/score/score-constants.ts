@@ -15,5 +15,5 @@ export const POINTS_PER_STREAK_ITEM: number = 1;
 export function CALCULATE_STREAK_POINTS(streakLength: number): number {
     if (streakLength < STREAK_THRESHOLD) return 0;
 
-    return (streakLength - STREAK_THRESHOLD) * POINTS_PER_STREAK_ITEM;
+    return (streakLength - STREAK_THRESHOLD + 1) * POINTS_PER_STREAK_ITEM;
 }

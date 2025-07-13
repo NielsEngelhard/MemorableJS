@@ -1,6 +1,6 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ScoreCalculator } from "@/features/score/score-calculator";
-import { INSTANT_CORRECT_POINTS, POINTS_PER_STREAK_ITEM } from "@/features/score/score-constants";
+import { CALCULATE_STREAK_POINTS, INSTANT_CORRECT_POINTS, POINTS_PER_STREAK_ITEM } from "@/features/score/score-constants";
 import { ValidatedLetter } from "@/features/word/word-models";
 
 describe("calculate bonus points", () => {
@@ -20,7 +20,8 @@ describe("calculate bonus points", () => {
             previouslyGuessedLetters: [],
         });
 
-        expect(score.streakScore).toEqual(newCorrectLetters.length * POINTS_PER_STREAK_ITEM);
+        const expectedStreakScore = CALCULATE_STREAK_POINTS(newCorrectLetters.length);
+        expect(score.streakScore).toEqual(expectedStreakScore);
     });
 
     it("should assign streak bonus when the streak threshold is surpassed by a few", () => {
@@ -41,7 +42,8 @@ describe("calculate bonus points", () => {
             previouslyGuessedLetters: [],
         });
 
-        expect(score.streakScore).toEqual(newCorrectLetters.length * POINTS_PER_STREAK_ITEM);
+        const expectedStreakScore = CALCULATE_STREAK_POINTS(newCorrectLetters.length);
+        expect(score.streakScore).toEqual(expectedStreakScore);
     });   
     
     it("should not assign streak bonus when one of the items in the streak has another letter state", () => {
@@ -57,7 +59,7 @@ describe("calculate bonus points", () => {
         ];
 
         const score = ScoreCalculator.calculate({
-            currentGuessIndex: 6,
+            currentGuessIndex: 1,
             wordGuessed: false,
             newLetters: newCorrectLetters,
             previouslyGuessedLetters: [],
