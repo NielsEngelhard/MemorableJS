@@ -15,6 +15,7 @@ export const GameHistoryTable = pgTable("game_history", {
 });
 
 export type DbGameHistory = InferSelectModel<typeof GameHistoryTable>;
+export type DbGameHistoryInsert = Omit<DbGameHistory, 'id' | 'createdAt'>;
 
 export type GameHistoryRound = {
     index: number;

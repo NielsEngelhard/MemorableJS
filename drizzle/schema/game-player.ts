@@ -4,9 +4,9 @@ import { GameTable } from "./game";
 import { UsersTable } from "./users";
 
 export const GamePlayerTable = pgTable("game_player", {
-    userId: uuid().references(() => UsersTable.id).notNull(),
-    gameId: text().references(() => GameTable.id).notNull(),
-    username: text().notNull(),
+    userId: uuid().references(() => UsersTable.id, { onDelete: 'cascade' }).notNull(),
+    gameId: text().references(() => GameTable.id, { onDelete: 'cascade' }).notNull(),
+    username: text(),
     score: integer().notNull().default(0)
 }, (t) => [
   primaryKey({ columns: [t.userId, t.gameId] })

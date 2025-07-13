@@ -1,6 +1,6 @@
 {
-  "id": "0c2e85ce-5e13-4d81-8917-add35a8ac322",
-  "prevId": "01cefd06-30fe-4782-b11f-94ee752319ae",
+  "id": "333a184f-7ec2-4eb3-9b4f-aa1e4357e086",
+  "prevId": "a30aeab4-301b-4a22-a11e-9839596c1ee2",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -415,7 +415,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -450,6 +450,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "score": {
           "name": "score",
           "type": "integer",
@@ -470,7 +476,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "game_player_gameId_game_id_fk": {
@@ -483,7 +489,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -496,6 +502,78 @@
           ]
         }
       },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.game_history": {
+      "name": "game_history",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "userHostId": {
+          "name": "userHostId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gameMode": {
+          "name": "gameMode",
+          "type": "game_mode",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "totalScore": {
+          "name": "totalScore",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guesses": {
+          "name": "guesses",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "players": {
+          "name": "players",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "game_history_userHostId_users_id_fk": {
+          "name": "game_history_userHostId_users_id_fk",
+          "tableFrom": "game_history",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userHostId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},

@@ -54,6 +54,39 @@ CREATE TABLE "nl_words" (
 	CONSTRAINT "nl_words_word_unique" UNIQUE("word")
 );
 --> statement-breakpoint
+CREATE TABLE "game_round" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"gameId" text NOT NULL,
+	"roundNumber" integer NOT NULL,
+	"currentGuessIndex" integer DEFAULT 1 NOT NULL,
+	"word" jsonb NOT NULL,
+	"guesses" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"guessed_letters" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	CONSTRAINT "game_round_gameId_roundNumber_unique" UNIQUE("gameId","roundNumber")
+);
+--> statement-breakpoint
+CREATE TABLE "game_player" (
+	"userId" uuid NOT NULL,
+	"gameId" text NOT NULL,
+	"username" text NOT NULL,
+	"score" integer DEFAULT 0 NOT NULL,
+	CONSTRAINT "game_player_userId_gameId_pk" PRIMARY KEY("userId","gameId")
+);
+--> statement-breakpoint
+CREATE TABLE "game_history" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"userHostId" uuid NOT NULL,
+	"gameMode" "game_mode" NOT NULL,
+	"totalScore" integer NOT NULL,
+	"guesses" jsonb NOT NULL,
+	"players" jsonb NOT NULL,
+	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 ALTER TABLE "user_sessions" ADD CONSTRAINT "user_sessions_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "game" ADD CONSTRAINT "game_userHostId_users_id_fk" FOREIGN KEY ("userHostId") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "user_settings" ADD CONSTRAINT "user_settings_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "user_settings" ADD CONSTRAINT "user_settings_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "game_round" ADD CONSTRAINT "game_round_gameId_game_id_fk" FOREIGN KEY ("gameId") REFERENCES "public"."game"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "game_player" ADD CONSTRAINT "game_player_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "game_player" ADD CONSTRAINT "game_player_gameId_game_id_fk" FOREIGN KEY ("gameId") REFERENCES "public"."game"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "game_history" ADD CONSTRAINT "game_history_userHostId_users_id_fk" FOREIGN KEY ("userHostId") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;

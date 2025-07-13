@@ -6,7 +6,7 @@ import { id } from "../schema-helpers";
 
 export const GameRoundTable = pgTable("game_round", {
     id,
-    gameId: text().references(() => GameTable.id).notNull(),
+    gameId: text().references(() => GameTable.id, { onDelete: 'cascade' }).notNull(),
     roundNumber: integer().notNull(),
     currentGuessIndex: integer().notNull().default(1),
     word: jsonb('word').$type<Word>().notNull(),

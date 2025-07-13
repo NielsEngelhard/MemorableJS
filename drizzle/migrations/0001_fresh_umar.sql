@@ -1,0 +1,1 @@
+ALTER TABLE "game_player" ALTER COLUMN "username" DROP NOT NULL;

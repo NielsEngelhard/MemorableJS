@@ -1,6 +1,6 @@
 {
-  "id": "01cefd06-30fe-4782-b11f-94ee752319ae",
-  "prevId": "0859785e-1a5d-4be5-9e3e-2cf3ecb389de",
+  "id": "a30aeab4-301b-4a22-a11e-9839596c1ee2",
+  "prevId": "6354b3ef-9cb0-4286-a8b7-d5a63b4dd12b",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -430,6 +430,151 @@
           ]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.game_player": {
+      "name": "game_player",
+      "schema": "",
+      "columns": {
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gameId": {
+          "name": "gameId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "game_player_userId_users_id_fk": {
+          "name": "game_player_userId_users_id_fk",
+          "tableFrom": "game_player",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "game_player_gameId_game_id_fk": {
+          "name": "game_player_gameId_game_id_fk",
+          "tableFrom": "game_player",
+          "tableTo": "game",
+          "columnsFrom": [
+            "gameId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "game_player_userId_gameId_pk": {
+          "name": "game_player_userId_gameId_pk",
+          "columns": [
+            "userId",
+            "gameId"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.game_history": {
+      "name": "game_history",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "userHostId": {
+          "name": "userHostId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gameMode": {
+          "name": "gameMode",
+          "type": "game_mode",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "totalScore": {
+          "name": "totalScore",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guesses": {
+          "name": "guesses",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "players": {
+          "name": "players",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "game_history_userHostId_users_id_fk": {
+          "name": "game_history_userHostId_users_id_fk",
+          "tableFrom": "game_history",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userHostId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
