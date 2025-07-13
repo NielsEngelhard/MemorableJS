@@ -6,7 +6,7 @@ interface Props {
 }
 export default function TitleText({ children, faded = false }: Props) {
     return (
-        <div className="text-2xl font-semibold leading-none tracking-tight">
+        <div className="text-xl font-semibold leading-none tracking-tight">
             {faded
             ? <FadedText>{children}</FadedText>
             : children

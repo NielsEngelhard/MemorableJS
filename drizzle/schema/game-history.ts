@@ -22,6 +22,7 @@ export type GameHistoryRound = {
     word: string;
     guesses: string[];
     wordGuessed: boolean;
+    points: number;
 }
 
 export type GameHistoryPlayer = {

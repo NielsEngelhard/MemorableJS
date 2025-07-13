@@ -13,8 +13,8 @@ const badgeVariants = cva(
     variants: {
       variant: {
         primary: "bg-primary text-white",
+        primaryLight: "bg-primary/20 text-primary",
         accent: "bg-orange-50 border border-orange-200 hover:bg-orange-100 text-orange-700",
-
       },
       size: {
         sm: "px-3 py-1.5 text-xs",
