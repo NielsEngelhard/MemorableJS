@@ -1,8 +1,8 @@
-import { DbGame, DbGameWithRounds } from "@/drizzle/schema";
-import { GameModel, RoundModel } from "./models";
+import { DbGamePlayer, DbGameWithRoundsAndPlayers } from "@/drizzle/schema";
+import { GameModel, GamePlayerModel, RoundModel } from "./models";
 import { DbGameRound } from "@/drizzle/schema/game-round";
 
-export function MapGameToModel(game: DbGameWithRounds): GameModel {
+export function MapGameToModel(game: DbGameWithRoundsAndPlayers): GameModel {
     return {
         id: game.id,
         currentRoundIndex: game.currentRoundIndex,
@@ -16,6 +16,9 @@ export function MapGameToModel(game: DbGameWithRounds): GameModel {
         rounds: game.rounds.map((round) => {
             return mapRoundToModel(round);
         }),
+        players: game.players.map((player) => {
+            return mapPlayerToModel(player);
+        }),
     }
 }
 
@@ -26,5 +29,12 @@ export function mapRoundToModel(round: DbGameRound): RoundModel {
         currentGuessIndex: round.currentGuessIndex,
         guessedLetters: round.guessedLetters,
         guesses: round.guesses
+    }
+}
+
+export function mapPlayerToModel(player: DbGamePlayer): GamePlayerModel {
+    return {
+        id: player.userId,
+        score: player.score
     }
 }

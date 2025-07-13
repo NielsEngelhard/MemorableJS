@@ -5,7 +5,7 @@ import { gameVisibilityEnum } from "./enum/game-visibility";
 import { gameModeEnum } from "../schema";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { DbGameRound, GameRoundTable } from "./game-round";
-import { GamePlayerTable } from "./game-player";
+import { DbGamePlayer, GamePlayerTable } from "./game-player";
 
 export const GameTable = pgTable("game", {
     id: text().primaryKey(),
@@ -21,8 +21,9 @@ export const GameTable = pgTable("game", {
 });
 export type DbGame = InferSelectModel<typeof GameTable>;
 
-export type DbGameWithRounds = DbGame & {
+export type DbGameWithRoundsAndPlayers = DbGame & {
   rounds: DbGameRound[];
+  players: DbGamePlayer[];
 };
 
 export const gameRelations = relations(GameTable, ({ many }) => ({

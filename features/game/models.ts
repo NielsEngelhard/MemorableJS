@@ -12,6 +12,7 @@ export interface GameModel {
     createdAt: Date;
     wordLength: number;
     rounds: RoundModel[];
+    players: GamePlayerModel[];
 }
 
 export interface RoundModel {
@@ -21,3 +22,8 @@ export interface RoundModel {
     guesses: ValidatedWord[];
     guessedLetters: ValidatedLetter[];
 }   
+
+export interface GamePlayerModel {
+    id: string;
+    score: number;
+}

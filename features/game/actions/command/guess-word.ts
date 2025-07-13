@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/drizzle/db";
-import { DbGame, DbGamePlayer, DbGameWithRounds, GameMode, GameTable } from "@/drizzle/schema";
+import { DbGame, DbGamePlayer, DbGameWithRoundsAndPlayers, GameMode, GameTable } from "@/drizzle/schema";
 import { DbGameRound, GameRoundTable } from "@/drizzle/schema/game-round";
 import { getCurrentUser } from "@/features/auth/current-user";
 import { ValidatedLetter, ValidatedWord } from "@/features/word/word-models";
@@ -27,6 +27,8 @@ export default async function GuessWord(command: GuessWordCommand): Promise<Gues
     const game = await getGame(command.gameId);
     await validateUserAuth(game);
 
+    let currentPlayer = game.players
+
     let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
     if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);    
     
@@ -39,7 +41,7 @@ export default async function GuessWord(command: GuessWordCommand): Promise<Gues
         wordGuessed: validationResult.allCorrect
     });
 
-
+    addScoreToPlayer(score, game.);
 
     // TODO: ADD MORE ASSIrGNERS ETC? CALCULATION IS DONE BUT THE ASSIGNMENT AND SAFE ETC IS NOT SAFED YET>
     // TODO: Assign score(s) based on current guess
@@ -52,8 +54,8 @@ export default async function GuessWord(command: GuessWordCommand): Promise<Gues
     return currentGuess;
 }
 
-function addScoreToPlayer(player: DbGamePlayer, score: CalculateScoreResult) {
-    
+function addScoreToPlayer(score: CalculateScoreResult, player: DbGamePlayer) {
+
 }
 
 async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, validationResult: DetailedValidationResult): Promise<GuessWordResponse> {
@@ -117,7 +119,7 @@ function validateAndAddWord(guess: string, currentRound: DbGameRound): WordValid
     return validationResult;
 }
 
-async function getGame(gameId: string): Promise<DbGameWithRounds> {
+async function getGame(gameId: string): Promise<DbGameWithRoundsAndPlayers> {
     const game = await db.query.GameTable.findFirst({
         where: (game, { eq }) => eq(game.id, gameId),
         with: {
@@ -128,7 +130,7 @@ async function getGame(gameId: string): Promise<DbGameWithRounds> {
 
     if (!game) throw Error(`Could not find game with ID ${gameId}`);
 
-    return game as unknown as DbGameWithRounds;
+    return game as unknown as DbGameWithRoundsAndPlayers;
 }
 
 async function validateUserAuth(game: DbGame) {
