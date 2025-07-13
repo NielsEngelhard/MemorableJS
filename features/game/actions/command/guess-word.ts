@@ -18,12 +18,16 @@ export interface GuessWordCommand {
 export interface GuessWordResponse {
     userId: string;
     guessResult: ValidatedWord;
-    letterStates: ValidatedLetter[];
+    newLetters: ValidatedLetter[];
     scoreResult: CalculateScoreResult;
-    theWord?: string; // The word is send along when the current round is over
-    nextRoundFirstLetter?: string;
+    roundTransitionData?: RoundTransitionData;
 }
 
+export interface RoundTransitionData {    
+    currentWord: string;
+    isEndOfGame: boolean;
+    nextRoundFirstLetter?: string;    
+}
 
 export default async function GuessWord(command: GuessWordCommand): Promise<GuessWordResponse> {    
     const game = await getGame(command.gameId);
@@ -65,7 +69,7 @@ async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, v
 
     const currentGuess: ValidatedWord = {
         guessIndex: currentRound.currentGuessIndex,
-        letters: validationResult.newLetters
+        letters: validationResult.validatedWord
     }
 
     if (endGame) {
@@ -79,10 +83,13 @@ async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, v
     return {
         userId: currentPlayer.userId,
         guessResult: currentGuess,
-        letterStates: currentRound.guessedLetters,
-        theWord: endCurrentRound ? currentRound.word.word : undefined,
-        nextRoundFirstLetter: endCurrentRound ? "Z" : undefined,
-        scoreResult: scoreResult
+        newLetters: validationResult.newLetters,
+        scoreResult: scoreResult,
+        roundTransitionData: endCurrentRound ? {
+            isEndOfGame: endGame,
+            currentWord: currentRound.word.word,
+            nextRoundFirstLetter: endCurrentRound ? "Z" : undefined,
+        } : undefined
     };    
 }
 

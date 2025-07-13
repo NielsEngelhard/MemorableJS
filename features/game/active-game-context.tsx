@@ -52,10 +52,11 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
         word: guess
       });
       
+      debugger;
       setCurrentRound(prevRound => ({
         ...prevRound,
         guesses: [...prevRound.guesses, response.guessResult],
-        guessedLetters: response.letterStates
+        guessedLetters: [...currentRound.guessedLetters, ...response.newLetters]
       }));
 
       setPlayers(prevPlayers =>
@@ -70,9 +71,10 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
 
       const letterAnimationLength = LETTER_ANIMATION_TIME_MS * wordLength;
 
-      if (response.theWord) {
+      const endOfCurrentRound = response.roundTransitionData != undefined;
+      if (endOfCurrentRound) {
         setTimeout(() => {
-          setTheWord(response.theWord);
+          setTheWord(response.roundTransitionData?.currentWord);
         }, letterAnimationLength);
 
         setTimeout(() => {
