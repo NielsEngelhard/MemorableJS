@@ -40,21 +40,26 @@ export function mapPlayerToModel(player: DbGamePlayer): GamePlayerModel {
     }
 }
 
-export function mapGameToHistory(game: DbGame, rounds: DbGameRound[], players: DbGamePlayer[]): DbGameHistory {
+export function mapGameToHistory(game: DbGameWithRoundsAndPlayers): DbGameHistory {
     return {
         id: "",
         createdAt: new Date() ,        
         userHostId: game.userHostId,
         gameMode: game.gameMode,
         totalScore: 100,
-        rounds: rounds.map(r => {
+        rounds: game.rounds.map(r => {
             return {                
                 index: r.roundNumber,
                 word: r.word.word,
                 wordGuessed: r.guesses.some(g => !g.letters.some(l => l.state != LetterState.Correct)),
-                guesses: []
+                guesses: r.guesses.flatMap(guess => guess.letters.map(letter => letter.letter as string)),
             }
         }),
-        players: []
+        players: game.players.map(p => {
+            return {
+                username: p.username,
+                score: p.score
+            }
+        })
     }
 }
