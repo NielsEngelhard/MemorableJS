@@ -1,6 +1,6 @@
 "use server";
 
-import { GameRoundTable, GameTable } from "@/drizzle/schema";
+import { GamePlayerTable, GameRoundTable, GameTable } from "@/drizzle/schema";
 import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { generateGameId } from "../../util/game-id-generator";
 import { db } from "@/drizzle/db";
@@ -9,6 +9,7 @@ import getWords from "@/features/word/actions/query/get-official-words";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { CreateGameSchema } from "../../schemas";
 import { GameRoundFactory } from "../../util/game-round-factory";
+import { GamePlayerFactory } from "../../util/game-player-factory";
 
 export default async function CreateGame(command: CreateGameSchema): Promise<string> {
     const userId = (await getCurrentUser())?.user.id;
@@ -35,9 +36,12 @@ export default async function CreateGame(command: CreateGameSchema): Promise<str
 
         var rounds = GameRoundFactory.createDbRounds(words, gameId);
         await db.insert(GameRoundTable).values(rounds);
-    })
 
-    console.log("sponse " + gameId);
+        var players = GamePlayerFactory.createGamePlayer(gameId, userId);
+        await db.insert(GamePlayerTable).values(players);
+    });
 
     return gameId;
 }
+
+

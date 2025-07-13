@@ -107,7 +107,7 @@ async function triggerNextRound(game: DbGame) {
 }
 
 async function triggerEndGame(game: DbGame) {
-
+    
 }
 
 async function getGame(gameId: string): Promise<DbGameWithRoundsAndPlayers> {
