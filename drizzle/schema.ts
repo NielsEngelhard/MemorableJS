@@ -8,3 +8,4 @@ export * from "./schema/user-settings";
 export * from "./schema/official-words";
 export * from "./schema/game-round";
 export * from "./schema/game-player";
+export * from "./schema/game-history";

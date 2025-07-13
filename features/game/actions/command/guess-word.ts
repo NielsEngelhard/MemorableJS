@@ -73,9 +73,9 @@ async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, v
     }
 
     if (endGame) {
-        await triggerEndGame(game);
+        await triggerEndGame(currentRound, validationResult, currentPlayer, scoreResult, game);
     } else if (endCurrentRound) {
-        await triggerNextRound(game);
+        await triggerNextRound(currentRound, validationResult, currentPlayer, scoreResult, game);
     } else {
         await triggerNextGuess(currentRound, validationResult, currentPlayer, scoreResult);
     }
@@ -95,21 +95,25 @@ async function updateCurrentGameState(game: DbGame, currentRound: DbGameRound, v
 
 async function triggerNextGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult) {
     await db.transaction(async (tx) => {
-        await updateGameRound(currentRound, validationResult);
-        await updateGamePlayer(currentPlayer, scoreResult.totalScore);
+        await updateGameRoundWithCurrentGuess(currentRound, validationResult);
+        await addScoreForPlayer(currentPlayer, scoreResult.totalScore);
     });          
 }
 
-async function triggerNextRound(game: DbGame) {
-    await db.update(GameTable)
-        .set({
-            currentRoundIndex: game.currentRoundIndex + 1
-        })
-        .where(eq(GameTable.id, game.id));      
+async function triggerNextRound(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult, game: DbGame) {
+    await db.transaction(async (tx) => {        
+        await updateGameRoundWithCurrentGuess(currentRound, validationResult);
+        await addScoreForPlayer(currentPlayer, scoreResult.totalScore);
+        await updateGameForNextRound(game);
+    });          
 }
 
-async function triggerEndGame(game: DbGame) {
-
+async function triggerEndGame(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult, game: DbGame) {
+    await db.transaction(async (tx) => {        
+        await updateGameRoundWithCurrentGuess(currentRound, validationResult);
+        await addScoreForPlayer(currentPlayer, scoreResult.totalScore);
+        await updateGameForNextRound(game);
+    });  
 }
 
 async function getGame(gameId: string): Promise<DbGameWithRoundsAndPlayers> {
@@ -138,7 +142,7 @@ async function validateUserAuth(game: DbGame) {
     }
 }
 
-async function updateGameRound(currentRound: DbGameRound, validationResult: DetailedValidationResult) {
+async function updateGameRoundWithCurrentGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult) {
     await db.update(GameRoundTable)
         .set({
             currentGuessIndex: currentRound.currentGuessIndex + 1,
@@ -151,15 +155,31 @@ async function updateGameRound(currentRound: DbGameRound, validationResult: Deta
         .where(eq(GameRoundTable.id, currentRound.id));        
 }
 
-async function updateGamePlayer(currentPlayer: DbGamePlayer, score: number) {
+async function updateGameForNextRound(game: DbGame) {
+    await db.update(GameTable)
+        .set({
+            currentRoundIndex: game.currentRoundIndex + 1
+        })
+        .where(eq(GameTable.id, game.id));    
+}
+
+async function endGame(game: DbGame) { 
+    await db.update(GameTable)
+        .set({
+            currentRoundIndex: game.currentRoundIndex + 1
+        })
+        .where(eq(GameTable.id, game.id));      
+}
+
+async function addScoreForPlayer(player: DbGamePlayer, score: number) {
   await db.update(GamePlayerTable)
     .set({
-      score: currentPlayer.score + score,
+      score: player.score + score,
     })
     .where(
       and(
-        eq(GamePlayerTable.userId, currentPlayer.userId),
-        eq(GamePlayerTable.gameId, currentPlayer.gameId)
+        eq(GamePlayerTable.userId, player.userId),
+        eq(GamePlayerTable.gameId, player.gameId)
       )
     );
 }

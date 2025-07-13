@@ -6,6 +6,7 @@ import { UsersTable } from "./users";
 export const GamePlayerTable = pgTable("game_player", {
     userId: uuid().references(() => UsersTable.id).notNull(),
     gameId: text().references(() => GameTable.id).notNull(),
+    username: text().notNull(),
     score: integer().notNull().default(0)
 }, (t) => [
   primaryKey({ columns: [t.userId, t.gameId] })
