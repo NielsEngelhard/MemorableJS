@@ -54,4 +54,23 @@ describe("filterNewLetters correct letters", () => {
             ])
         );           
     });
+
+    it("should not add duplicates of misplaced letter in the same guess", () => {
+        const validatedGuess: ValidatedLetter[] = [
+            { letter: "C", position: 1, state: LetterState.Correct },
+            { letter: "O", position: 2, state: LetterState.Correct },
+            { letter: "F", position: 3, state: LetterState.Correct },
+            { letter: "F", position: 4, state: LetterState.Correct },
+            { letter: "A", position: 5, state: LetterState.Misplaced },
+            { letter: "A", position: 6, state: LetterState.Misplaced },
+        ];
+
+        const previouslyGuessedLetters: ValidatedLetter[] = [{ letter: "C", position: 1, state: LetterState.Correct }];
+
+        const result = WordValidator.filterNewLetters(validatedGuess, previouslyGuessedLetters);
+
+        const misplacedLettersA = result.filter(l => l.letter == "A");
+
+        expect(misplacedLettersA).toHaveLength(1);        
+    });       
 });

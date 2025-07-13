@@ -1,5 +1,6 @@
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import { ValidatedLetter } from "./word-models";
+import { addToArrayIfNotExists } from "@/lib/utils";
 
 export interface DetailedValidationResult {
     validatedWord: ValidatedLetter[];
@@ -66,19 +67,33 @@ export class WordValidator {
 }
 
 function addCorrectGuessIfNotAlreadyExists(validatedLetter: ValidatedLetter, previouslyGuessedLetters: ValidatedLetter[], newLetters: ValidatedLetter[]) {
-    if (!previouslyGuessedLetters.some(l => l.letter == validatedLetter.letter && l.position == validatedLetter.position && l.state == validatedLetter.state)) {
+    if (!letterAndStateAndPositionAlreadyExist(validatedLetter, previouslyGuessedLetters)) {
         newLetters.push(validatedLetter);
     }
 }
 
 function addWrongGuessIfNotAlreadyExists(validatedLetter: ValidatedLetter, previouslyGuessedLetters: ValidatedLetter[], newLetters: ValidatedLetter[]) {  
-    if (!previouslyGuessedLetters.some(l => l.letter == validatedLetter.letter && l.state == validatedLetter.state)) {
-        newLetters.push(validatedLetter);
+    if (!letterAndStateAlreadyExist(validatedLetter, previouslyGuessedLetters)) {
+        
+        if (!letterAndStateAlreadyExist(validatedLetter, newLetters)) {
+            newLetters.push(validatedLetter);
+        }
     }
 }
 
 function addMisplacedIfNotAlreadyExists(validatedLetter: ValidatedLetter, previouslyGuessedLetters: ValidatedLetter[], newLetters: ValidatedLetter[]) {  
-    if (!previouslyGuessedLetters.some(l => l.letter == validatedLetter.letter && l.state == validatedLetter.state)) {
-        newLetters.push(validatedLetter);
+    if (!letterAndStateAlreadyExist(validatedLetter, previouslyGuessedLetters)) {
+        
+        if (!letterAndStateAlreadyExist(validatedLetter, newLetters)) {
+            newLetters.push(validatedLetter);
+        }
     }
+}
+
+function letterAndStateAlreadyExist(letter: ValidatedLetter, letters: ValidatedLetter[]): boolean {
+    return letters.some(l => l.letter == letter.letter && l.state == letter.state);
+}
+
+function letterAndStateAndPositionAlreadyExist(letter: ValidatedLetter, letters: ValidatedLetter[]): boolean {
+    return letters.some(l => l.letter == letter.letter && l.state == letter.state && l.position == letter.position);
 }

@@ -77,9 +77,18 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
           setTheWord(response.roundTransitionData?.currentWord);
         }, letterAnimationLength);
 
-        setTimeout(() => {
-          triggerNextRound();
-        }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);
+        if (response.roundTransitionData?.isEndOfGame)
+        {
+          setTimeout(() => {
+             triggerEndOfGame();
+            }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
+        }
+        else
+        {
+          setTimeout(() => {
+             triggerNextRound();
+            }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
+        }
       }      
     }
 
@@ -90,11 +99,6 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
     }
 
     function triggerNextRound() {
-      if (currentRoundIndex >= totalRounds) {
-        triggerEndOfGame();
-        return;
-      }
-
       setCurrentGuessIndex(1);
       setCurrentRoundIndex(prev => prev + 1);
       setCurrentRound(getCurrentRound());

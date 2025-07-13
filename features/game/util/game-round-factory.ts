@@ -12,7 +12,7 @@ export class GameRoundFactory {
             currentGuessIndex: 0,
             gameId: gameId,
             guesses: [],
-            guessedLetters: [{ position: 1, state: LetterState.Correct, letter: word[0] }]
+            guessedLetters: [{ position: 1, state: LetterState.Correct, letter: word[0].toUpperCase() }]
         }
     }
 

@@ -7,19 +7,18 @@ import { LetterState } from "@/drizzle/schema/enum/letter-state";
 import LetterTile from "@/features/word/components/LetterTile";
 import { useActiveGame } from "../../active-game-context";
 
-export default function GuessedLettersOverview() {
+export default function GuessedLettersTile() {
     const { currentRound } = useActiveGame();
 
     const [correctLetters, setCorrectLetters] = useState<string[]>([]);
     const [wrongLetters, setWrongLetters] = useState<string[]>([]);
     const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
 
-    // POC kijken of ik overal hier moet subscriben mbt depedency en of dit het echt gaat updaten
     useEffect(() => {
         setCorrectLetters([...new Set(
-        currentRound.guessedLetters
-            .filter(l => l.state == LetterState.Correct && l.letter != undefined)
-            .map(l => l.letter ?? "")
+            currentRound.guessedLetters
+                .filter(l => l.state == LetterState.Correct && l.letter != undefined)
+                .map(l => l.letter as string)
         )]);
         setWrongLetters(currentRound.guessedLetters.filter(l => l.state == LetterState.Wrong && l.letter != undefined).map(l => l.letter ?? ""));
         setMisplacedLetters(currentRound.guessedLetters.filter(l => l.state == LetterState.Misplaced && l.letter != undefined).map(l => l.letter ?? ""));
