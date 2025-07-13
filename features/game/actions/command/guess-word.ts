@@ -75,6 +75,7 @@ async function updateCurrentGameState(game: DbGameWithRoundsAndPlayers, currentR
 
     if (endGame) {
         currentPlayer.score += scoreResult.totalScore;
+        currentRound.guesses.push(currentGuess);
         await triggerEndGame(game);
     } else if (endCurrentRound) {
         await triggerNextRound(currentRound, validationResult, currentPlayer, scoreResult, game);
