@@ -14,6 +14,7 @@ const cardVariants = cva(
       variant: {
         default: "border-border bg-white",
         fade: "!border-blue-300 bg-gradient-to-r from-blue-50 to-purple-50",
+        orange: "bg-accent/10 border-none"
       },
     }
   }

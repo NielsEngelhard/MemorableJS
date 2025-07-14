@@ -5,8 +5,9 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import CardHeader from "@/components/ui/card/CardHeader";
+import FeatureHighlight from "@/components/ui/FeatureHighlight";
 import { getLocalizedFullDayString } from "@/lib/date-util";
-import { Brain, Calendar, Sparkles } from "lucide-react";
+import { Brain, Calendar, Clock, Sparkles, Trophy } from "lucide-react";
 
 export default function WordOfTheDayPage() {
     const available = true;
@@ -44,10 +45,24 @@ export default function WordOfTheDayPage() {
                         Challenge yourself and compete with players worldwide to see who can guess today's word in the fewest attempts.                            
                     </div>                    
 
-                    <div>
-                        - Elke dag weer een verrasing
-                        - Woord is hand picked elke dag
-                        - 24 Hours One attempt per day
+                    <div className="grid grid-cols-3 gap-4 mb-6 text-sm">
+                        <FeatureHighlight
+                            Icon={Clock}
+                            title="Quick"
+                            text="Just a few minutes of your time"
+                        />
+
+                        <FeatureHighlight
+                            Icon={Sparkles}
+                            title="Refreshing"
+                            text="Everyday a new hand-picked word"
+                        />
+
+                        <FeatureHighlight
+                            Icon={Trophy}
+                            title="Statistics"
+                            text="See yourself improve overtime"
+                        />                                                
                     </div>
 
                    <div className="flex flex-col gap-1">
