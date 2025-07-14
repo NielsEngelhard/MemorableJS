@@ -50,18 +50,21 @@ export default function WordOfTheDayPage() {
                             Icon={Clock}
                             title="Quick"
                             text="Just a few minutes of your time"
+                            variant="orange"
                         />
 
                         <FeatureHighlight
                             Icon={Sparkles}
                             title="Refreshing"
                             text="Everyday a new hand-picked word"
+                            variant="orange"
                         />
 
                         <FeatureHighlight
                             Icon={Trophy}
                             title="Statistics"
                             text="See yourself improve overtime"
+                            variant="orange"
                         />                                                
                     </div>
 
