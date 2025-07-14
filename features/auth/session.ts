@@ -5,6 +5,7 @@ import { UserSessionTable } from "@/drizzle/schema/user-session";
 import { and, eq, gt } from "drizzle-orm";
 import { UsersTable } from "@/drizzle/schema";
 import { sessionSchema } from "./schemas";
+import { UserAndSessionModel } from "./models";
 
 const SESSION_EXPIRATION_DAYS = 7;
 const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * SESSION_EXPIRATION_DAYS;
@@ -93,8 +94,9 @@ async function getSessionAndUserById(sessionId: string): Promise<UserAndSessionM
       username: user.users.username,
       email: user.users.email,
       level: user.users.level,
-      joinDate: user.users.createdAt,
+      createdAt: user.users.createdAt,
       colorHex: user.users.colorHex,
+      role: user.users.role,
 
     },
     session: {

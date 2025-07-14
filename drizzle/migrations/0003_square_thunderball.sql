@@ -1,1 +1,0 @@
-ALTER TABLE "game_round" ADD COLUMN "score" integer DEFAULT 0 NOT NULL;

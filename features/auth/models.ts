@@ -1,17 +1,22 @@
-interface UserModel {
+import { UserRole } from "@/drizzle/schema";
+
+export interface UserModel {
     id: string;
     username: string;
     email: string;
+    role: UserRole,
     level: number;
     colorHex?: string | null;
-    joinDate?: Date;
+    createdAt?: Date;  
+    favoriteWord?: string | null;
+    winnerSlogan?: string | null;      
 }
 
-interface UserSessionModel {
+export interface UserSessionModel {
     sessionId: string;
 }
 
-interface UserAndSessionModel {
+export interface UserAndSessionModel {
     user: UserModel;
     session: UserSessionModel;
 }

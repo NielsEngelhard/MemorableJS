@@ -4,13 +4,15 @@ import { z } from "zod";
 import { signInSchema, signUpSchema } from "./schemas";
 import { redirect } from "next/navigation";
 import { db } from "@/drizzle/db";
-import { UsersTable } from "@/drizzle/schema";
+import { UserSettingsTable, UsersTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { hashPassword, generateSalt, comparePasswords } from "./password-hasher";
 import { createUserSession, removeUserFromSession } from "./session";
 import { cookies } from "next/headers";
 import generateRandomUsername from "@/lib/generator/username-generator";
 import generateRandomColorHex from "@/lib/generator/colorhex-generator";
+import { UserModel } from "./models";
+import { UserStatisticsTable } from "@/drizzle/schema/user-statistics";
 
 type SignInResponse = {
     ok: boolean;
@@ -73,12 +75,12 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>): Promise<
         const salt = generateSalt();
         const hashedPassword = await hashPassword(data.password, salt);
     
-        const user = await createUser(data.email, hashedPassword, salt, username);        
-        if (user == null) return "Unable to create account"; 
+        const userId = await createUser(data.email, hashedPassword, salt, username);        
+        if (userId == null) return "Unable to create account"; 
 
         await createUserSession({
             sessionId: "",
-            userId: user.id,
+            userId: userId,
             role: "user"
         }, await cookies());
     } catch (ex) {
@@ -95,21 +97,35 @@ export async function logOut() {
     redirect("/");
 }
 
-async function createUser(email: string, hashedPassword: string, salt: string, username: string) {
-    const user = await db
-        .insert(UsersTable)
-        .values({
-            username: username,
-            colorHex: generateRandomColorHex(),
-            email: email,
-            hashedPassword: hashedPassword,
-            salt: salt,           
-            role: "user",
-            level: 0,            
-        })
-        .returning({ id: UsersTable.id });
+async function createUser(email: string, hashedPassword: string, salt: string, username: string): Promise<string> {
+    var userId = await db.transaction(async (tx) => {
+        const user = await db
+            .insert(UsersTable)
+            .values({
+                username: username,
+                colorHex: generateRandomColorHex(),
+                email: email,
+                hashedPassword: hashedPassword,
+                salt: salt,           
+                role: "user",
+                level: 0,            
+            })
+            .returning({ id: UsersTable.id });            
 
-        return user[0];
+            const userId = user[0].id;
+
+            await db.insert(UserSettingsTable).values({
+                userId: userId,
+            });  
+            
+            await db.insert(UserStatisticsTable).values({
+                userId: userId,                
+            });    
+
+            return userId;
+    });
+
+    return userId;
 };
 
 async function findUserByEmailOrUsername(usernameOrEmail: string) {

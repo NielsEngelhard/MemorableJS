@@ -1,6 +1,7 @@
 import { hashPassword } from "@/features/auth/password-hasher";
 import { UsersTable } from "../schema";
 import { UserSettingsTable } from "../schema/user-settings";
+import { UserStatisticsTable } from "../schema/user-statistics";
 
 export default async function seedUsers(db: any) {
       const salt = 'ThisSaltIsNotOnProductionHaha(IHope)';
@@ -20,5 +21,9 @@ export default async function seedUsers(db: any) {
 
       await db.insert(UserSettingsTable).values({
         userId: user[0].userId
-      });    
+      });  
+      
+      await db.insert(UserStatisticsTable).values({
+        userId: user[0].userId,                
+      });        
 } 
