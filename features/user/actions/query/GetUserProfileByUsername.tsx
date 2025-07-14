@@ -7,10 +7,6 @@ import { MapDbUserProfileToModel } from "../../mapper";
 
 export default async function GetUserProfileByUsernae(username: string): Promise<UserProfileModel | null> {
     const userProfile = await GetUserProfile(username);
-
-    console.log("skrtjes");
-    console.log(userProfile);
-
     return MapDbUserProfileToModel(userProfile);
 }
 
