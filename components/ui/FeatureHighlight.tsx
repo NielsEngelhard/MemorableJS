@@ -15,6 +15,18 @@ const variants = {
     title: "text-orange-800",
     text: "text-orange-600"
   },
+  secondary: {
+    wrapper: "bg-secondary/20",
+    icon: "text-secondary",
+    title: "text-secondary",
+    text: "text-secondary/80"
+  },
+  success: {
+    wrapper: "bg-success/20",
+    icon: "text-success",
+    title: "text-success",
+    text: "text-success/80"
+  },    
 };
 
 // Use cva for the base component styling
@@ -23,6 +35,8 @@ const featureHighlightVariants = cva("text-center p-3 rounded-lg", {
     variant: {
       orange: "",
       primary: "",
+      secondary: "",
+      success: "",
     }
   },
   defaultVariants: {

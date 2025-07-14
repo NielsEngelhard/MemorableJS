@@ -13,18 +13,21 @@ export default function OverallStatsTile({ userProfile }: Props) {
             <CardBody>
                 <div className="grid grid-cols-2 gap-2">
                     <FeatureHighlight
+                        variant="primary" 
                         title="127"
                         text="Total Games"
                     /> 
                     <FeatureHighlight
+                        variant="secondary" 
                         title="127"
-                        text="Total Games"
+                        text="Highest Score"
                     /> 
                 </div>
 
                 <FeatureHighlight
-                    title="127"
-                    text="Total Games"
+                    variant="success"            
+                    title="88%"
+                    text="Win Rate"
                 />                
             </CardBody>
         </Card>
