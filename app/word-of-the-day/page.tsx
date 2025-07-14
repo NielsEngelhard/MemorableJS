@@ -58,7 +58,7 @@ export default function WordOfTheDayPage() {
                             title="Refreshing"
                             text="Everyday a new hand-picked word"
                             variant="orange"
-                        />
+                        />                   
 
                         <FeatureHighlight
                             Icon={Trophy}

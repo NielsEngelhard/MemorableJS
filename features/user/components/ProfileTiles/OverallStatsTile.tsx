@@ -26,8 +26,8 @@ export default function OverallStatsTile({ userProfile }: Props) {
 
                 <FeatureHighlight
                     variant="success"            
-                    title="88%"
-                    text="Win Rate"
+                    title="5"
+                    text="Longest win streak"
                 />                
             </CardBody>
         </Card>
