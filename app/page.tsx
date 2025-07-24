@@ -25,7 +25,7 @@ export default function Home() {
             The Ultimate Word Guessing Game
           </p>
           <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            It’s always the right time for the right word - if you ask me...
+            It’s always the right time for the right word - if you ask me... 
           </p>
         </div>
         
