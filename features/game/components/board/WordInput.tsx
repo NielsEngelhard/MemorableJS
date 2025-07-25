@@ -18,6 +18,8 @@ interface Props {
 }
 
 export default function WordInput({ theWord, currentGuess, onEnter, onChange, maxLength, disabled = false }: Props) {
+    const { wordLength } = useActiveGame();
+
     const { currentRound } = useActiveGame();
     const { settings } = useUserSettings();
 
@@ -26,10 +28,14 @@ export default function WordInput({ theWord, currentGuess, onEnter, onChange, ma
     }
 
     function onKeyPress(keyboardKey: string) {
+        if (currentGuess.length >= wordLength) return;
+
         onChange(currentGuess + keyboardKey);
     }
 
     function onKeyDelete() {
+        if (currentGuess.length == 0) return;
+
         onChange(currentGuess.slice(0, -1));
     }    
 

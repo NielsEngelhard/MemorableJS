@@ -1,4 +1,4 @@
-import { DbGameHistory, DbGameHistoryInsert, DbGamePlayer, DbGameWithRoundsAndPlayers } from "@/drizzle/schema";
+import { DbGameHistory, DbGameHistoryInsert, DbGamePlayer, DbGameWithRoundsAndPlayers, gameModeEnum } from "@/drizzle/schema";
 import { GameModel, GamePlayerModel, RoundModel } from "./models";
 import { DbGameRound } from "@/drizzle/schema/game-round";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
@@ -44,7 +44,7 @@ export function mapGameToHistory(game: DbGameWithRoundsAndPlayers): DbGameHistor
     return {
         userHostId: game.userHostId,
         gameMode: game.gameMode,
-        totalScore: 100,
+        totalScore: game.players.reduce((sum, player) => sum + player.score, 0),
         rounds: game.rounds.map(r => {
             return {                
                 index: r.roundNumber,

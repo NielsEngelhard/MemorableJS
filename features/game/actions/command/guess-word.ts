@@ -65,7 +65,7 @@ function getCurrentPlayer(game: DbGameWithRoundsAndPlayers): DbGamePlayer {
 }
 
 async function updateCurrentGameState(game: DbGameWithRoundsAndPlayers, currentRound: DbGameRound, validationResult: DetailedValidationResult, scoreResult: CalculateScoreResult, currentPlayer: DbGamePlayer): Promise<GuessWordResponse> {
-    const roundMaxGuessesReached = currentRound.currentGuessIndex >= game.maxAttemptsPerRound;
+    const roundMaxGuessesReached = (currentRound.currentGuessIndex + 1) >= game.maxAttemptsPerRound;
     const endCurrentRound = roundMaxGuessesReached || validationResult.allCorrect;
     const endGame = endCurrentRound && (game.currentRoundIndex >= game.totalRounds);
 
@@ -181,7 +181,7 @@ async function deleteGame(gameId: string) {
 async function createGameHistory(game: DbGameWithRoundsAndPlayers): Promise<string> {
     const gameHistory = mapGameToHistory(game);
     const result = await db.insert(GameHistoryTable).values(gameHistory).returning({
-        gameHistoryId: GameHistoryTable.id
+        gameHistoryId: GameHistoryTable.id,        
     });        
 
     return result[0].gameHistoryId;
