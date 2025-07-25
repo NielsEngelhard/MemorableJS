@@ -8,12 +8,16 @@ import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import CardHeader from "@/components/ui/card/CardHeader";
 import FeatureHighlight from "@/components/ui/FeatureHighlight";
+import { useAuth } from "@/features/auth/auth-context";
 import NextWodCountdown from "@/features/word-of-the-day/components/NextWodCountdown";
+import { canPlayWod } from "@/features/word-of-the-day/util/wod-util";
 import { getLocalizedFullDayString } from "@/lib/date-util";
 import { Brain, Calendar, Clock, Sparkles, Trophy } from "lucide-react";
 
 export default function WordOfTheDayPage() {
-    const available = true;
+    const { user } = useAuth();
+
+    const available = canPlayWod(user?.lastWodPlayedUtc);
 
     return (
         <PageBase>
