@@ -1,9 +1,12 @@
 import ExampleGameShowCase from "@/components/layout/ExampleGameShowCase";
 import PageBase from "@/components/layout/PageBase";
 import Button from "@/components/ui/Button";
+import Card from "@/components/ui/card/Card";
+import CardBody from "@/components/ui/card/CardBody";
+import FeatureHighlight from "@/components/ui/FeatureHighlight";
 import { APP_NAME } from "@/lib/global-constants";
 import { GAME_MODES_ROUTE, SCORE_EXPLANATION_ROUTE } from "@/lib/routes";
-import { Brain, Play, Sparkles, Trophy, Users2 } from "lucide-react";
+import { Brain, BrainIcon, Play, Sparkles, Trophy, Users2 } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -22,29 +25,24 @@ export default function Home() {
             {APP_NAME}
           </h1>
           <p className="text-2xl md:text-3xl text-gray-700 mb-4 font-semibold">
-            The Ultimate Word Guessing Game
+            Solo Practice • Multiplayer Battles • Daily Challenges
           </p>
           <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            It’s always the right time for the right word - if you ask me... 
+            It’s always the right time for the right word. It really is. Really!
           </p>
-        </div>
-        
-        {/* Enhanced game preview */}
-        <ExampleGameShowCase />
+        </div>    
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <Link href={GAME_MODES_ROUTE}>
-            <Button variant="primary">
-             <Play className="w-5 h-5 mr-2" />
-              Start Guessing Words
-            </Button>
-          </Link>
-          <Link href={SCORE_EXPLANATION_ROUTE}>
-            <Button variant="skeleton">
-             <Trophy className="w-5 h-5 mr-2" />
-              Scoring System
-            </Button>
-          </Link>
+        {/* Big Play Now Button */}
+        <div className="mb-16 flex justify-center">
+          <Button variant="primary" className="px-20 py-4">
+            <Play className="w-6 h-6 mr-3" />
+            Play Now
+          </Button>
+        </div>
+
+        {/* Enhanced game preview */}
+        <div className="mb-12">
+          <ExampleGameShowCase />
         </div>
 
         {/* App capabilities section */}

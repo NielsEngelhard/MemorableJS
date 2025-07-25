@@ -19,7 +19,8 @@ const buttonVariants = cva(
         orange: "bg-gradient-to-r from-orange-500 to-orange-600 text-white",
         fade: "bg-gradient-to-r from-primary to-secondary text-white",
         skeleton: "bg-transparent border-border border-2 font-semibold hover:bg-opacity-5",
-        accent: "text-accent/80 bg-background border-2 border-accent/20"
+        accent: "text-accent/80 bg-background border-2 border-accent/20",
+        error: "text-white bg-error border-2 border-error/20"
       },
     },
     defaultVariants: {

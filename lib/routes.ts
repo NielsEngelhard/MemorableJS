@@ -11,3 +11,7 @@ export const IN_GAME_ROUTE = (gameId: string) => {
 export const GAME_HISTORY_ROUTE = (gameHistoryId: string) => {
     return `/history/${gameHistoryId}`;
 }
+
+export const PROFILE_ROUTE = (username: string) => {
+    return `/profile/${username}`;
+}

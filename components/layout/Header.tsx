@@ -7,7 +7,7 @@ import { useAuth } from "@/features/auth/auth-context";
 import { Calendar, Play, Sparkles, User } from "lucide-react";
 import Link from "next/link";
 import Badge from "../ui/Badge";
-import { WORD_OF_THE_DAY_ROUTE } from "@/lib/routes";
+import { PROFILE_ROUTE, WORD_OF_THE_DAY_ROUTE } from "@/lib/routes";
 
 export default function Header() {
     const { user, toggleShowAuthModal } = useAuth();    
@@ -50,7 +50,7 @@ export default function Header() {
                                 </Button>                               
                             </Link>                         
                                                
-                        <Link href="/account">
+                        <Link href={PROFILE_ROUTE(user?.username)}>
                             <Button variant="skeleton">
                                 <div className="flex gap-1 items-center"><User size={16} />{user.username}</div>
                             </Button>                        
