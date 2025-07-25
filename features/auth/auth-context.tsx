@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { signInSchema } from './schemas';
 import { logOut, signIn } from './actions';
 import { redirect } from 'next/navigation';
+import { UserModel } from './models';
 
 
 type AuthContextType = {  

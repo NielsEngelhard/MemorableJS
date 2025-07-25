@@ -16,10 +16,14 @@ export default function PlayGame() {
     useEffect(() => {
         async function GetGame() {
             if (!slug) return;
-            var resp = await GetGameById(slug.toString());
-
-            if (!resp) redirect("/play");
-            setGame(resp);
+            
+            try {
+                var resp = await GetGameById(slug.toString());
+                if (!resp) redirect("/play");
+                setGame(resp);                
+            } catch {
+                redirect("/profile");
+            }
         }
 
         GetGame();
