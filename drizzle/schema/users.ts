@@ -5,6 +5,7 @@ import { id, createdAt } from "../schema-helpers";
 import { UserSessionTable } from "./user-session";
 import { DbUserSettings, UserSettingsTable } from "./user-settings";
 import { DbUserStatistics, UserStatisticsTable } from "./user-statistics";
+import { supportedLanguageEnum } from "./enum/language";
 
 export const UsersTable = pgTable("users", {
     id,
@@ -15,6 +16,8 @@ export const UsersTable = pgTable("users", {
     role: userRoleEnum().notNull(),
     level: integer().notNull(),
     colorHex: text(),
+    language: supportedLanguageEnum().notNull().default("nl"),
+
     createdAt,
 
     lastWodPlayedUtc: timestamp({ mode: "date"}),

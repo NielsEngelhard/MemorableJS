@@ -1,11 +1,13 @@
 import { UserRole } from "@/drizzle/schema";
+import { SupportedLanguage } from "../i18n/languages";
 
 export interface UserModel {
     id: string;
     username: string;
     email: string;
     role: UserRole,
-    level: number;
+    level: number;    
+    language: SupportedLanguage;
     colorHex?: string | null;
     createdAt?: Date;  
     favoriteWord?: string | null;

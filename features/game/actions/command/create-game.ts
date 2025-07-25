@@ -6,7 +6,6 @@ import { generateGameId } from "../../util/game-id-generator";
 import { db } from "@/drizzle/db";
 import { getCurrentUser } from "@/features/auth/current-user";
 import getWords from "@/features/word/actions/query/get-official-words";
-import { SupportedLanguage } from "@/features/i18n/languages";
 import { CreateGameSchema } from "../../schemas";
 import { GameRoundFactory } from "../../util/game-round-factory";
 import { GamePlayerFactory } from "../../util/game-player-factory";
@@ -15,12 +14,12 @@ export default async function CreateGame(command: CreateGameSchema): Promise<str
     const userId = (await getCurrentUser())?.user.id;
     if (!userId) throw new Error("User seems not logged in");
 
-    const words = await getWords(command.totalRounds, command.wordLength, SupportedLanguage.nl);
+    const words = await getWords(command.totalRounds, command.wordLength, "nl");
 
     const gameId = generateGameId();
 
     await db.transaction(async (tx) => {
-        await db.insert(GameTable).values({
+        await tx.insert(GameTable).values({
             id: gameId,
             maxAttemptsPerRound: command.maxAttemptsPerRound,
             timePerTurn: command.timePerTurn,
@@ -35,10 +34,10 @@ export default async function CreateGame(command: CreateGameSchema): Promise<str
         });
 
         var rounds = GameRoundFactory.createDbRounds(words, gameId);
-        await db.insert(GameRoundTable).values(rounds);
+        await tx.insert(GameRoundTable).values(rounds);
 
         var players = GamePlayerFactory.createGamePlayer(gameId, userId);
-        await db.insert(GamePlayerTable).values(players);
+        await tx.insert(GamePlayerTable).values(players);
     });
 
     return gameId;

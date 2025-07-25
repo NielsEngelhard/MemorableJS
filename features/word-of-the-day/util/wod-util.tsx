@@ -1,4 +1,4 @@
-export function canPlayWod(lastPlayedDate: Date | null | undefined): boolean {
+export function utcDateIsToday(lastPlayedDate: Date | null | undefined): boolean {
   if (lastPlayedDate == null || lastPlayedDate == undefined) return true;
 
   const today = new Date();
@@ -14,5 +14,5 @@ export function canPlayWod(lastPlayedDate: Date | null | undefined): boolean {
     lastPlayedDate.getUTCDate()
   ));
   
-  return lastPlayedDayUTC.getTime() !== todaysDayUTC.getTime();
+  return lastPlayedDayUTC.getTime() === todaysDayUTC.getTime();
 }

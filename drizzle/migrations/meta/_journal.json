@@ -15,6 +15,13 @@
       "when": 1753455642148,
       "tag": "0001_daily_omega_red",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1753460513855,
+      "tag": "0002_fantastic_jocasta",
+      "breakpoints": true
     }
   ]
 }

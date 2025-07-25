@@ -20,3 +20,7 @@ export function parseGameId(input: string): string {
   
   return uppercaseInput;
 }
+
+export function generateWodGameId(userId: string) {
+  return `wod-${userId}`;
+}

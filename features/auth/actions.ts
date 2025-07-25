@@ -99,7 +99,7 @@ export async function logOut() {
 
 async function createUser(email: string, hashedPassword: string, salt: string, username: string): Promise<string> {
     var userId = await db.transaction(async (tx) => {
-        const user = await db
+        const user = await tx
             .insert(UsersTable)
             .values({
                 username: username,
@@ -114,11 +114,11 @@ async function createUser(email: string, hashedPassword: string, salt: string, u
 
             const userId = user[0].id;
 
-            await db.insert(UserSettingsTable).values({
+            await tx.insert(UserSettingsTable).values({
                 userId: userId,
             });  
             
-            await db.insert(UserStatisticsTable).values({
+            await tx.insert(UserStatisticsTable).values({
                 userId: userId,                
             });    
 

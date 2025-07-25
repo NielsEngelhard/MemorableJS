@@ -97,6 +97,7 @@ async function getSessionAndUserById(sessionId: string): Promise<UserAndSessionM
       createdAt: user.users.createdAt,
       colorHex: user.users.colorHex,
       role: user.users.role,
+      language: user.users.language
 
     },
     session: {

@@ -8,6 +8,7 @@ export function MapDbUserProfileToModel(u: DbUserProfile): UserProfileModel {
             id: u.id,
             createdAt: u.createdAt,
             level: u.level,
+            language: u.language,
             role: u.role,
             username: u.username,
             colorHex: u.colorHex,
@@ -42,6 +43,7 @@ export function MapDbUserToModel(u: DbUser): UserModel {
         createdAt: u.createdAt,
         favoriteWord: u.favoriteWord,
         lastWodPlayedUtc: u.lastWodPlayedUtc,
-        winnerSlogan: u.winnerSlogan
+        winnerSlogan: u.winnerSlogan,
+        language: u.language
     }
 }

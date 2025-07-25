@@ -10,14 +10,16 @@ import CardHeader from "@/components/ui/card/CardHeader";
 import FeatureHighlight from "@/components/ui/FeatureHighlight";
 import { useAuth } from "@/features/auth/auth-context";
 import NextWodCountdown from "@/features/word-of-the-day/components/NextWodCountdown";
-import { canPlayWod } from "@/features/word-of-the-day/util/wod-util";
+import { utcDateIsToday } from "@/features/word-of-the-day/util/wod-util";
 import { getLocalizedFullDayString } from "@/lib/date-util";
+import { PLAY_WORD_OF_THE_DAY_ROUTE } from "@/lib/routes";
 import { Brain, Calendar, Clock, Sparkles, Trophy } from "lucide-react";
+import Link from "next/link";
 
 export default function WordOfTheDayPage() {
     const { user } = useAuth();
 
-    const available = canPlayWod(user?.lastWodPlayedUtc);
+    const available = utcDateIsToday(user?.lastWodPlayedUtc) == false;
 
     return (
         <PageBase>
@@ -80,14 +82,22 @@ export default function WordOfTheDayPage() {
                     </div>
 
                    <div className="flex flex-col gap-1">
-                        <Button variant="orange" disabled={!available}>
-                            Play!
-                        </Button>
+                        <Link href={PLAY_WORD_OF_THE_DAY_ROUTE} className="w-full">
+                            <Button variant="orange" disabled={!available} className="w-full">
+                                Play!
+                            </Button>
+                        </Link>
                         <div className="text-foreground-muted text-xs text-center">
                             Remember: You only get one attempt per day, so make it count!
-                        </div>                    
+                        </div>
                    </div>
 
+                </CardBody>
+            </Card>
+
+            <Card>
+                <CardBody>
+                    <div>TODO: previous words</div>
                 </CardBody>
             </Card>
         </PageBase>
