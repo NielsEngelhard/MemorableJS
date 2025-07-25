@@ -31,18 +31,6 @@ export default function GameModesPage() {
                     time="10-20 min"
                     href="/multiplayer"
                 />    
-
-                {/* <GameModeCard
-                    name="Word of the Day"
-                    Icon={Calendar}
-                    bgColor="bg-accent/20"
-                    color="text-accent/80"
-                    description="Daily challenge with a special word. Compete with players worldwide for the best score of the day."
-                    players="Daily Challenge"
-                    time="Once per day"
-                    cardClassName="!border-accent/40 !border-2"
-                    href="/word-of-the-day"
-                />                                 */}
             </div>
         </PageBase>
     )

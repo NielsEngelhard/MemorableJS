@@ -1,3 +1,5 @@
+"use client"
+
 import PageBase from "@/components/layout/PageBase";
 import Badge from "@/components/ui/Badge";
 import BasicPageIntro from "@/components/ui/block/BasicPageIntro";
@@ -6,6 +8,7 @@ import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import CardHeader from "@/components/ui/card/CardHeader";
 import FeatureHighlight from "@/components/ui/FeatureHighlight";
+import NextWodCountdown from "@/features/word-of-the-day/components/NextWodCountdown";
 import { getLocalizedFullDayString } from "@/lib/date-util";
 import { Brain, Calendar, Clock, Sparkles, Trophy } from "lucide-react";
 
@@ -20,15 +23,19 @@ export default function WordOfTheDayPage() {
                 Icon={Calendar}
                 color="orange"
             >
-                {available ? (
-                    <Badge variant="success">
-                        <Sparkles size={16} /> Challenge Available                        
-                    </Badge>
-                ) : (
-                    <Badge variant="error">
-                        <Sparkles size={16} /> Unavailable                       
-                    </Badge>
-                )}
+                <div className="flex flex-col gap-1 items-center">
+                    {available ? (
+                        <Badge variant="success">
+                            <Sparkles size={16} /> Challenge Available                        
+                        </Badge>
+                    ) : (
+                        <Badge variant="error">
+                            <Sparkles size={16} /> Unavailable                       
+                        </Badge>
+                    )}
+
+                    <NextWodCountdown />
+                </div>
             </BasicPageIntro>
 
             <Card className="w-full max-w-3xl items-center border-accent/20 border-1">

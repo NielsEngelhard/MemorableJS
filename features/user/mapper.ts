@@ -1,5 +1,6 @@
-import { DbUserProfile } from "@/drizzle/schema";
+import { DbUser, DbUserProfile } from "@/drizzle/schema";
 import { UserProfileModel } from "./models";
+import { UserModel } from "../auth/models";
 
 export function MapDbUserProfileToModel(u: DbUserProfile): UserProfileModel {
     return {
@@ -27,5 +28,20 @@ export function MapDbUserProfileToModel(u: DbUserProfile): UserProfileModel {
             wodTotalGamesPlayed: u.statistics.wodTotalGamesPlayed,
             wodTotalGamesWon: u.statistics.wodTotalGamesWon,
         }
+    }
+}
+
+export function MapDbUserToModel(u: DbUser): UserModel {
+    return {
+        id: u.id,
+        email: u.email,
+        level: u.level,
+        role: u.role,
+        username: u.username,
+        colorHex: u.colorHex,
+        createdAt: u.createdAt,
+        favoriteWord: u.favoriteWord,
+        lastWodPlayedUtc: u.lastWodPlayedUtc,
+        winnerSlogan: u.winnerSlogan
     }
 }

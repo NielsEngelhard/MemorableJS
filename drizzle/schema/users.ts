@@ -1,4 +1,4 @@
-import { integer, pgTable, text } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { userRoleEnum } from "./enum/user-role";
 import { id, createdAt } from "../schema-helpers";
@@ -16,6 +16,8 @@ export const UsersTable = pgTable("users", {
     level: integer().notNull(),
     colorHex: text(),
     createdAt,
+
+    lastWodPlayedUtc: timestamp({ mode: "date"}),
 
     favoriteWord: text(),
     winnerSlogan: text(),

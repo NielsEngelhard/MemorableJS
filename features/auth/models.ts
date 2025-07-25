@@ -10,6 +10,7 @@ export interface UserModel {
     createdAt?: Date;  
     favoriteWord?: string | null;
     winnerSlogan?: string | null;      
+    lastWodPlayedUtc?: Date | null;
 }
 
 export interface UserSessionModel {
