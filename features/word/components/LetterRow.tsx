@@ -1,3 +1,5 @@
+"use client"
+
 import LetterTile from "./LetterTile";
 import { useEffect, useState } from "react";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";

@@ -1,12 +1,11 @@
+"use client"
+
 import ExampleGameShowCase from "@/components/layout/ExampleGameShowCase";
 import PageBase from "@/components/layout/PageBase";
 import Button from "@/components/ui/Button";
-import Card from "@/components/ui/card/Card";
-import CardBody from "@/components/ui/card/CardBody";
-import FeatureHighlight from "@/components/ui/FeatureHighlight";
 import { APP_NAME } from "@/lib/global-constants";
-import { GAME_MODES_ROUTE, SCORE_EXPLANATION_ROUTE } from "@/lib/routes";
-import { Brain, BrainIcon, Play, Sparkles, Trophy, Users2 } from "lucide-react";
+import { GAME_MODES_ROUTE } from "@/lib/routes";
+import { Brain, Play, Trophy, Users2 } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -34,10 +33,12 @@ export default function Home() {
 
         {/* Big Play Now Button */}
         <div className="mb-16 flex justify-center">
-          <Button variant="primary" className="px-20 py-4">
-            <Play className="w-6 h-6 mr-3" />
-            Play Now
-          </Button>
+          <Link href={GAME_MODES_ROUTE}>
+            <Button variant="primary" className="px-20 py-4">
+              <Play className="w-6 h-6 mr-3" />
+              Play Now
+            </Button>          
+          </Link>
         </div>
 
         {/* Enhanced game preview */}
