@@ -9,6 +9,7 @@ import RoundHistory from "./RoundHistory";
 import TitleText from "@/components/ui/text/TitleText";
 import CardHeader from "@/components/ui/card/CardHeader";
 import { GameHistoryModel } from "../models";
+import PlayerHistory from "./PlayerHistory";
 
 interface Props {
     gameHistory: GameHistoryModel;
@@ -35,7 +36,17 @@ export default function PlayedGameOverview({ gameHistory }: Props) {
                 </CardBody>
             </Card>
 
-          <Card>
+            {gameHistory.players.length > 1 && (
+                <Card>
+                    <CardBody className="flex flex-col gap-2">
+                        {gameHistory.players.sort(p => p.score).map((player) => {
+                            return <PlayerHistory player={player} />
+                        })}                    
+                    </CardBody>
+                </Card>                
+            )}
+
+            <Card>
             <CardBody>
                 <CardHeader>
                     <LetterText className="w-6 h-6 text-blue-600" />
@@ -48,7 +59,7 @@ export default function PlayedGameOverview({ gameHistory }: Props) {
                     })}
                 </div>             
             </CardBody>
-          </Card>
+            </Card>
         </div>
     )
 }

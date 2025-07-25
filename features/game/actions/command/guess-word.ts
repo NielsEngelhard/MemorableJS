@@ -101,14 +101,14 @@ async function updateCurrentGameState(game: DbGameWithRoundsAndPlayers, currentR
 
 async function triggerNextGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult) {
     await db.transaction(async (tx) => {
-        await updateGameRoundWithCurrentGuess(currentRound, validationResult);
+        await updateGameRoundWithCurrentGuess(currentRound, validationResult, scoreResult.totalScore);
         await addScoreForPlayer(currentPlayer, scoreResult.totalScore);
     });          
 }
 
 async function triggerNextRound(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult, game: DbGame) {
     await db.transaction(async (tx) => {        
-        await updateGameRoundWithCurrentGuess(currentRound, validationResult);
+        await updateGameRoundWithCurrentGuess(currentRound, validationResult, scoreResult.totalScore);
         await addScoreForPlayer(currentPlayer, scoreResult.totalScore);
         await updateGameForNextRound(game);
     });          
@@ -152,7 +152,7 @@ async function validateUserAuth(game: DbGame) {
     }
 }
 
-async function updateGameRoundWithCurrentGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult) {
+async function updateGameRoundWithCurrentGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, thisRoundScore: number) {
     await db.update(GameRoundTable)
         .set({
             currentGuessIndex: currentRound.currentGuessIndex + 1,
@@ -160,7 +160,8 @@ async function updateGameRoundWithCurrentGuess(currentRound: DbGameRound, valida
                 guessIndex: currentRound.currentGuessIndex,
                 letters: validationResult.validatedWord
             }],
-            guessedLetters: [...currentRound.guessedLetters, ...validationResult.newLetters]
+            guessedLetters: [...currentRound.guessedLetters, ...validationResult.newLetters],
+            score: currentRound.score + thisRoundScore
         })
         .where(eq(GameRoundTable.id, currentRound.id));        
 }
