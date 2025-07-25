@@ -14,7 +14,7 @@ const introVariants = cva(
   {
     variants: {
       color: {
-        primary: "from-primary to-secondary",
+        primary: "bg-primary",
         orange: "from-orange-400 to-orange-600",
       }
     },
@@ -28,13 +28,15 @@ export default function BasicPageIntro({ title, subText, children, Icon, color }
     return (
         <div className="mb-8 flex flex-col gap-2 lg:gap-4">
           <div className="text-center">
-            <div className={`bg-gradient-to-r p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center ${cn(introVariants({ color }))}`}>
+            
                 {Icon && (
+                  <div className={`bg-gradient-to-r p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center ${cn(introVariants({ color }))}`}>
                     <div className="p-2 rounded-full">
                         <Icon className="text-white w-8 h-8" />
                     </div>
+                  </div>
                 )}
-            </div>
+            
             <h1 className={`text-4xl font-bold bg-gradient-to-r bg-clip-text text-transparent mb-2 ${cn(introVariants({ color }))}`}>
               {title}
             </h1>

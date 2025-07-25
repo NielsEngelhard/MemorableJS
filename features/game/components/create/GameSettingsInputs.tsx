@@ -70,9 +70,9 @@ export default function CreateGameForm({ gameMode }: Props) {
                                 <div className="text-foreground-muted">Your game is configured and ready to start!</div>
 
                                 <ul className="text-foreground-muted text-sm">
-                                    <li>• 6 rounds</li>
-                                    <li>• 6 letters per word</li>
-                                    <li>• 6 attempts per round</li>
+                                    <li>• {form.getValues("totalRounds")} rounds</li>
+                                    <li>• {form.getValues("wordLength")} letters per word</li>
+                                    <li>• {form.getValues("maxAttemptsPerRound")} attempts per round</li>
                                 </ul>
                             </>
                         </CardBody>

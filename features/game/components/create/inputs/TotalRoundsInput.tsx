@@ -1,6 +1,11 @@
-import BlockSelect from "@/components/ui/form/BlockSelect";
+"use client"
 
-const totalRoundsOptions = [3, 4, 5, 6, 7, 8, 9, 10];
+import BlockSelect from "@/components/ui/form/BlockSelect";
+import { isDevelopmentEnvironment } from "@/lib/environmen-util";
+
+const totalRoundsOptions = isDevelopmentEnvironment()
+  ? [1, 3, 4, 5, 6, 7, 8, 9, 10]
+  : [3, 4, 5, 6, 7, 8, 9, 10];
 
 interface Props {
     name?: string;

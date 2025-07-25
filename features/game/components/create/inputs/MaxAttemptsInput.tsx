@@ -1,6 +1,9 @@
 import BlockSelect from "@/components/ui/form/BlockSelect";
+import { isDevelopmentEnvironment } from "@/lib/environmen-util";
 
-const maxAttemptOptions = [4, 5, 6, 7];
+const maxAttemptOptions = isDevelopmentEnvironment()
+? [1, 4, 5, 6, 7]
+: [4, 5, 6, 7];
 
 interface Props {
     name?: string;
