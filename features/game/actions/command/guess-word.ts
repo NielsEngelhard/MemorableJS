@@ -10,6 +10,9 @@ import { DetailedValidationResult, WordValidator } from "@/features/word/word-va
 import { ScoreCalculator } from "@/features/score/score-calculator";
 import { CalculateScoreResult } from "@/features/score/score-models";
 import { mapGameToHistory } from "../../mappers";
+import DeleteGameById from "./delete-game-by-id";
+import CreateGameHistory from "@/features/history/actions/command/create-game-history";
+import SetUserLastPlayedWod from "@/features/word-of-the-day/actions/command/set-user-last-played-wod";
 
 export interface GuessWordCommand {
     gameId: string;
@@ -119,9 +122,13 @@ async function triggerEndGame(game: DbGameWithRoundsAndPlayers): Promise<string>
     
     // OPTIMIZATION: Do this via a message broker so that the request can be handled async and the speed of the entire flow will benefit
     await db.transaction(async (tx) => {
-        gameHistoryId = await createGameHistory(game);   
-        await deleteGame(game.id);
-    });  
+        gameHistoryId = await CreateGameHistory(game, tx);   
+        await DeleteGameById(game.id, tx);
+    
+        if (game.gameMode == GameMode.WordOfTheDay) {
+            await SetUserLastPlayedWod(game.userHostId, tx);
+        }
+    });
 
     return gameHistoryId;
 }
@@ -172,20 +179,6 @@ async function updateGameForNextRound(game: DbGame) {
             currentRoundIndex: game.currentRoundIndex + 1
         })
         .where(eq(GameTable.id, game.id));    
-}
-
-async function deleteGame(gameId: string) { 
-    await db.delete(GameTable)
-        .where(eq(GameTable.id, gameId));      
-}
-
-async function createGameHistory(game: DbGameWithRoundsAndPlayers): Promise<string> {
-    const gameHistory = mapGameToHistory(game);
-    const result = await db.insert(GameHistoryTable).values(gameHistory).returning({
-        gameHistoryId: GameHistoryTable.id,        
-    });        
-
-    return result[0].gameHistoryId;
 }
 
 async function addScoreForPlayer(player: DbGamePlayer, score: number) {
