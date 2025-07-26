@@ -15,6 +15,7 @@ type AuthContextType = {
   logout: () => void;
   showAuthModal: boolean;
   toggleShowAuthModal: () => void;
+  setWodPlayedForToday: () => void;  
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -58,8 +59,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await logOut();
   };
 
+  const setWodPlayedForToday = async () => {
+    if (!user) return;
+
+  const updatedUser = {
+    ...user,
+    lastWodPlayedUtc: new Date()
+  };
+
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    setUser(updatedUser);
+  };  
+
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, login, logout, showAuthModal, toggleShowAuthModal }}>
+    <AuthContext.Provider value={{ user, isLoggedIn, login, logout, showAuthModal, toggleShowAuthModal, setWodPlayedForToday }}>
       {children}
     </AuthContext.Provider>
   );

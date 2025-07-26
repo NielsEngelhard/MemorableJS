@@ -27,7 +27,7 @@ export default function PlayWordOfTheDay() {
                 if (resp == null || resp == undefined) router.push(WORD_OF_THE_DAY_ROUTE);
                 setGame(resp);                
             } catch {
-                // redirect(WORD_OF_THE_DAY_ROUTE);
+                redirect(WORD_OF_THE_DAY_ROUTE);
             }
         }
 

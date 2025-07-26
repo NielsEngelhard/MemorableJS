@@ -5,6 +5,7 @@ import { GameModel, GamePlayerModel, RoundModel } from "./models";
 import GuessWord from "./actions/command/guess-word";
 import { redirect } from "next/navigation";
 import { GAME_HISTORY_ROUTE } from "@/lib/routes";
+import { useAuth } from "../auth/auth-context";
 
 type ActiveGameContextType = {
     maxAttemptsPerRound: number;
@@ -111,6 +112,11 @@ export function ActiveGameProvider({ children, game }: ActiveGameProviderProps) 
     }
 
     function triggerEndOfGame(gameHistoryId: string) {
+      if (gameMode == GameMode.WordOfTheDay) {
+        const { setWodPlayedForToday } = useAuth();
+        setWodPlayedForToday();
+      }
+
       redirect(GAME_HISTORY_ROUTE(gameHistoryId));
     }
 
