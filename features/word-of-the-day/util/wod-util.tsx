@@ -1,5 +1,5 @@
 export function utcDateIsToday(lastPlayedDate: Date | null | undefined): boolean {
-  if (lastPlayedDate == null || lastPlayedDate == undefined) return true;
+  if (lastPlayedDate == null || lastPlayedDate == undefined) return false;
 
   const today = new Date();
   const todaysDayUTC = new Date(Date.UTC(

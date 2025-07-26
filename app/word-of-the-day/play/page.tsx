@@ -22,8 +22,8 @@ export default function PlayWordOfTheDay() {
             if (!user) return;
             
             try {
-                debugger;
                 var resp = await GetWordOfTheDayGame(user.id);
+                debugger;
                 if (resp == null || resp == undefined) router.push(WORD_OF_THE_DAY_ROUTE);
                 setGame(resp);                
             } catch {
