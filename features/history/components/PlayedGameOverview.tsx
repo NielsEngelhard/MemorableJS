@@ -10,6 +10,10 @@ import TitleText from "@/components/ui/text/TitleText";
 import CardHeader from "@/components/ui/card/CardHeader";
 import { GameHistoryModel } from "../models";
 import PlayerHistory from "./PlayerHistory";
+import { GameModeFactory } from "@/features/game/components/game-modes/GameModeStrategy";
+import Button from "@/components/ui/Button";
+import Link from "next/link";
+import { GAME_MODES_ROUTE } from "@/lib/routes";
 
 interface Props {
     gameHistory: GameHistoryModel;
@@ -18,21 +22,31 @@ interface Props {
 export default function PlayedGameOverview({ gameHistory }: Props) {
     const totalRounds = gameHistory.rounds.flatMap(r => r.guesses).length;
 
+    const gameModeData = GameModeFactory.get(gameHistory.gameMode);
+
     return (
         <div className="flex flex-col gap-2 w-full">
             <Card variant="fade">
                 <CardBody>
                     <BasicPageIntro
-                        title="GAME OVERVIEW"
+                        title={`${gameModeData.name} recap`}
                         subText="Not bad. Not bad."
-                        Icon={Trophy}
-                    />
+                        Icon={gameModeData.Icon}
+                        color={gameModeData.color as "primary" | "orange" | "secondary" | null | undefined}
+                    >
+                        <div className="text-sm text-foreground-muted">{gameHistory.creationDate.toString()}</div>
+                    </BasicPageIntro>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
                         <StatisticCard title={gameHistory.totalScore} text="Total Score" titleColor="primary" />
                         <StatisticCard title={gameHistory.rounds.length} text="Rounds Played" titleColor="success" />
                         <StatisticCard title={totalRounds} text="Total Guesses" titleColor="secondary" />
-                    </div>                      
+                    </div>
+
+                    <Link href={GAME_MODES_ROUTE} className="flex justify-center">
+                        <Button variant="primary" className="py-4">Play Again</Button>
+                    </Link>
+
                 </CardBody>
             </Card>
 
