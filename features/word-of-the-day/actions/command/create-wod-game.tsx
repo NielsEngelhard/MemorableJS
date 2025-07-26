@@ -8,13 +8,16 @@ import { GameRoundFactory } from "@/features/game/util/game-round-factory";
 import { GamePlayerFactory } from "@/features/game/util/game-player-factory";
 import { generateWodGameId } from "@/features/game/util/game-id-generator";
 import getWordOfTheDay from "@/features/word/actions/query/get-word-of-the-day";
+import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 
-export default async function CreateWordOfTheDayGame(userId: string, language: SupportedLanguage): Promise<DbGameWithRoundsAndPlayers> {
+export default async function CreateWordOfTheDayGame(userId: string, language: SupportedLanguage, tx?: DbOrTransaction): Promise<DbGameWithRoundsAndPlayers> {
+    const dbInstance = tx || db;
+    
     const word = await getWordOfTheDay(language);
 
     const gameId = generateWodGameId(userId);
 
-    const game = await db.transaction(async (tx) => {
+    const game = await dbInstance.transaction(async (tx) => {
         const dbGame = await tx.insert(GameTable).values({
             id: gameId,
             maxAttemptsPerRound: 6,

@@ -1,2 +1,3 @@
 - Game mode where you can each fill in a word and then other players get to guess that word.
 - Logo with blue
+- Game Settings - randomize option and go on
