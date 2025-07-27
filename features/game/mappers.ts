@@ -1,5 +1,5 @@
-import { DbGameHistory, DbGameHistoryInsert, DbGamePlayer, DbGameWithRoundsAndPlayers, gameModeEnum } from "@/drizzle/schema";
-import { GameModel, GamePlayerModel, RoundModel } from "./models";
+import { DbGame, DbGameHistoryInsert, DbGamePlayer, DbGameWithRoundsAndPlayers, gameModeEnum } from "@/drizzle/schema";
+import { GameModel, GamePlayerModel, GameTeaserModel, RoundModel } from "./models";
 import { DbGameRound } from "@/drizzle/schema/game-round";
 import { LetterState } from "@/drizzle/schema/enum/letter-state";
 
@@ -20,6 +20,17 @@ export function MapGameToModel(game: DbGameWithRoundsAndPlayers): GameModel {
         players: game.players.map((player) => {
             return mapPlayerToModel(player);
         }),
+    }
+}
+
+export function MapGameToTeaser(game: DbGame): GameTeaserModel {
+    return {
+        id: game.id,
+        createdAt: game.createdAt,
+        currentRound: game.currentRoundIndex,
+        gameMode: game.gameMode,
+        letterSize: game.wordLength,
+        totalRounds: game.totalRounds
     }
 }
 

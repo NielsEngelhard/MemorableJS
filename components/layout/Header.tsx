@@ -8,6 +8,7 @@ import { Calendar, Play, Sparkles, User } from "lucide-react";
 import Link from "next/link";
 import Badge from "../ui/Badge";
 import { PROFILE_ROUTE, WORD_OF_THE_DAY_ROUTE } from "@/lib/routes";
+import HeaderWodIndicator from "./HeaderWodIndicator";
 
 export default function Header() {
     const { user, toggleShowAuthModal } = useAuth();    
@@ -31,13 +32,7 @@ export default function Header() {
                     </div>
                     
                     {user && (
-                        <Link href={WORD_OF_THE_DAY_ROUTE}>
-                            <Badge variant="accent" size="md">
-                                <Calendar size={12} />
-                                WoD available!
-                                <Sparkles size={12} />
-                            </Badge>                        
-                        </Link>
+                        <HeaderWodIndicator lastPlayedDate={user.lastWodPlayedUtc} />
                     )}                    
                 </div>
 

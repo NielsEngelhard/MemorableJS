@@ -15,6 +15,15 @@ export interface GameModel {
     players: GamePlayerModel[];
 }
 
+export interface GameTeaserModel {
+    id: string;
+    gameMode: GameMode;
+    currentRoundIndex: number;
+    totalRounds: number;
+    createdAt: Date;
+    wordLength: number;
+}
+
 export interface RoundModel {
     id: string;
     roundNumber: number;

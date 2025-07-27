@@ -20,22 +20,29 @@ const buttonVariants = cva(
         fade: "bg-gradient-to-r from-primary to-secondary text-white",
         skeleton: "bg-transparent border-border border-2 font-semibold hover:bg-opacity-5",
         accent: "text-accent/80 bg-background border-2 border-accent/20",
-        error: "text-white bg-error border-2 border-error/20"
+        error: "text-white bg-error border-2 border-error/20",
+        success: "text-white bg-success border-2 border-success/20"
       },
+      size: {
+        sm: "px-2 py-1 lg:px-3 lg:py-2",
+        md: "",
+        lg: ""
+      }
     },
     defaultVariants: {
       variant: "fade",
+      size: "md"
     },
   }
 )
 
-export default function Button({ children, variant, onClick, className, type="button", disabled = false }: Props) {
+export default function Button({ children, variant, size, onClick, className, type="button", disabled = false }: Props) {
   return (
     <button
       disabled={disabled}
       onClick={onClick} 
       type={type}
-      className={`${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} ${cn(buttonVariants({ variant }), className)}`}  
+      className={`${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} ${cn(buttonVariants({ variant, size }), className)}`}  
     >
       {children}
     </button>

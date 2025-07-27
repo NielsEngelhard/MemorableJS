@@ -7,7 +7,7 @@ export default function PlayHeader() {
     return (
     <BasicPageIntro
         Icon={Target}
-        title="Game Modes"
+        title="Play"
         subText="Test your vocabulary and strategic thinking in LetterLeague. Guess the word letter by letter with skill and precision."                
     >
         <Link href="/score">
