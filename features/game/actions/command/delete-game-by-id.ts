@@ -1,3 +1,5 @@
+"use server"
+
 import { db } from "@/drizzle/db";
 import { GameTable } from "@/drizzle/schema";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";

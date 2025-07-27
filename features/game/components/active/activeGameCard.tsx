@@ -8,18 +8,26 @@ import Link from "next/link";
 import { IN_GAME_ROUTE } from "@/lib/routes";
 import ConfirmationDialog from "@/components/ui/popup/ConfirmationDialog";
 import { useState } from "react";
+import DeleteGameById from "../../actions/command/delete-game-by-id";
 
 interface Props {
     activeGame: GameTeaserModel;
+    onDelete?: (gameId: string) => void;
 }
 
-export default function ActiveGameCard({ activeGame }: Props) {
+export default function ActiveGameCard({ activeGame, onDelete }: Props) {
     const [deleteDialogIsOpen, setDeleteDialogIsOpen] = useState(false);
 
     const gameModeData = GameModeFactory.get(activeGame.gameMode);
 
-    async function deleteItem() {
+    function deleteItem() {
+        if (!onDelete) return;
 
+        DeleteGameById(activeGame.id).then((deleted) => {
+            if (!deleted) return;
+
+            onDelete(activeGame.id);
+        });
     }
 
     return (
@@ -30,7 +38,7 @@ export default function ActiveGameCard({ activeGame }: Props) {
                     <gameModeData.Icon></gameModeData.Icon>
 
                     <span>{gameModeData.name}</span>
-                    <div className="flex items-center gap-0.5 hidden lg:flex">
+                    <div className="items-center gap-0.5 hidden lg:flex">
                         <Clock size={10} />
                         <span className="text-xs">{activeGame.createdAt.toDateString()}</span>
                     </div>
@@ -48,9 +56,11 @@ export default function ActiveGameCard({ activeGame }: Props) {
                         </Button>                    
                     </Link>
 
-                    <Button variant="error" size="sm" onClick={() => {setDeleteDialogIsOpen(true)}}>
-                        Abandon
-                    </Button>                      
+                    {onDelete && (
+                        <Button variant="error" size="sm" onClick={() => {setDeleteDialogIsOpen(true)}}>
+                            Abandon
+                        </Button>                           
+                    )}                   
                 </div>
             </CardBody>
 
