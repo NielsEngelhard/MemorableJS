@@ -31,6 +31,15 @@ app.prepare().then(() => {
       io.emit('message', data);
     });
 
+    socket.on('joinLobby', (data) => {
+      socket.join(data.lobbyId);
+      
+      // Broadcast to everyone in the lobby that a new player joined
+      io.to(lobbyId).emit('playerJoinedLobby', {
+        test: "to see if this is OK"
+      });      
+    });
+
     socket.on('disconnect', () => {
       console.log('Client disconnected:', socket.id);
     });

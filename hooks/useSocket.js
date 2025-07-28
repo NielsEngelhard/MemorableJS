@@ -26,10 +26,22 @@ export const useSocket = () => {
       console.log('Socket disconnected!');
       setIsConnected(false);
     });
+
+    socketInstance.on('playerJoinedLobby', () => {
+      console.log('Player joined lobby:', data);
+    });    
     
     setSocket(socketInstance);
     return socketInstance;
   }, []);
 
-  return { socket, isConnected, connectSocket };
+  const joinLobby = useCallback((lobbyId, playerName) => {
+    if (socket && isConnected) {
+      socket.emit('joinLobby', { lobbyId, playerName });
+    } else {
+      console.error('Cannot join lobby: Socket not connected');
+    }
+  }, [socket, isConnected]);  
+
+  return { socket, isConnected, connectSocket, joinLobby };
 };
