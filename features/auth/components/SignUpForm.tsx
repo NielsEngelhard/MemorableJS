@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { SignUpSchema, signUpSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorText from "@/components/ui/text/ErrorText";
-import { signIn, signUp } from "../actions";
+import { signUp } from "../actions";
 import { redirect } from "next/navigation";
 import { useAuth } from "../auth-context";
 

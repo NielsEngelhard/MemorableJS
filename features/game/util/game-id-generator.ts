@@ -1,10 +1,12 @@
-export function generateGameId(length: number = 6): string {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+export const GAME_ID_LENGTH = 6;
+export const GAME_ID_ALLOWED_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+export function generateGameId(): string {
   let result = '';
   
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    result += characters.charAt(randomIndex);
+  for (let i = 0; i < GAME_ID_LENGTH; i++) {
+    const randomIndex = Math.floor(Math.random() * GAME_ID_ALLOWED_CHARACTERS.length);
+    result += GAME_ID_ALLOWED_CHARACTERS.charAt(randomIndex);
   }
   
   return result;

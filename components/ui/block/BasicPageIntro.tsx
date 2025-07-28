@@ -16,7 +16,7 @@ const introVariants = cva(
       color: {
         primary: "bg-primary",
         orange: "from-orange-400 to-orange-600",
-        secondary: ""
+        secondary: "bg-secondary"
       }
     },
     defaultVariants: {
