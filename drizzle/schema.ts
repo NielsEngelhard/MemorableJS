@@ -12,5 +12,6 @@ export * from "./schema/game";
 export * from "./schema/game-round";
 export * from "./schema/game-player";
 export * from "./schema/game-history";
+export * from "./schema/multiplayer-lobby";
 
 export * from "./schema/official-words";

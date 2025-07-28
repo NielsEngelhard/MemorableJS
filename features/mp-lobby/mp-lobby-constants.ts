@@ -1,0 +1,1 @@
+export const MAX_MP_LOBBY_SIZE: number = 6;

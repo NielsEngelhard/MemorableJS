@@ -7,7 +7,7 @@ import { db } from "@/drizzle/db";
 import { MultiplayerLobbyTable } from "@/drizzle/schema/multiplayer-lobby";
 import { MapMpLobbyToModel, MapUserToMpLobbyPlayer } from "../../mapper";
 
-export default async function CreateMultiplayerLobby(): Promise<MpLobbyModel> {
+export default async function CreateMpLobby(): Promise<MpLobbyModel> {
     const user = (await getCurrentUser())?.user;
     if (!user) throw new Error("User seems not logged in");
 
