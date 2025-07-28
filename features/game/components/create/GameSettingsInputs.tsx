@@ -7,7 +7,6 @@ import Card from "@/components/ui/card/Card";
 import CardBody from "@/components/ui/card/CardBody";
 import TotalRoundsInput from "./inputs/TotalRoundsInput";
 import MaxAttemptsInput from "./inputs/MaxAttemptsInput";
-import VisibilityInput from "./inputs/VisibilityInput";
 import TimePerTurnInput from "./inputs/TimePerTurnInput";
 import { redirect } from 'next/navigation';
 import ShowFormErrors from "@/components/ui/form/ShowFormErrors";
@@ -15,14 +14,13 @@ import { GameVisibility } from "@/drizzle/schema/enum/game-visibility";
 import { GameMode } from "@/drizzle/schema/enum/game-mode";
 import CreateGame from "../../actions/command/create-game";
 import { CreateGameSchema, createGameSchema } from "../../schemas";
-import { Play } from "lucide-react";
-import Button from "@/components/ui/Button";
 
 interface Props {
     gameMode: GameMode;
+    children?: React.ReactNode;
 }
 
-export default function CreateGameForm({ gameMode }: Props) {
+export default function CreateGameForm({ gameMode, children }: Props) {
         const form = useForm<CreateGameSchema>({
             resolver: zodResolver(createGameSchema),
             defaultValues: {
@@ -53,7 +51,6 @@ export default function CreateGameForm({ gameMode }: Props) {
                                 {gameMode == GameMode.Multiplayer && (
                                     <>
                                         <TimePerTurnInput></TimePerTurnInput>
-                                        <VisibilityInput></VisibilityInput>
                                     </>
                                 )}
                                 <ShowFormErrors errors={form.formState.errors} />
@@ -62,27 +59,7 @@ export default function CreateGameForm({ gameMode }: Props) {
                     </CardBody>
                 </Card>
 
-                <div className="flex flex-col gap-2 lg:gap-4">
-                    <Card>
-                        <CardBody className="">
-                            <>
-                                <p className="font-bold text-lg">Ready to Play?</p>
-                                <div className="text-foreground-muted">Your game is configured and ready to start!</div>
-
-                                <ul className="text-foreground-muted text-sm">
-                                    <li>• {form.getValues("totalRounds")} rounds</li>
-                                    <li>• {form.getValues("wordLength")} letters per word</li>
-                                    <li>• {form.getValues("maxAttemptsPerRound")} attempts per round</li>
-                                </ul>
-                            </>
-                        </CardBody>
-                    </Card>
-
-                    <Button variant="primary" className="py-4" type="submit">
-                        <Play size={16} />
-                        Start Game
-                    </Button>
-                </div>
+                {children}
             </form>        
     )
 }

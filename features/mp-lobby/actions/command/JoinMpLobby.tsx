@@ -37,7 +37,12 @@ export default async function JoinMpLobby(joinCode: string): Promise<JoinMpLobby
         }
     }
 
-    await addUserToLobby(user, mpLobby.players, mpLobby.id);
+    const userAlreadyJoined = mpLobby.players.some(p => p.userId == user.id);
+    if (userAlreadyJoined) {
+        await reconnectUser();
+    } else {
+        await addUserToLobby(user, mpLobby.players, mpLobby.id);
+    }
 
     return {
         success: true,
@@ -53,4 +58,8 @@ async function addUserToLobby(user: UserModel, existingPlayers: DbMultiplayerLob
             players: [...existingPlayers, newPlayer],
         })
         .where(eq(MultiplayerLobbyTable.id, mpLobbyId));     
+}
+
+async function reconnectUser() {
+    
 }
