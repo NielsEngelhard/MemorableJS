@@ -15,3 +15,12 @@ export function formatDateToDayMonthNameYearTime(date: Date, locale?: string): s
     minute: 'numeric'
   }).format(date);
 }
+
+export function addHyphenInMiddle(input: string): string {
+  if (!input) {
+    return '';
+  }
+  
+  const middleIndex = Math.floor(input.length / 2);
+  return input.slice(0, middleIndex) + '-' + input.slice(middleIndex);
+} 
