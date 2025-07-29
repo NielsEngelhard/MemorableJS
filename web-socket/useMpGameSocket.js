@@ -29,7 +29,7 @@ export const useMpGameSocket = () => {
         socket.off('playerLeftLobby');
       };
     }
-  }, [socket]);
+  }, [socket,]);
 
   const joinLobby = useCallback((lobbyId, playerName) => {
     if (socket && isConnected) {

@@ -18,25 +18,31 @@ export default function MpLobbyPage() {
     const lobbyId = params.lobbyId;
     
     useEffect(() => {
-        async function JoinLobby() {
+        async function Initialize() {
             if (!lobbyId) return;
             
             try {
                 var resp = await JoinMpLobby(lobbyId.toString());
                 if (!resp) redirect(MP_ROUTE);
+
+                debugger;
                 setLobby(resp.lobby as any);
 
                 connectSocket();
-                joinLobby(resp.lobby?.id, user?.username);
             } catch {
                 redirect(MP_ROUTE);
             }
         }
 
-        JoinLobby();
+        Initialize();
     }, [lobbyId]);
 
+    useEffect(() => {
+        debugger;
+        if (!isConnected || lobby == undefined) return;
 
+        joinLobby((lobby as any).id, user?.username);
+    }, [isConnected]);
 
     return (
         <PageBase>        
