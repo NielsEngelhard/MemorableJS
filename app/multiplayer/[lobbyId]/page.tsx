@@ -25,7 +25,6 @@ export default function MpLobbyPage() {
                 var resp = await JoinMpLobby(lobbyId.toString());
                 if (!resp) redirect(MP_ROUTE);
 
-                debugger;
                 setLobby(resp.lobby as any);
 
                 connectSocket();
@@ -36,12 +35,6 @@ export default function MpLobbyPage() {
 
         Initialize();
     }, [lobbyId]);
-
-    useEffect(() => {
-        if (!isConnected || lobby == undefined || !user) return;
-
-        joinLobby(lobby.id, user.username);
-    }, [isConnected]);
 
     return (
         <PageBase>        

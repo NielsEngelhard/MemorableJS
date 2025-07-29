@@ -10,6 +10,7 @@ export const useMpGameSocket = () => {
     if (socket) {
       socket.on('playerJoinedLobby', (newPlayer: MpLobbyPlayerModel) => {
         if (!lobby) return;
+        if (lobby.players.some(p => p.id == newPlayer.id)) return;
 
         console.log("player joined lobby", newPlayer);
         setLobby({
@@ -36,9 +37,11 @@ export const useMpGameSocket = () => {
     }
   }, [socket,]);
 
-  const joinLobby = useCallback((lobbyId: string, playerName: string) => {
+  const joinLobby = useCallback((player: MpLobbyPlayerModel) => {
+
+    debugger;
     if (socket && isConnected) {
-      socket.emit('joinLobby', { lobbyId, playerName });
+      socket.emit('joinLobby', player);
     } else {
       console.error('Cannot join lobby: Socket not connected');
     }

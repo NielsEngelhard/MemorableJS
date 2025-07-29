@@ -2,6 +2,7 @@ import { createServer } from 'http';
 import { parse } from 'url';
 import next from 'next';
 import { Server } from 'socket.io';
+import { MpLobbyPlayerModel } from './features/mp-lobby/models';
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -39,14 +40,12 @@ app.prepare().then(() => {
       io.emit('message', data);
     });
 
-    socket.on('joinLobby', (data: JoinLobbyData) => {
-      socket.join(data.lobbyId);
+    socket.on('joinLobby', (lobbyId: string, player: MpLobbyPlayerModel) => {
+      socket.join(lobbyId);
       
       // Broadcast to everyone in the lobby that a new player joined
       // Fixed the bug: was using 'lobbyId' instead of 'data.lobbyId'
-      io.to(data.lobbyId).emit('playerJoinedLobby', {
-        test: "to see if this is OK"
-      });      
+      io.to(lobbyId).emit('playerJoinedLobby', player);      
     });
 
     socket.on('disconnect', () => {
