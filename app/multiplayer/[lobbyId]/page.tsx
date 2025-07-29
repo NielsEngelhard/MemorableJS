@@ -12,8 +12,7 @@ import TopOfPageRealtimeStatusIndicator from "@/features/realtime/components/Top
 
 export default function MpLobbyPage() {
     const { user } = useAuth();
-    const [lobby, setLobby] = useState<MpLobbyModel | undefined>(undefined);
-    const { socket,  isConnected,  joinLobby } = useMpGameSocket();
+    const { isConnected,  joinLobby, setLobby, lobby, connectSocket } = useMpGameSocket();
 
     const params = useParams();
     const lobbyId = params.lobbyId;
@@ -25,7 +24,9 @@ export default function MpLobbyPage() {
             try {
                 var resp = await JoinMpLobby(lobbyId.toString());
                 if (!resp) redirect(MP_ROUTE);
-                setLobby(resp.lobby);
+                setLobby(resp.lobby as any);
+
+                connectSocket();
                 joinLobby(resp.lobby?.id, user?.username);
             } catch {
                 redirect(MP_ROUTE);
