@@ -6,14 +6,14 @@ import { MpLobbyModel } from "@/features/mp-lobby/models";
 import JoinMpLobby from "@/features/mp-lobby/actions/command/JoinMpLobby";
 import { MP_ROUTE } from "@/lib/routes";
 import MpLobbyOverview from "@/features/mp-lobby/components/MpLobbyOverview";
-import { Socket } from "socket.io";
-import { useSocket } from '@/hooks/useSocket';
 import { useAuth } from "@/features/auth/auth-context";
+import { useMpGameSocket } from "@/web-socket/useMpGameSocket";
+import TopOfPageRealtimeStatusIndicator from "@/features/realtime/components/TopOfPageRealtimeStatusIndicator";
 
 export default function MpLobbyPage() {
     const { user } = useAuth();
     const [lobby, setLobby] = useState<MpLobbyModel | undefined>(undefined);
-    const { socket,  isConnected,  joinLobby } = useSocket();
+    const { socket,  isConnected,  joinLobby } = useMpGameSocket();
 
     const params = useParams();
     const lobbyId = params.lobbyId;
@@ -38,11 +38,15 @@ export default function MpLobbyPage() {
 
 
     return (
-        <PageBase>
+        <PageBase>        
             {lobby ? (
-                <MpLobbyOverview
-                    lobby={lobby}
-                />             
+                <>
+                    <MpLobbyOverview
+                        lobby={lobby}
+                    />
+                    
+                    <TopOfPageRealtimeStatusIndicator isConnected={isConnected}  />                
+                </>
             ) : (
                 <div>loading...</div>
             )}          
