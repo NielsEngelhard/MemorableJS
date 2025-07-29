@@ -24,5 +24,5 @@ export default async function CreateMpLobby(): Promise<MpLobbyModel> {
         }).returning();
     });
 
-    return MapMpLobbyToModel(mpLobby[0]);    
+    return MapMpLobbyToModel(mpLobby[0]);
 }
