@@ -9,6 +9,8 @@ import { JoystickIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { joinGameSchema, JoinGameSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect } from "next/navigation";
+import { MP_LOBBY_ROUTE } from "@/lib/routes";
 
 export default function JoinLobbyCard() {
     const form = useForm<JoinGameSchema>({
@@ -17,7 +19,7 @@ export default function JoinLobbyCard() {
     });
     
     async function onSubmit(data: JoinGameSchema) {
-        // Your submit logic here
+        redirect(MP_LOBBY_ROUTE(data.joinCode));
     }
     
     // Handle input changes to enforce uppercase and allowed characters
