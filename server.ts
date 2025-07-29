@@ -3,6 +3,7 @@ import { parse } from 'url';
 import next from 'next';
 import { Server } from 'socket.io';
 import { MpLobbyPlayerModel } from './features/mp-lobby/models';
+import { setGlobalIO } from './web-socket/socket-instance';
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -29,6 +30,8 @@ app.prepare().then(() => {
       methods: ['GET', 'POST']
     }
   });
+
+  setGlobalIO(io);
 
   // Socket.io connection handler
   io.on('connection', (socket) => {

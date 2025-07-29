@@ -3,11 +3,12 @@
 import { getCurrentUser } from "@/features/auth/current-user";
 import { MpLobbyModel } from "../../models";
 import { db } from "@/drizzle/db";
-import { MapMpLobbyToModel, MapUserToMpLobbyPlayer } from "../../mapper";
+import { MapMpLobbyPlayer, MapMpLobbyToModel, MapUserToMpLobbyPlayer } from "../../mapper";
 import { MAX_MP_LOBBY_SIZE } from "../../mp-lobby-constants";
 import { UserModel } from "@/features/auth/models";
 import { DbMultiplayerLobbyPlayer, MultiplayerLobbyTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
+import { emitPlayerJoinedLobbyEvent } from "@/web-socket/game-events";
 
 export interface JoinMpLobbyResponse {
     success: boolean;
@@ -37,12 +38,14 @@ export default async function JoinMpLobby(joinCode: string): Promise<JoinMpLobby
         }
     }
 
-    const userAlreadyJoined = mpLobby.players.some(p => p.userId == user.id);
-    if (userAlreadyJoined) {
+    let player = mpLobby.players.find(p => p.userId == user.id);
+    if (player) {
         await reconnectUser();
     } else {
-        await addUserToLobby(user, mpLobby.players, mpLobby.id);
+        player = await addUserToLobby(user, mpLobby.players, mpLobby.id);
     }
+
+    emitPlayerJoinedLobbyEvent(mpLobby.id, MapMpLobbyPlayer(player));
 
     return {
         success: true,
@@ -50,14 +53,16 @@ export default async function JoinMpLobby(joinCode: string): Promise<JoinMpLobby
     };    
 }
 
-async function addUserToLobby(user: UserModel, existingPlayers: DbMultiplayerLobbyPlayer[], mpLobbyId: string) {
+async function addUserToLobby(user: UserModel, existingPlayers: DbMultiplayerLobbyPlayer[], mpLobbyId: string): Promise<DbMultiplayerLobbyPlayer> {
     const newPlayer = MapUserToMpLobbyPlayer(user);
     
     await db.update(MultiplayerLobbyTable)
         .set({
             players: [...existingPlayers, newPlayer],
         })
-        .where(eq(MultiplayerLobbyTable.id, mpLobbyId));     
+        .where(eq(MultiplayerLobbyTable.id, mpLobbyId));
+
+    return newPlayer;
 }
 
 async function reconnectUser() {
