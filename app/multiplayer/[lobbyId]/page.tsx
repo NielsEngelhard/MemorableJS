@@ -38,10 +38,9 @@ export default function MpLobbyPage() {
     }, [lobbyId]);
 
     useEffect(() => {
-        debugger;
-        if (!isConnected || lobby == undefined) return;
+        if (!isConnected || lobby == undefined || !user) return;
 
-        joinLobby((lobby as any).id, user?.username);
+        joinLobby(lobby.id, user.username);
     }, [isConnected]);
 
     return (

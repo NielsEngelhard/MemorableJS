@@ -1,13 +1,16 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useSocketBase } from './useSocketBase';
+import { MpLobbyModel, MpLobbyPlayerModel } from '@/features/mp-lobby/models';
 
 export const useMpGameSocket = () => {
   const { socket, isConnected, connectSocket } = useSocketBase();
-  const [lobby, setLobby] = useState();
+  const [lobby, setLobby] = useState<MpLobbyModel>();
 
   useEffect(() => {
     if (socket) {
-      socket.on('playerJoinedLobby', (newPlayer) => {
+      socket.on('playerJoinedLobby', (newPlayer: MpLobbyPlayerModel) => {
+        if (!lobby) return;
+
         console.log("player joined lobby", newPlayer);
         setLobby({
           ...lobby,
@@ -16,6 +19,8 @@ export const useMpGameSocket = () => {
       });
       
       socket.on('playerLeftLobby', (playerId) => {
+        if (!lobby) return;
+
         console.log('Player left lobby', playerId);
         setLobby({
           ...lobby,
@@ -31,7 +36,7 @@ export const useMpGameSocket = () => {
     }
   }, [socket,]);
 
-  const joinLobby = useCallback((lobbyId, playerName) => {
+  const joinLobby = useCallback((lobbyId: string, playerName: string) => {
     if (socket && isConnected) {
       socket.emit('joinLobby', { lobbyId, playerName });
     } else {

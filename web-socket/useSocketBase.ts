@@ -1,10 +1,16 @@
-// hooks/useSocketBase.js - Basic socket connection management
 import { useState, useEffect, useCallback } from 'react';
+import { Socket } from 'socket.io-client';
 import { initSocket, disconnectSocket } from '../socket';
 
-export const useSocketBase = () => {
-  const [socket, setSocket] = useState();
-  const [isConnected, setIsConnected] = useState(false);
+interface UseSocketBaseReturn {
+  socket: Socket | null;
+  isConnected: boolean;
+  connectSocket: () => Socket;
+}
+
+export const useSocketBase = (): UseSocketBaseReturn => {
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
 
   useEffect(() => {
     return () => {
@@ -14,7 +20,7 @@ export const useSocketBase = () => {
     };
   }, [socket]);
 
-  const connectSocket = useCallback(() => {
+  const connectSocket = useCallback((): Socket => {
     const socketInstance = initSocket();
     
     socketInstance.on('connect', () => {
