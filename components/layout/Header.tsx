@@ -4,10 +4,9 @@ import { APP_NAME } from "@/lib/global-constants";
 import Button from "../ui/Button";
 import FadedText from "../ui/text/FadedText";
 import { useAuth } from "@/features/auth/auth-context";
-import { Calendar, Play, Sparkles, User } from "lucide-react";
+import { Play, User } from "lucide-react";
 import Link from "next/link";
-import Badge from "../ui/Badge";
-import { PROFILE_ROUTE, WORD_OF_THE_DAY_ROUTE } from "@/lib/routes";
+import { ADMIN_ROUTE, PROFILE_ROUTE } from "@/lib/routes";
 import HeaderWodIndicator from "./HeaderWodIndicator";
 
 export default function Header() {
@@ -50,6 +49,14 @@ export default function Header() {
                                 <div className="flex gap-1 items-center"><User size={16} />{user.username}</div>
                             </Button>                        
                         </Link>
+
+                        {user.role == "admin" && (
+                            <Link href={ADMIN_ROUTE}>
+                                <Button variant="secondary">
+                                    <div className="flex gap-1 items-center">ADMIN</div>
+                                </Button>                        
+                            </Link>                            
+                        )}                        
                     </div>
                 ) : (
                     <div>

@@ -6,6 +6,7 @@ interface UseSocketBaseReturn {
   socket: Socket | null;
   isConnected: boolean;
   connectSocket: () => Socket;
+  disconnect: () => void;
 }
 
 export const useSocketBase = (): UseSocketBaseReturn => {
@@ -37,5 +38,14 @@ export const useSocketBase = (): UseSocketBaseReturn => {
     return socketInstance;
   }, []);
 
-  return { socket, isConnected, connectSocket };
+  const disconnect = useCallback((): void => {
+    if (socket) {
+      socket.removeAllListeners();
+    }
+    disconnectSocket();
+    setSocket(null);
+    setIsConnected(false);
+  }, [socket]);
+
+  return { socket, isConnected, connectSocket, disconnect };
 };
