@@ -8,7 +8,7 @@ import { MP_ROUTE } from "@/lib/routes";
 import MpLobbyOverview from "@/features/mp-lobby/components/MpLobbyOverview";
 import { useAuth } from "@/features/auth/auth-context";
 import { useMpGameSocket } from "@/web-socket/useMpGameSocket";
-import TopOfPageRealtimeStatusIndicator from "@/features/realtime/components/TopOfPageRealtimeStatusIndicator";
+import TopOfPageRealtimeStatusIndicator from "@/features/realtime/components/FixedRealtimeStatusIndicator";
 
 export default function MpLobbyPage() {
     const { user } = useAuth();

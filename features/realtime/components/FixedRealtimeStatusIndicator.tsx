@@ -6,7 +6,7 @@ interface Props {
     onReconnect?: () => void;
 }
 
-export default function TopOfPageRealtimeStatusIndicator({ 
+export default function FixedRealtimeStatusIndicator({ 
     isConnected, 
     onReconnect 
 }: Props) {
