@@ -8,7 +8,6 @@ import { MAX_MP_LOBBY_SIZE } from "../../mp-lobby-constants";
 import { UserModel } from "@/features/auth/models";
 import { DbMultiplayerLobbyPlayer, MultiplayerLobbyTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
-import { emitPlayerJoinedLobbyEvent } from "@/web-socket/game-events";
 
 export interface JoinMpLobbyResponse {
     success: boolean;
@@ -44,8 +43,6 @@ export default async function JoinMpLobby(joinCode: string): Promise<JoinMpLobby
     } else {
         player = await addUserToLobby(user, mpLobby.players, mpLobby.id);
     }
-
-    emitPlayerJoinedLobbyEvent(mpLobby.id, MapMpLobbyPlayer(player));
 
     return {
         success: true,

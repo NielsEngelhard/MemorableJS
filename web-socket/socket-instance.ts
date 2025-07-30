@@ -10,12 +10,3 @@ export const setGlobalIO = (io: SocketIOServer) => {
 export const getGlobalIO = (): SocketIOServer | null => {
   return globalIO;
 };
-
-export const emitToLobby = (lobbyId: string, event: string, data: any) => {
-  if (globalIO) {
-    globalIO.to(lobbyId).emit(event, data);
-    return true;
-  }
-  console.warn('Socket.IO instance not available');
-  return false;
-};

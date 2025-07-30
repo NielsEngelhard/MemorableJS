@@ -37,22 +37,13 @@ app.prepare().then(() => {
   io.on('connection', (socket) => {
     console.log('Client connected:', socket.id);
     
-    socket.on('message', (data: MessageData) => {
-      console.log('Message received:', data);
-      // Broadcast to all clients or handle as needed
-      io.emit('message', data);
-    });
-
-    socket.on('joinLobby', (lobbyId: string, player: MpLobbyPlayerModel) => {
-      socket.join(lobbyId);
-      
-      // Broadcast to everyone in the lobby that a new player joined
-      // Fixed the bug: was using 'lobbyId' instead of 'data.lobbyId'
-      io.to(lobbyId).emit('playerJoinedLobby', player);      
-    });
-
     socket.on('disconnect', () => {
       console.log('Client disconnected:', socket.id);
+    });
+
+    socket.on('healthcheck', () => {
+      console.log("HEALTHCHECK IN BACK_END");
+      socket.emit("healthcheck");
     });
   });
 
